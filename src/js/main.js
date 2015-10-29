@@ -28,10 +28,28 @@
 	initOrbit();
 	initLights();
 
-	ring = ringFactory(app);
-	scene.add(ring);
+	var ringOptions = {
+		radius: 10,
+		x: 0,
+		y: 0,
+		z: 0,
+		segments: 16,
+		radius: 10,
+		inner: 0.05
+	};
 
-	scene.add(app.factories.cube.getCube());
+	var ringFactory = new RingFactory(app);
+	ring = ringFactory.createRing(ringOptions);
+
+	scene.add( ring );
+
+	// ringOptions.z = 10;
+
+	var ring2 = ringFactory.createRing( ringOptions );
+
+	scene.add(ring2);
+
+	// scene.add(app.factories.cube.getCube());
 	// textFactory(app);
 
 	app.scene = scene;
@@ -47,8 +65,8 @@
 		scene.fog = new THREE.Fog(0x000000, 250, 1400);
 
 		// camera
-		camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 50);
-		camera.position.z = 20;
+		camera = new THREE.PerspectiveCamera(130, window.innerWidth / window.innerHeight, 0.1, 50);
+		camera.position.z = 0.1;
 
 		// renderer
 		renderer = new THREE.WebGLRenderer({
@@ -84,15 +102,27 @@
 		scene.add(lights[2]);
 	}
 
+	var speed = 0.0007;
+
 	function render() {
 		requestAnimationFrame(render);
 
 		time = Date.now() * 0.001;
 
+		speed += 0.00001;
+
+		var rand = Math.random() * 0.001;
+
 		// console.log(time, ring);
 
-		ring.rotation.x += rotationSpeedX;
-		ring.rotation.y += rotationSpeedY;
+		ring.rotation.x += rotationSpeedX + speed;
+		ring.rotation.y += rotationSpeedY + rand;
+
+		ring2.rotation.x += rotationSpeedY;
+		ring2.rotation.y -= rotationSpeedX + speed + rand;
+
+		// ring2.rotation.x += rotationSpeedX;
+		// ring2.rotation.y -= rotationSpeedY * 2;
 
 		renderer.render(scene, camera);
 

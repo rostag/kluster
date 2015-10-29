@@ -2,37 +2,37 @@
 
 'use strict';
 
-function ringFactory(app) {
+function RingFactory(app) {
 
-	var ring;
+	var self = this;
 
-	createRing();
+	this.createRing = function(options) {
 
-	function createRing() {
-		var geometry = new THREE.RingGeometry(1, 5, 32);
+		var geometry = new THREE.RingGeometry(options.inner, options.radius, options.segments);
 		var material = new THREE.MeshBasicMaterial({
 			color: 0xffff00,
 			side: THREE.DoubleSide
 		});
 		var phongMaterial = new THREE.MeshPhongMaterial({
-				color: 0x156289,
-				emissive: 0x072534,
-				side: THREE.DoubleSide,
-				shading: THREE.FlatShading
-			});
+			color: 0x156289,
+			emissive: 0x072534,
+			side: THREE.DoubleSide,
+			shading: THREE.FlatShading
+		});
+		var lineBasicMaterial = new THREE.LineBasicMaterial({
+			color: 0xffffff,
+			transparent: true,
+			opacity: 0.5
+		});
 
-		var lineBasicMaterial =	new THREE.LineBasicMaterial({
-				color: 0xffffff,
-				transparent: true,
-				opacity: 0.5
-			});
+		var ring = new THREE.Mesh(geometry, phongMaterial);
 
-		ring = new THREE.Mesh(geometry, phongMaterial);
+		ring.position.set(options.x, options.y, options.z);
 
 		ring.add(new THREE.LineSegments(
-		 	geometry,lineBasicMaterial
+			geometry, lineBasicMaterial
 		));
-	}
 
-	return ring;
+		return ring;
+	}
 }

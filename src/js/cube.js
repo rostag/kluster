@@ -21,6 +21,6 @@
 		return mesh;
 	}
 
-	console.log(app.factories.cube.getCube);
+	// console.log(app.factories.cube.getCube);
 
 })( this );
