@@ -14,13 +14,15 @@ function RingFactory(app) {
 			color: 0x156289,
 			emissive: 0x072534,
 			side: THREE.DoubleSide,
-			shading: THREE.FlatShading
+			shading: THREE.FlatShading,
+			transparent: true,
+			opacity: 0.2
 		});
 
 		var lineBasicMaterial = new THREE.LineBasicMaterial({
 			color: 0xffffff,
 			transparent: true,
-			opacity: 0.5
+			opacity: 0.1
 		});
 
 		var ring = new THREE.Mesh(geometry, phongMaterial);

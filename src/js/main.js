@@ -34,16 +34,13 @@
 	// textFactory(app);
 
 	function initScene() {
-
-		// gui = new dat.GUI();
-
 		// scene 
 		scene = new THREE.Scene();
 		scene.fog = new THREE.Fog(0x000000, 250, 1400);
 
 		// camera
 		camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 50);
-		camera.position.z = 18;
+		camera.position.z = 4;
 
 		// renderer
 		renderer = new THREE.WebGLRenderer({

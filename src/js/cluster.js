@@ -27,19 +27,22 @@ function ClusterFactory(app) {
 
 	var speed = 0.0007;
 
+	var ringFactory;
+	var ring;
 	var ring3;
 	var ring2;
 
+	var material = new THREE.MeshBasicMaterial({
+		color: 0x62989cf
+	});
+	
+	var geometry = new THREE.CylinderGeometry(0.001, 0.001, 20, 32);
+
 	this.createCluster = function(options) {
 
-		var geometry = new THREE.CylinderGeometry(0.1, 0.1, 20, 32);
-		var material = new THREE.MeshBasicMaterial({
-			color: 0x12389af
-		});
 		cylinder = new THREE.Mesh(geometry, material);
-
-		var ring;
-		var ringFactory = new RingFactory(app);
+		
+		ringFactory = new RingFactory(app);
 
 		for (var i = 0; i < options.levels; i++) {
 			ring = ringFactory.createRing(ringOptions);
@@ -65,7 +68,8 @@ function ClusterFactory(app) {
 		// ));
 
 		cylinder.onRender = function() {
-			cylinder.rotation.x -= 0.005;
+
+			cylinder.rotation.x -= 0.001 + speed;
 
 			// console.log(time, ring);
 
