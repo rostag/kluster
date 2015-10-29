@@ -9,16 +9,14 @@ function RingFactory(app) {
 	this.createRing = function(options) {
 
 		var geometry = new THREE.RingGeometry(options.inner, options.radius, options.segments);
-		var material = new THREE.MeshBasicMaterial({
-			color: 0xffff00,
-			side: THREE.DoubleSide
-		});
+
 		var phongMaterial = new THREE.MeshPhongMaterial({
 			color: 0x156289,
 			emissive: 0x072534,
 			side: THREE.DoubleSide,
 			shading: THREE.FlatShading
 		});
+
 		var lineBasicMaterial = new THREE.LineBasicMaterial({
 			color: 0xffffff,
 			transparent: true,
@@ -28,11 +26,17 @@ function RingFactory(app) {
 		var ring = new THREE.Mesh(geometry, phongMaterial);
 
 		ring.position.set(options.x, options.y, options.z);
+		
+		// ring2.position.set(options.x, options.y + 10, options.z + 10);
 
 		ring.add(new THREE.LineSegments(
 			geometry, lineBasicMaterial
 		));
 
 		return ring;
+	}
+
+	this.render = function () {
+		// ring.position.set();
 	}
 }

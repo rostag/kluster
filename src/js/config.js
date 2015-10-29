@@ -7,10 +7,6 @@
 			name: 'cluster',
 			version: '0.1',
 			options: {},
-			scene: null,
-			camera: null,
-			renderer: null,
-			lights: null,
 			factories: {
 				cube: {}
 			}
