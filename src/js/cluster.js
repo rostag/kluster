@@ -70,6 +70,7 @@ function ClusterFactory(app) {
 		cylinder.onRender = function() {
 
 			cylinder.rotation.x -= 0.001 + speed;
+			cylinder.rotation.z += 0.002 + speed;
 
 			// console.log(time, ring);
 
