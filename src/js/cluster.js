@@ -19,11 +19,8 @@ function ClusterFactory(app) {
 		inner: 0.05
 	};
 
-	var stepIncrease = 0;
-	var stepIncreaseStep = 0.01;
-
-	var rotationSpeedX = 0.01 + stepIncrease;
-	var rotationSpeedY = 0.001 + stepIncrease;
+	var rotationSpeedX = 0.01;
+	var rotationSpeedY = 0.001;
 
 	var speed = 0.0007;
 
@@ -36,9 +33,9 @@ function ClusterFactory(app) {
 		color: 0x62989cf
 	});
 	
-	var geometry = new THREE.CylinderGeometry(0.001, 0.001, 20, 32);
-
 	this.createCluster = function(options) {
+
+		var geometry = new THREE.CylinderGeometry(0.1, 0.1, options.height, 32);
 
 		cylinder = new THREE.Mesh(geometry, material);
 		
@@ -47,7 +44,8 @@ function ClusterFactory(app) {
 		for (var i = 0; i < options.levels; i++) {
 			ring = ringFactory.createRing(ringOptions);
 			ring.rotation.x = Math.PI / 2;
-			ring.translateZ(1 * i);
+			ring.translateZ( i * (options.height / options.levels));
+			ring.scale.setX( i * (options.height / options.levels) / 10);
 			rings[i] = ring;
 
 			cylinder.add(ring);
@@ -60,12 +58,6 @@ function ClusterFactory(app) {
 
 		cylinder.add(ring3);
 		cylinder.add(ring2);
-
-		var clusterConfig = null;
-
-		// (new THREE.LineSegments(
-		// 	geometry, phongMaterial
-		// ));
 
 		cylinder.onRender = function() {
 

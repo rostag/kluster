@@ -26,7 +26,12 @@
 	app.lights = lights;
 
 	var clusterFactory = new ClusterFactory(app);
-	var cluster = clusterFactory.createCluster( {segments: 10, levels: 10, circles: 3});
+	var cluster = clusterFactory.createCluster({
+		height: 10,
+		segments: 10,
+		levels: 10,
+		circles: 3
+	});
 
 	scene.add(cluster);
 
