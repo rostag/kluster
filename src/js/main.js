@@ -19,13 +19,13 @@
 
 	app.cluster = {
 		config: {
-			segments: 9,
+			segments: 8,
 			segmentsSpacing: 0.96,
 			levels: 1,
 			levelsSpacing: 1.2,
-			circles: 2,
-			height: 30,
-			radius: 15
+			circles: 1,
+			height: 10,
+			radius: 10
 		}
 	};
 
@@ -42,10 +42,10 @@
 	};
 
 	app.cameraSettings = {
-		FOV: 75,
+		FOV: 95,
 		antialias: true,
 		position: {
-			z: 8
+			z: 18
 		}
 	};
 
@@ -79,6 +79,8 @@
 
 	app.clusterFactory = new ClusterFactory(app);
 	var cluster = app.clusterFactory.createCluster(app.cluster.config);
+
+	cluster.translateX(	9 );
 
 	scene.add(cluster);
 

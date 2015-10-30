@@ -193,13 +193,13 @@ function ClusterFactory(app) {
 
 		clusterAxis.onRender = function() {
 
-			speed += 0.00001;
+			speed += 0.00001 ;
 
 			var rand = Math.random() * 0.001;
 
-			rotationX += rotationSpeedX;
+			// rotationX += rotationSpeedX + app.speedX * speed;
 			// rotationY += rotationSpeedY + rand;
-			rotationZ += rotationSpeedZ;
+			rotationZ += rotationSpeedZ + app.speedY * speed;
 
 			// clusterAxis.rotation.x += 0.0005;// + speed;
 			clusterAxis.rotation.x = (10 / app.controls.level.val) * (Math.PI / 4) + rotationX;
