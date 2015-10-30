@@ -4,8 +4,96 @@
 		"selected_items":
 		[
 			[
+				"c",
+				"controls"
+			],
+			[
+				"va",
+				"value"
+			],
+			[
 				"cyl",
-				"cylCircleMid"
+				"cylMaterial"
+			],
+			[
+				"ra",
+				"random"
+			],
+			[
+				"tr",
+				"transparent"
+			],
+			[
+				"the",
+				"thetaAvg"
+			],
+			[
+				"out",
+				"outerRadius"
+			],
+			[
+				"lev",
+				"level"
+			],
+			[
+				"seg",
+				"segment"
+			],
+			[
+				"le",
+				"level"
+			],
+			[
+				"ri",
+				"ring"
+			],
+			[
+				"a",
+				"animator"
+			],
+			[
+				"rot",
+				"rotationX"
+			],
+			[
+				"pa",
+				"padding"
+			],
+			[
+				"ci",
+				"input-circle"
+			],
+			[
+				"chunk",
+				"chunks"
+			],
+			[
+				"chu",
+				"chunk"
+			],
+			[
+				"in",
+				"inline-block"
+			],
+			[
+				"te",
+				"text-align"
+			],
+			[
+				"font",
+				"font-family"
+			],
+			[
+				"con",
+				"console"
+			],
+			[
+				"segmen",
+				"segments"
+			],
+			[
+				"fun",
+				"function"
 			],
 			[
 				"p",
@@ -20,10 +108,6 @@
 				"tStart"
 			],
 			[
-				"ra",
-				"radiusSegments"
-			],
-			[
 				"he",
 				"heightSegments"
 			],
@@ -32,28 +116,12 @@
 				"radiusSegments"
 			],
 			[
-				"c",
-				"circle"
-			],
-			[
-				"the",
-				"thetaStart"
-			],
-			[
 				"ca",
 				"cameraSettings"
 			],
 			[
 				"op",
 				"options"
-			],
-			[
-				"le",
-				"level"
-			],
-			[
-				"lev",
-				"levelheight"
 			],
 			[
 				"ring",
@@ -80,28 +148,12 @@
 				"geometry"
 			],
 			[
-				"ri",
-				"ringOptions"
-			],
-			[
 				"ge",
 				"getGlClusterApp"
 			],
 			[
 				"get",
 				"getCube"
-			],
-			[
-				"fun",
-				"fun	Function"
-			],
-			[
-				"te",
-				"textShapes"
-			],
-			[
-				"rot",
-				"rotationSpeedX"
 			],
 			[
 				"ini",
@@ -168,16 +220,8 @@
 				"font-weight"
 			],
 			[
-				"font",
-				"font-size"
-			],
-			[
 				"th",
 				"thumbWidth"
-			],
-			[
-				"in",
-				"inputRange"
 			],
 			[
 				"s",
@@ -296,10 +340,6 @@
 				"validators"
 			],
 			[
-				"ci",
-				"cityIsChosen"
-			],
-			[
 				"виб",
 				"вибраному"
 			],
@@ -326,10 +366,6 @@
 			[
 				"ser",
 				"serviceAvailableIn"
-			],
-			[
-				"pa",
-				"placeControlIsComplete"
 			],
 			[
 				"cu",
@@ -478,88 +514,16 @@
 			[
 				"res",
 				"result"
-			],
-			[
-				"unf",
-				"unfixedLoc"
-			],
-			[
-				"pr",
-				"protocolName"
-			],
-			[
-				"info",
-				"infoLink"
-			],
-			[
-				"ty",
-				"typeaheadEmpty"
-			],
-			[
-				"va",
-				"value"
-			],
-			[
-				"par",
-				"params"
-			],
-			[
-				"roo",
-				"rootScope"
-			],
-			[
-				"cur",
-				"curState"
-			],
-			[
-				"pal",
-				"placeData"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "src/index.html",
+			"file": "src/js/text.js",
 			"settings":
 			{
-				"buffer_size": 1932,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "/* globals THREE, ClusterFactory */\n\n'use strict';\n\n(function(rootScope) {\n\n	var scene;\n	var camera;\n	var renderer;\n	var lights;\n\n	var time;\n\n	var app = rootScope.getGlClusterApp();\n\n	app.cluster = {\n		config: {\n			height: 10,\n			radius: 20,\n			segments: 15,\n			segmentsSpacing: 0.9,\n			levels: 5,\n			levelsSpacing: 1.1,\n			circles: 4\n		}\n	};\n\n	app.ringOptions = {\n		x: 0,\n		y: 0,\n		z: 0,\n		segments: 36,\n		innerRadius: 9,\n		outerRadius: 10,\n		phiSegments: 3,\n		thetaStart: 0,\n		thetaLength: Math.PI * 2\n	};\n\n	app.cameraSettings = {\n		FOV: 75,\n		position: {\n			z: 10\n		}\n	};\n\n	new MaterialFactory();\n\n	initScene();\n	initOrbit();\n	initLights();\n\n	app.scene = scene;\n	app.camera = camera;\n	app.renderer = renderer;\n	app.lights = lights;\n\n	var clusterFactory = new ClusterFactory(app);\n	var cluster = clusterFactory.createCluster(app.cluster.config);\n\n	scene.add(cluster);\n\n	// scene.add(app.factories.cube.getCube());\n	// textFactory(app);\n\n	function initScene() {\n		// scene \n		scene = new THREE.Scene();\n		scene.fog = new THREE.Fog(0x000000, 250, 1400);\n\n		// camera\n		camera = new THREE.PerspectiveCamera(app.cameraSettings.FOV, window.innerWidth / window.innerHeight, 0.1, 1000);\n		camera.position.x = app.cameraSettings.position.z;\n\n		// renderer\n		renderer = new THREE.WebGLRenderer({\n			antialias: true\n		});\n\n		renderer.setSize(window.innerWidth, window.innerHeight);\n		renderer.setClearColor(scene.fog.color);\n		renderer.setPixelRatio(window.devicePixelRatio);\n\n		document.body.appendChild(renderer.domElement);\n	}\n\n	function initOrbit() {\n		var orbit = new THREE.OrbitControls(camera, renderer.domElement);\n		orbit.enableZoom = true;\n	}\n\n	function initLights() {\n		var ambientLight = new THREE.AmbientLight(0x000000);\n		scene.add(ambientLight);\n\n		lights = [];\n		lights[0] = new THREE.PointLight(0xffffff, 1, 0);\n		lights[1] = new THREE.PointLight(0xffffff, 1, 0);\n		lights[2] = new THREE.PointLight(0xffffff, 1, 0);\n		lights[0].position.set(0, 200, 0);\n		lights[1].position.set(100, 200, 100);\n		lights[2].position.set(-100, -200, -100);\n\n		scene.add(lights[0]);\n		scene.add(lights[1]);\n		scene.add(lights[2]);\n	}\n\n	function render() {\n		requestAnimationFrame(render);\n		time = Date.now() * 0.001;\n\n		cluster.onRender();\n		renderer.render(scene, camera);\n	}\n\n	render();\n\n})(this);",
-			"file": "src/js/main.js",
-			"file_size": 3694,
-			"file_write_time": 130906924364862067,
-			"settings":
-			{
-				"buffer_size": 2289,
-				"line_ending": "Windows",
-				"name": "main.js"
-			}
-		},
-		{
-			"file": "src/js/material-factory.js",
-			"settings":
-			{
-				"buffer_size": 1303,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": ".jshintrc",
-			"settings":
-			{
-				"buffer_size": 629,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/js/cluster.js",
-			"settings":
-			{
-				"buffer_size": 4592,
+				"buffer_size": 10191,
 				"line_ending": "Windows"
 			}
 		},
@@ -572,20 +536,81 @@
 			}
 		},
 		{
-			"file": "src/js/config.js",
+			"file": "src/js/material-factory.js",
 			"settings":
 			{
-				"buffer_size": 276,
+				"buffer_size": 1667,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "src/js/text.js",
+			"file": "src/js/cluster.js",
 			"settings":
 			{
-				"buffer_size": 10191,
-				"line_ending": "Windows",
-				"name": "if ( ! Detector.webgl ) Detector.addGetWebGLMessag"
+				"buffer_size": 7432,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/js/animator.js",
+			"settings":
+			{
+				"buffer_size": 259,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/js/controls.js",
+			"settings":
+			{
+				"buffer_size": 882,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/js/main.js",
+			"settings":
+			{
+				"buffer_size": 2556,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "<!DOCTYPE html>\n<html>\n	<head>\n		<meta charset=utf-8>\n		<title>My first Three.js app</title>\n		<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">\n	</head>\n	<body>\n\n		<!-- some controls -->\n\n		<div class=\"klapp-controls\">\n		    <form class=\"cluster-controls\">\n		        <p>\n		            <label for=\"input-level\">Level</label>\n		            <input type=\"range\" id=\"input-level\" min=\"1\" max=\"10\" step=\"0.0001\" />\n		        </p>\n		        <p>\n		            <label for=\"input-segment\">Segment</label>\n		            <input type=\"range\" id=\"input-segment\" min=\"1\" max=\"10\" step=\"0.0001\" />\n		        </p>\n		        <p>\n		            <label for=\"input-circle\">Circle</label>\n		            <input type=\"range\" id=\"input-circle\" min=\"1\" max=\"10\" step=\"0.0001\" />\n		        </p>\n		    </form>\n		</div>\n\n		<script src=\"js/three/build/three.min.js\"></script>\n		<script src='js/three/examples/js/libs/dat.gui.min.js'></script>\n		<script src=\"js/three/examples/js/controls/OrbitControls.js\"></script>\n		<script src=\"js/three/examples/js/geometries/TextGeometry.js\"></script>\n		<script src=\"js/three/examples/js/utils/FontUtils.js\"></script>\n		<script src=\"js/three/examples/fonts/gentilis_bold.typeface.js\"></script>\n		<script src=\"js/three/examples/fonts/gentilis_regular.typeface.js\"></script>\n		<script src=\"js/three/examples/fonts/optimer_bold.typeface.js\"></script>\n		<script src=\"js/three/examples/fonts/optimer_regular.typeface.js\"></script>\n		<script src=\"js/three/examples/fonts/helvetiker_bold.typeface.js\"></script>\n		<script src=\"js/three/examples/fonts/helvetiker_regular.typeface.js\"></script>\n		<script src=\"js/three/examples/fonts/droid/droid_serif_regular.typeface.js\"></script>\n		<script src=\"js/three/examples/fonts/droid/droid_serif_bold.typeface.js\"></script>\n\n		<script src='js/three/geometry.js'></script>\n\n		<script src=\"js/config.js\"></script>\n		<script src=\"js/material-factory.js\"></script>\n		<script src=\"js/ring.js\"></script>\n		<script src=\"js/cluster.js\"></script>\n		<script src=\"js/cube.js\"></script>\n		<script src=\"js/text.js\"></script>\n		<script src=\"js/controls.js\"></script>\n		<script src=\"js/animator.js\"></script>\n		<script src=\"js/main.js\"></script>\n	</body>\n</html>",
+			"file": "src/index.html",
+			"file_size": 2253,
+			"file_write_time": 130907123224094729,
+			"settings":
+			{
+				"buffer_size": 2199,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "",
+			"file": "src/main.css",
+			"file_size": 425,
+			"file_write_time": 130907123225856028,
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "cluster.sublime-project",
+			"settings":
+			{
+				"buffer_size": 47,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/css/main.css",
+			"settings":
+			{
+				"buffer_size": 1070,
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -596,16 +621,16 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 392.0,
-		"last_filter": "",
+		"height": 265.0,
+		"last_filter": "prett",
 		"selected_items":
 		[
 			[
-				"",
+				"prett",
 				"HTMLPrettify"
 			],
 			[
-				"prett",
+				"",
 				"HTMLPrettify"
 			],
 			[
@@ -733,11 +758,24 @@
 	},
 	"expanded_folders":
 	[
-		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src",
-		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js"
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src"
 	],
 	"file_history":
 	[
+		"/C/Users/Rostyslav.Siryk/AppData/Roaming/Sublime Text 3/Packages/JSHint Gutter/JSHint.sublime-settings",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/text.js",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/ring.js",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/material-factory.js",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/cluster.js",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/animator.js",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/controls.js",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/main.js",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/index.html",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/main.css",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/css/main.css",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/config.js",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/cube.js",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/.jshintrc",
 		"/D/stuff/2015/junta/junta-list-2.txt",
 		"/D/stuff/2015/junta/junta-list-1.txt",
 		"/D/local/gl/Training-2-QA2JS/homework/Andrii Kremlovskyi/l-06.js",
@@ -745,18 +783,15 @@
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/run.bat",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/1",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/package.json",
-		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/ring.js",
 		"/D/stuff/2015/fr/backup/local/toys/fradio/css/fradio.css",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/cluster.sublime-project",
 		"/D/local/gl/Training-2-QA2JS/lessons/lesson-06/lesson-06.js",
-		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/cube.js",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/three-test.js",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/three-test-0.js",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/three/examples/js/geometries/TextGeometry.js",
 		"/D/stuff/2015/fr/backup/local/toys/fradio/triangloid/style.css",
 		"/D/local/gl/Training-2-QA2JS/homework/Tatiana Mazourick/l-05.js",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/three-test-0.txt",
-		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/index.html",
 		"/D/stuff/2015/fr/backup/local/toys/fradio/triangloid/triangloid.js",
 		"/D/local/gl/Training-2-QA2JS/homework/Andrii Kremlovskyi/l-05.js",
 		"/D/local/gl/Training-2-QA2JS/homework/Ilya Agrachev/l-05.js",
@@ -854,18 +889,7 @@
 		"/D/stuff/2015/egov/igov/i/central-js/client/app/service/place/templates/absent.html",
 		"/D/stuff/2015/egov/igov/i/central-js/client/app/common/components/form/directives/place/place.html",
 		"/D/stuff/2015/egov/igov/i/central-js/_/_run.bat",
-		"/D/local/et/CloudPages/messages/su-2015-10-12.txt",
-		"/D/local/et/npm-debug.log",
-		"/C/Users/Rostyslav.Siryk/Desktop/fb-page-duplicate.png.js",
-		"/D/stuff/2015/egov/igov/i/central-js/client/app/service/place/templates/built-in-bankid.submitted.html",
-		"/D/stuff/2015/egov/igov/i/central-js/client/app/service/place/templates/built-in-bankid.html",
-		"/D/stuff/2015/egov/igov/i/central-js/client/app/app.scss",
-		"/D/stuff/2015/egov/igov/i/central-js/client/app/service/place/templates/content.html",
-		"/D/stuff/2015/egov/igov/temp/uirouter-debug.txt",
-		"/D/stuff/2015/egov/igov/temp/debug-uirouter.js",
-		"/D/stuff/2015/egov/igov/i/central-js/server/app.js",
-		"/D/stuff/2015/egov/igov/i/central-js/client/app/service/built-in/controllers/servicebuiltinbankid.controller.js",
-		"/D/stuff/2015/egov/igov/i/central-js/client/app/common/components/form/directives/place/place.js"
+		"/D/local/et/CloudPages/messages/su-2015-10-12.txt"
 	],
 	"find":
 	{
@@ -928,6 +952,26 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"rotationSpeedX",
+			"3",
+			"radiusAvg",
+			".add",
+			"app",
+			"rotationX",
+			"rotationSpeedY",
+			"rotationSpeedX",
+			"createCluster",
+			"clusterFactory",
+			"chunk",
+			"chunks",
+			"rings",
+			"KLU5TER",
+			"getGlClusterApp",
+			"KLU5TER",
+			"glClusterApp",
+			"antialias",
+			"anti",
+			"фтеш",
 			"mainLineMaterial",
 			"Siryk",
 			"Рост",
@@ -1035,27 +1079,7 @@
 			"onWindowResize",
 			"effectFilm",
 			"effectBloom",
-			"effectBloom ",
-			"renderModel",
-			"stats",
-			"\"",
-			"text",
-			"textShapes",
-			"amount",
-			"time",
-			"stepIncrease",
-			"mesh",
-			"options",
-			"xRotationSpeed",
-			"options",
-			"prevFog",
-			"initScene",
-			"gui",
-			"options",
-			"chooseFromHash",
-			"initScene",
-			"gui",
-			"mesh"
+			"effectBloom "
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1201,216 +1225,11 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 9,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "src/index.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1932,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1713,
-								1713
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 403.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "src/js/main.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2289,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								599,
-								599
-							]
-						],
-						"settings":
-						{
-							"auto_name": "main.js",
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 360.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "src/js/material-factory.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1303,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								230,
-								230
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": ".jshintrc",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 629,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								546,
-								546
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "src/js/cluster.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4592,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2097,
-								2097
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 675.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "src/js/ring.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1022,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								911,
-								911
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "src/js/config.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 276,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								191,
-								191
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
 					"file": "src/js/text.js",
 					"semi_transient": false,
 					"settings":
@@ -1428,7 +1247,6 @@
 						],
 						"settings":
 						{
-							"auto_name": "if ( ! Detector.webgl ) Detector.addGetWebGLMessag",
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
@@ -1436,7 +1254,296 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/js/ring.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1022,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/js/material-factory.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1667,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/js/cluster.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7432,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/js/animator.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 259,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/js/controls.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 882,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "src/js/main.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2556,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "src/index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2199,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "src/main.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
 					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "cluster.sublime-project",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 47,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								47,
+								47
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "src/css/main.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1070,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								651,
+								651
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -1494,6 +1601,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"ma",
+				"main.css"
+			],
 			[
 				"inde",
 				"index.html"
@@ -2001,10 +2112,6 @@
 			[
 				"bowe",
 				"bower.json"
-			],
-			[
-				"te",
-				"app\\common\\components\\form\\directives\\tel.js"
 			]
 		],
 		"width": 0.0
@@ -2039,7 +2146,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 272.0,
+	"side_bar_width": 221.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

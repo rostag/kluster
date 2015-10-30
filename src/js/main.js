@@ -1,5 +1,7 @@
 /* globals THREE, ClusterFactory */
 
+// @todo Implement timeSpeedFunction
+
 'use strict';
 
 (function(rootScope) {
@@ -13,17 +15,17 @@
 
 	var app = rootScope.getKLU5TER();
 
-	app.opacityAdd = 0.1;
+	app.opacityAdd = 0.8;
 
 	app.cluster = {
 		config: {
-			segments: 28,
+			segments: 8,
 			segmentsSpacing: 0.96,
-			levels: 5,
+			levels: 3,
 			levelsSpacing: 1.2,
-			circles: 3,
-			height: 10,
-			radius: 20
+			circles: 7,
+			height: 30,
+			radius: 15
 		}
 	};
 

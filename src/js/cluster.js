@@ -84,8 +84,8 @@ function ClusterFactory(app) {
 		var radiusAvg = ((circle * radiusStep) * 2 + radiusStep * 0.9) / 2;
 		var thetaAvg = tStart + tLength / 2;
 
-		var xx = Math.sin(thetaAvg) * radiusAvg;// + THREE.Math.random16() / 4;
-		var yy = Math.cos(thetaAvg) * radiusAvg;// + THREE.Math.random16() / 4;
+		var xx = Math.sin(thetaAvg) * radiusAvg; // + THREE.Math.random16() / 4;
+		var yy = Math.cos(thetaAvg) * radiusAvg; // + THREE.Math.random16() / 4;
 
 		ring.translateZ(level * app.cluster.config.levelsSpacing);
 
@@ -105,13 +105,24 @@ function ClusterFactory(app) {
 		var pts = [],
 			count = 14;
 
-		for (var i = 0; i < count; i++) {
-			var l = 0.08 * (circle*5 + 1);
-			var a = 2 * i / count * Math.PI;
-			pts.push(new THREE.Vector2(Math.cos(a) * l, Math.sin(a) * l));
-		}
+		// for (var i = 0; i < count; i++) {
+		// 	var l = 0.08 * (circle * 5 + 1);
+		// 	var a = 2 * i / count * Math.PI;
+		// 	pts.push(new THREE.Vector2(Math.cos(a) * l, Math.sin(a) * l));
+		// }
+
+		// inner radius
+		var innerRadius = circle * radiusStep;
+		// outer radius
+		var outerRadius = circle * radiusStep + radiusStep * 0.9;
+
+		pts.push(new THREE.Vector2(Math.sin(tStart) * innerRadius, Math.cos(tStart) * innerRadius));
+		pts.push(new THREE.Vector2(Math.sin(tStart) * outerRadius, Math.cos(tStart) * outerRadius));
+		pts.push(new THREE.Vector2(Math.sin(tStart + tLength) * outerRadius, Math.cos(tStart + tLength) * outerRadius));
+		pts.push(new THREE.Vector2(Math.sin(tStart + tLength) * innerRadius, Math.cos(tStart + tLength) * innerRadius));
 
 		var shape = new THREE.Shape(pts);
+
 		var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
 
 		var mesh = new THREE.Mesh(geometry, cylMaterial);
