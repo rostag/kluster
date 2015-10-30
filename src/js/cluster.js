@@ -52,7 +52,7 @@ function ClusterFactory(app) {
 		return cyl;
 	};
 
-	this.getChunk = function(level, segment, circle, innerRadius, outerRadius, height, radiusSegments, heightSegments) {
+	this.getChunk = function(level, segment, circle, innerRadius, outerRadius, levelheight, radiusSegments, heightSegments) {
 
 		var segmentLength = (Math.PI * 2) / radiusSegments;
 		var tStart = segment * segmentLength;
@@ -61,9 +61,9 @@ function ClusterFactory(app) {
 		var radiusStep = outerRadius / app.cluster.config.circles;
 
 		var cylMaterial = app.cylCircleCore;
-		if (circle === 1) {
+		if (circle % 2) {
 			cylMaterial = app.cylCircleMid;
-		} else if (circle === 2) {
+		} else if (circle % 3) {
 			cylMaterial = app.cylCircleOut;
 		}
 
@@ -93,7 +93,7 @@ function ClusterFactory(app) {
 
 		var closedSpline = new THREE.SplineCurve3([
 			new THREE.Vector3(xx, yy, level),
-			new THREE.Vector3(xx, yy, level + 0.5)
+			new THREE.Vector3(xx, yy, level + levelheight / app.cluster.config.levelsSpacing)
 		]);
 
 		var extrudeSettings = {
@@ -111,9 +111,8 @@ function ClusterFactory(app) {
 		// 	pts.push(new THREE.Vector2(Math.cos(a) * l, Math.sin(a) * l));
 		// }
 
-		// inner radius
+		// inner radius, outer radius
 		var innerRadius = circle * radiusStep;
-		// outer radius
 		var outerRadius = circle * radiusStep + radiusStep * 0.9;
 
 		pts.push(new THREE.Vector2(Math.sin(tStart) * innerRadius, Math.cos(tStart) * innerRadius));
@@ -122,30 +121,8 @@ function ClusterFactory(app) {
 		pts.push(new THREE.Vector2(Math.sin(tStart + tLength) * innerRadius, Math.cos(tStart + tLength) * innerRadius));
 
 		var shape = new THREE.Shape(pts);
-
 		var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-
 		var mesh = new THREE.Mesh(geometry, cylMaterial);
-
-		// clusterAxis.add(mesh);
-		// //////////////////////////////////////////////////
-
-		// This object extrudes an 2D shape to an 3D geometry.
-		// var e = THREE.ExtrudeGeometry(ring, { amount: 10 });
-		// shapes — Shape or an array of shapes. 
-		// options — Object that can contain the following parameters.
-		// curveSegments — int. number of points on the curves
-		// steps — int. number of points used for subdividing segements of extrude spline
-		// amount — int. Depth to extrude the shape
-		// bevelEnabled — bool. turn on bevel
-		// bevelThickness — float. how deep into the original shape bevel goes
-		// bevelSize — float. how far from shape outline is bevel
-		// bevelSegments — int. number of bevel layers
-		// extrudePath — THREE.CurvePath. 3d spline path to extrude shape along. (creates Frames if (frames aren't defined)
-		// frames — THREE.TubeGeometry.FrenetFrames. containing arrays of tangents, normals, binormals
-		// material — int. material index for front and back faces
-		// extrudeMaterial — int. material index for extrusion and beveled faces
-		// uvGenerator — Object. object that provides UV generator functions
 
 		return mesh;
 	};
