@@ -16,10 +16,12 @@
 	app.cluster = {
 		config: {
 			height: 10,
-			radius: 10,
-			segments: 5,
+			radius: 20,
+			segments: 15,
+			segmentsSpacing: 0.9,
 			levels: 5,
-			circles: 3
+			levelsSpacing: 1.1,
+			circles: 5
 		}
 	};
 
@@ -28,8 +30,11 @@
 		y: 0,
 		z: 0,
 		segments: 40,
-		radius: 10,
-		inner: 9
+		innerRadius: 9.9,
+		outerRadius: 10,
+		phiSegments: 1,
+		thetaStart: 0,
+		thetaLength: Math.PI * 2
 	};
 
 	app.cameraSettings = {
@@ -44,7 +49,7 @@
 		emissive: 0x072534,
 		side: THREE.DoubleSide,
 		shading: THREE.FlatShading,
-		transparent: true,
+		// transparent: true,
 		opacity: 0.3
 	});	
 
@@ -52,7 +57,7 @@
 		color: 0x159269,
 		emissive: 0x074524,
 		side: THREE.DoubleSide,
-		shading: THREE.FlatShading,
+		// shading: THREE.FlatShading,
 		transparent: true,
 		opacity: 0.2
 	});
@@ -72,7 +77,6 @@
 	app.material = new THREE.MeshBasicMaterial({
 		color: 0x62989cf
 	});
-
 
 	initScene();
 	initOrbit();

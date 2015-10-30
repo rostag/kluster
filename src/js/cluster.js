@@ -4,8 +4,6 @@
 
 function ClusterFactory(app) {
 
-	var self = this;
-
 	var rings = [];
 
 	var clusterAxis;
@@ -28,21 +26,54 @@ function ClusterFactory(app) {
 	// openEnded — A Boolean indicating whether the ends of the cylinder are open or capped. Default is false, meaning capped.
 	// thetaStart — Start angle for first segment, default = 0 (three o'clock position).
 	// thetaLength — The central angle, often called theta, of the circular sector. The default is 2*Pi, which makes for a complete cylinder.
-	this.getCyl = function(level, segment, circle, radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded, thetaStart, thetaLength) {
-		var cylGeom = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded, thetaStart, thetaLength);
+	this.getCyl = function(level, segment, circle, radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded) {
+
+		var segmentLength = (Math.PI * 2) / radiusSegments;
+		var tStart = segment * segmentLength;
+		var tLength = segmentLength * app.cluster.config.segmentsSpacing;
+
+		// console.log('tStart = ', tStart, 'tLength = ', tLength, radiusSegments);
+		var cylGeom = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded, tStart, tLength);
+
 		var cyl = new THREE.Mesh(cylGeom, app.phongCylinderMaterial);
 		cyl.add(new THREE.LineSegments(
 			cylGeom, app.lineMaterial
 		));
-		cyl.translateY(level * 1.2);
+		cyl.translateY(level * app.cluster.config.levelsSpacing);
 		// cyls[i] = ring;
+
 		return cyl;
 	};
 
+	this.getChunk = function(level, segment, circle, innerRadius, outerRadius, height, radiusSegments, heightSegments) {
+
+		var segmentLength = (Math.PI * 2) / radiusSegments;
+		var tStart = segment * segmentLength;
+		var tLength = segmentLength * app.cluster.config.segmentsSpacing;
+
+		var radiusStep = outerRadius / app.cluster.config.circles;
+
+		var ring = ringFactory.createRing({
+			x: 0,
+			y: 0,
+			z: 0,
+			innerRadius: circle * radiusStep,
+			outerRadius: circle * radiusStep + radiusStep * 0.9,
+			segments: 40,
+			phiSegments: 1,
+			thetaStart: tStart,
+			thetaLength: tLength
+		});
+
+		ring.translateZ(level * app.cluster.config.levelsSpacing);
+
+		return ring;
+	};
+
 	this.createCluster = function(options) {
-		
+
 		var geometry = new THREE.CylinderGeometry(0.001, 0.001, options.height, 8);
-		
+
 		clusterAxis = new THREE.Mesh(geometry, app.lineMaterial);
 
 		ringFactory = new RingFactory(app);
@@ -54,8 +85,8 @@ function ClusterFactory(app) {
 		var circle;
 
 		for (level = 0; level < options.levels; level++) {
-			// for (segment = 0; segment < options.segments; segment++) {
-				// for (circle = 0; circle < options.circles; circle++) {
+			for (segment = 0; segment < options.segments; segment++) {
+				for (circle = 0; circle < options.circles; circle++) {
 					// ring = ringFactory.createRing(ringOptions);
 					// ring.rotation.x = Math.PI / 2;
 					// ring.translateZ(i * levelheight);
@@ -63,15 +94,17 @@ function ClusterFactory(app) {
 					// rings[i] = ring;
 
 					// clusterAxis.add(ring);
-					clusterAxis.add(this.getCyl(level * levelheight, segment, circle, options.radius, options.radius, levelheight, 62, 1, false));
-				// }
-			// }
+					// clusterAxis.add(this.getCyl(level * levelheight, segment, circle, options.radius, options.radius, levelheight, options.segments, 1, false));
+					// this.getChunk = function(level, segment, circle, innerRadius, radiusOuter, height, radiusSegments, heightSegments, thetaStart, thetaLength) {
+					clusterAxis.add(this.getChunk(level * levelheight, segment, circle, app.ringOptions.innerRadius, app.ringOptions.outerRadius, levelheight, options.segments, 1));
+				}
+			}
 		}
 
 		ring3 = ringFactory.createRing(app.ringOptions);
 		ring2 = ringFactory.createRing(app.ringOptions);
-		ring3.scale.set(0.5, 0.5, 0.5);
-		ring2.scale.set(0.5, 0.5, 0.5);
+		// ring3.scale.set(0.5, 0.5, 0.5);
+		// ring2.scale.set(0.5, 0.5, 0.5);
 
 		clusterAxis.add(ring3);
 		clusterAxis.add(ring2);
