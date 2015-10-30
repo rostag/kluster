@@ -6,7 +6,7 @@
 
 	var mesh;
 
-	var app = rootScope.getGlClusterApp();
+	var app = rootScope.getKLU5TER();
 
 	app.factories.cube.getCube = createMesh;
 

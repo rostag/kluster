@@ -11,7 +11,7 @@
 
 	var time;
 
-	var app = rootScope.getGlClusterApp();
+	var app = rootScope.getKLU5TER();
 
 	app.cluster = {
 		config: {
@@ -45,7 +45,22 @@
 		}
 	};
 
-	new MaterialFactory( app );
+	app.controls = {
+		level: {
+			val: 3
+		},
+		segment: {
+			val: 3
+		},
+		circle: {
+			val: 3
+		}
+	};
+
+	new MaterialFactory(app);
+
+	app.animator = new KlusterAnimator();
+	app.animator.start();
 
 	initScene();
 	initOrbit();
@@ -56,8 +71,8 @@
 	app.renderer = renderer;
 	app.lights = lights;
 
-	var clusterFactory = new ClusterFactory(app);
-	var cluster = clusterFactory.createCluster(app.cluster.config);
+	app.clusterFactory = new ClusterFactory(app);
+	var cluster = app.clusterFactory.createCluster(app.cluster.config);
 
 	scene.add(cluster);
 
