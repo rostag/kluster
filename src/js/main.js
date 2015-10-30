@@ -21,7 +21,7 @@
 			segmentsSpacing: 0.9,
 			levels: 5,
 			levelsSpacing: 1.1,
-			circles: 5
+			circles: 3
 		}
 	};
 
@@ -29,54 +29,23 @@
 		x: 0,
 		y: 0,
 		z: 0,
-		segments: 40,
-		innerRadius: 9.9,
+		segments: 36,
+		innerRadius: 9,
 		outerRadius: 10,
-		phiSegments: 1,
+		phiSegments: 3,
 		thetaStart: 0,
 		thetaLength: Math.PI * 2
 	};
 
 	app.cameraSettings = {
 		FOV: 75,
+		antialias: true,
 		position: {
-			z: 10
+			z: 3
 		}
 	};
 
-	app.phongMaterial = new THREE.MeshPhongMaterial({
-		color: 0x156289,
-		emissive: 0x072534,
-		side: THREE.DoubleSide,
-		shading: THREE.FlatShading,
-		transparent: true,
-		opacity: 0.02
-	});	
-
-	app.phongCylinderMaterial = new THREE.MeshPhongMaterial({
-		color: 0x159269,
-		emissive: 0x074524,
-		side: THREE.DoubleSide,
-		// shading: THREE.FlatShading,
-		transparent: true,
-		opacity: 0.2
-	});
-
-	app.lineMaterial = new THREE.LineBasicMaterial({
-		color: 0xffffff,
-		transparent: true,
-		opacity: 0.08
-	});
-
-	app.mainLineMaterial = new THREE.LineBasicMaterial({
-		color: 0xffffff,
-		transparent: true,
-		opacity: 0.01
-	});
-
-	app.material = new THREE.MeshBasicMaterial({
-		color: 0x62989cf
-	});
+	new MaterialFactory( app );
 
 	initScene();
 	initOrbit();
@@ -106,7 +75,7 @@
 
 		// renderer
 		renderer = new THREE.WebGLRenderer({
-			antialias: true
+			antialias: app.cameraSettings.antialias
 		});
 
 		renderer.setSize(window.innerWidth, window.innerHeight);

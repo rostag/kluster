@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"cyl",
+				"cylCircleMid"
+			],
+			[
 				"p",
 				"PI"
 			],
@@ -42,10 +46,6 @@
 			[
 				"op",
 				"options"
-			],
-			[
-				"cyl",
-				"cylGeom"
 			],
 			[
 				"le",
@@ -523,24 +523,43 @@
 			"file": "src/index.html",
 			"settings":
 			{
-				"buffer_size": 1883,
+				"buffer_size": 1932,
 				"line_ending": "Windows"
 			}
 		},
 		{
+			"contents": "/* globals THREE, ClusterFactory */\n\n'use strict';\n\n(function(rootScope) {\n\n	var scene;\n	var camera;\n	var renderer;\n	var lights;\n\n	var time;\n\n	var app = rootScope.getGlClusterApp();\n\n	app.cluster = {\n		config: {\n			height: 10,\n			radius: 20,\n			segments: 15,\n			segmentsSpacing: 0.9,\n			levels: 5,\n			levelsSpacing: 1.1,\n			circles: 4\n		}\n	};\n\n	app.ringOptions = {\n		x: 0,\n		y: 0,\n		z: 0,\n		segments: 36,\n		innerRadius: 9,\n		outerRadius: 10,\n		phiSegments: 3,\n		thetaStart: 0,\n		thetaLength: Math.PI * 2\n	};\n\n	app.cameraSettings = {\n		FOV: 75,\n		position: {\n			z: 10\n		}\n	};\n\n	new MaterialFactory();\n\n	initScene();\n	initOrbit();\n	initLights();\n\n	app.scene = scene;\n	app.camera = camera;\n	app.renderer = renderer;\n	app.lights = lights;\n\n	var clusterFactory = new ClusterFactory(app);\n	var cluster = clusterFactory.createCluster(app.cluster.config);\n\n	scene.add(cluster);\n\n	// scene.add(app.factories.cube.getCube());\n	// textFactory(app);\n\n	function initScene() {\n		// scene \n		scene = new THREE.Scene();\n		scene.fog = new THREE.Fog(0x000000, 250, 1400);\n\n		// camera\n		camera = new THREE.PerspectiveCamera(app.cameraSettings.FOV, window.innerWidth / window.innerHeight, 0.1, 1000);\n		camera.position.x = app.cameraSettings.position.z;\n\n		// renderer\n		renderer = new THREE.WebGLRenderer({\n			antialias: true\n		});\n\n		renderer.setSize(window.innerWidth, window.innerHeight);\n		renderer.setClearColor(scene.fog.color);\n		renderer.setPixelRatio(window.devicePixelRatio);\n\n		document.body.appendChild(renderer.domElement);\n	}\n\n	function initOrbit() {\n		var orbit = new THREE.OrbitControls(camera, renderer.domElement);\n		orbit.enableZoom = true;\n	}\n\n	function initLights() {\n		var ambientLight = new THREE.AmbientLight(0x000000);\n		scene.add(ambientLight);\n\n		lights = [];\n		lights[0] = new THREE.PointLight(0xffffff, 1, 0);\n		lights[1] = new THREE.PointLight(0xffffff, 1, 0);\n		lights[2] = new THREE.PointLight(0xffffff, 1, 0);\n		lights[0].position.set(0, 200, 0);\n		lights[1].position.set(100, 200, 100);\n		lights[2].position.set(-100, -200, -100);\n\n		scene.add(lights[0]);\n		scene.add(lights[1]);\n		scene.add(lights[2]);\n	}\n\n	function render() {\n		requestAnimationFrame(render);\n		time = Date.now() * 0.001;\n\n		cluster.onRender();\n		renderer.render(scene, camera);\n	}\n\n	render();\n\n})(this);",
 			"file": "src/js/main.js",
+			"file_size": 3694,
+			"file_write_time": 130906924364862067,
 			"settings":
 			{
-				"buffer_size": 2960,
+				"buffer_size": 2289,
 				"line_ending": "Windows",
 				"name": "main.js"
+			}
+		},
+		{
+			"file": "src/js/material-factory.js",
+			"settings":
+			{
+				"buffer_size": 1303,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": ".jshintrc",
+			"settings":
+			{
+				"buffer_size": 629,
+				"line_ending": "Unix"
 			}
 		},
 		{
 			"file": "src/js/cluster.js",
 			"settings":
 			{
-				"buffer_size": 4340,
+				"buffer_size": 4592,
 				"line_ending": "Windows"
 			}
 		},
@@ -548,7 +567,7 @@
 			"file": "src/js/ring.js",
 			"settings":
 			{
-				"buffer_size": 968,
+				"buffer_size": 1022,
 				"line_ending": "Windows"
 			}
 		},
@@ -850,7 +869,7 @@
 	],
 	"find":
 	{
-		"height": 90871.0
+		"height": 34.0
 	},
 	"find_in_files":
 	{
@@ -909,6 +928,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"mainLineMaterial",
 			"Siryk",
 			"Рост",
 			"openEnded",
@@ -1035,8 +1055,7 @@
 			"chooseFromHash",
 			"initScene",
 			"gui",
-			"mesh",
-			"time"
+			"mesh"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1182,7 +1201,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -1191,15 +1210,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1883,
+						"buffer_size": 1932,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1741,
-								1741
+								1713,
+								1713
 							]
 						],
 						"settings":
@@ -1208,10 +1227,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 88.0,
+						"translation.y": 403.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
@@ -1220,15 +1239,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2960,
+						"buffer_size": 2289,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								628,
-								669
+								599,
+								599
 							]
 						],
 						"settings":
@@ -1238,56 +1257,27 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 393.0,
+						"translation.y": 360.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "src/js/cluster.js",
+					"file": "src/js/material-factory.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4340,
+						"buffer_size": 1303,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								625,
-								625
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 360.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "src/js/ring.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 968,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								630,
-								630
+								230,
+								230
 							]
 						],
 						"settings":
@@ -1299,11 +1289,99 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": ".jshintrc",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 629,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								546,
+								546
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
 					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 4,
+					"file": "src/js/cluster.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4592,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2097,
+								2097
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 675.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/js/ring.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1022,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								911,
+								911
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
 					"file": "src/js/config.js",
 					"semi_transient": false,
 					"settings":
@@ -1328,11 +1406,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 7,
 					"file": "src/js/text.js",
 					"semi_transient": false,
 					"settings":
@@ -1358,7 +1436,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -1417,6 +1495,10 @@
 		"selected_items":
 		[
 			[
+				"inde",
+				"index.html"
+			],
+			[
 				"ring",
 				"js\\ring.js"
 			],
@@ -1435,10 +1517,6 @@
 			[
 				"require-config.js",
 				"src\\js\\require-config.js"
-			],
-			[
-				"inde",
-				"index.html"
 			],
 			[
 				"stepp",

@@ -14,13 +14,17 @@ function RingFactory(app) {
 	// thetaLength — Central angle. Default is Math.PI * 2.
 
 	this.createRing = function(options) {
+
 		var geometry = new THREE.RingGeometry(options.innerRadius, options.outerRadius, options.segments, options.phiSegments, options.thetaStart, options.thetaLength);
-		var ring = new THREE.Mesh(geometry, app.phongMaterial);
+		
+		var material = options.material || app.phongMaterial;
+		
+		var ring = new THREE.Mesh(geometry, material);
 
 		ring.position.set(options.x, options.y, options.z);
 
 		ring.add(new THREE.LineSegments(
-			geometry, app.mainLineMaterial
+			geometry, app.ringLineMaterial
 		));
 
 		return ring;

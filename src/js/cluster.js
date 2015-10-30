@@ -53,16 +53,26 @@ function ClusterFactory(app) {
 
 		var radiusStep = outerRadius / app.cluster.config.circles;
 
+		var cylMaterial = app.cylCircleCore;
+
+		if (circle === 1) {
+			cylMaterial = app.cylCircleMid;
+		} else if (circle === 2) {
+			cylMaterial = app.cylCircleOut;
+		}
+
 		var ring = ringFactory.createRing({
 			x: 0,
 			y: 0,
 			z: 0,
 			innerRadius: circle * radiusStep,
 			outerRadius: circle * radiusStep + radiusStep * 0.9,
-			segments: 40,
-			phiSegments: 1,
+			segments: 8,
+			phiSegments: 100,
 			thetaStart: tStart,
-			thetaLength: tLength
+			thetaLength: tLength,
+			// app.cylCircleCore : cylCircleCore : cylCircleCore
+			material: cylMaterial
 		});
 
 		ring.translateZ(level * app.cluster.config.levelsSpacing);
@@ -72,7 +82,7 @@ function ClusterFactory(app) {
 
 	this.createCluster = function(options) {
 
-		var geometry = new THREE.CylinderGeometry(0.001, 0.001, options.height, 8);
+		var geometry = new THREE.CylinderGeometry(0.0001, 0.0001, options.height, 8);
 
 		clusterAxis = new THREE.Mesh(geometry, app.lineMaterial);
 
@@ -87,15 +97,7 @@ function ClusterFactory(app) {
 		for (level = 0; level < options.levels; level++) {
 			for (segment = 0; segment < options.segments; segment++) {
 				for (circle = 0; circle < options.circles; circle++) {
-					// ring = ringFactory.createRing(ringOptions);
-					// ring.rotation.x = Math.PI / 2;
-					// ring.translateZ(i * levelheight);
-					// ring.scale.setX( i * (options.height / options.levels) / 10);
-					// rings[i] = ring;
-
-					// clusterAxis.add(ring);
 					// clusterAxis.add(this.getCyl(level * levelheight, segment, circle, options.radius, options.radius, levelheight, options.segments, 1, false));
-					// this.getChunk = function(level, segment, circle, innerRadius, radiusOuter, height, radiusSegments, heightSegments, thetaStart, thetaLength) {
 					clusterAxis.add(this.getChunk(level * levelheight, segment, circle, app.ringOptions.innerRadius, app.ringOptions.outerRadius, levelheight, options.segments, 1));
 				}
 			}
@@ -109,10 +111,13 @@ function ClusterFactory(app) {
 		clusterAxis.add(ring3);
 		clusterAxis.add(ring2);
 
+		clusterAxis.rotation.x = Math.PI / 2;
+		clusterAxis.rotation.y = -Math.PI / 2;
+
 		clusterAxis.onRender = function() {
 
-			clusterAxis.rotation.x -= 0.001 + speed;
-			clusterAxis.rotation.y += 0.001 - speed;
+			clusterAxis.rotation.x += 0.0005;// + speed;
+			clusterAxis.rotation.y += 0.001; // - speed;
 			clusterAxis.rotation.z += 0.002 + speed;
 
 			// console.log(time, ring);
