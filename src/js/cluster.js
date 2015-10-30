@@ -97,16 +97,16 @@ function ClusterFactory(app) {
 		]);
 
 		var extrudeSettings = {
-			steps: 2,
+			steps: 1,
 			bevelEnabled: false,
 			extrudePath: closedSpline
 		};
 
 		var pts = [],
-			count = 4;
+			count = 14;
 
 		for (var i = 0; i < count; i++) {
-			var l = 0.4;
+			var l = 0.08 * (circle*5 + 1);
 			var a = 2 * i / count * Math.PI;
 			pts.push(new THREE.Vector2(Math.cos(a) * l, Math.sin(a) * l));
 		}

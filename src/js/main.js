@@ -43,7 +43,7 @@
 		FOV: 75,
 		antialias: true,
 		position: {
-			z: 3
+			z: 8
 		}
 	};
 
