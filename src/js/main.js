@@ -17,9 +17,9 @@
 
 	app.cluster = {
 		config: {
-			segments: 8,
+			segments: 28,
 			segmentsSpacing: 0.96,
-			levels: 3,
+			levels: 5,
 			levelsSpacing: 1.2,
 			circles: 3,
 			height: 10,

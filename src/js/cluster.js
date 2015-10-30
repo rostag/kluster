@@ -84,8 +84,8 @@ function ClusterFactory(app) {
 		var radiusAvg = ((circle * radiusStep) * 2 + radiusStep * 0.9) / 2;
 		var thetaAvg = tStart + tLength / 2;
 
-		var xx = Math.sin(thetaAvg) * radiusAvg + THREE.Math.random16() / 4;
-		var yy = Math.cos(thetaAvg) * radiusAvg + THREE.Math.random16() / 4;
+		var xx = Math.sin(thetaAvg) * radiusAvg;// + THREE.Math.random16() / 4;
+		var yy = Math.cos(thetaAvg) * radiusAvg;// + THREE.Math.random16() / 4;
 
 		ring.translateZ(level * app.cluster.config.levelsSpacing);
 
@@ -93,7 +93,7 @@ function ClusterFactory(app) {
 
 		var closedSpline = new THREE.SplineCurve3([
 			new THREE.Vector3(xx, yy, level),
-			new THREE.Vector3(xx, yy, level + 3)
+			new THREE.Vector3(xx, yy, level + 0.5)
 		]);
 
 		var extrudeSettings = {
@@ -106,7 +106,7 @@ function ClusterFactory(app) {
 			count = 4;
 
 		for (var i = 0; i < count; i++) {
-			var l = 0.5;
+			var l = 0.4;
 			var a = 2 * i / count * Math.PI;
 			pts.push(new THREE.Vector2(Math.cos(a) * l, Math.sin(a) * l));
 		}
@@ -209,8 +209,8 @@ function ClusterFactory(app) {
 
 			var rand = Math.random() * 0.001;
 
-			rotationX += rotationSpeedX;
-			rotationY += rotationSpeedY + rand;
+			// rotationX += rotationSpeedX;
+			// rotationY += rotationSpeedY + rand;
 			rotationZ += rotationSpeedZ;
 
 			// clusterAxis.rotation.x += 0.0005;// + speed;
