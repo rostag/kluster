@@ -49,8 +49,8 @@
 		emissive: 0x072534,
 		side: THREE.DoubleSide,
 		shading: THREE.FlatShading,
-		// transparent: true,
-		opacity: 0.3
+		transparent: true,
+		opacity: 0.02
 	});	
 
 	app.phongCylinderMaterial = new THREE.MeshPhongMaterial({

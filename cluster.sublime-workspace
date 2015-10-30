@@ -4,20 +4,56 @@
 		"selected_items":
 		[
 			[
-				"lev",
-				"levelheight"
+				"p",
+				"PI"
 			],
 			[
-				"le",
-				"levelheight"
+				"tL",
+				"tLength"
+			],
+			[
+				"t",
+				"tStart"
+			],
+			[
+				"ra",
+				"radiusSegments"
+			],
+			[
+				"he",
+				"heightSegments"
+			],
+			[
+				"rad",
+				"radiusSegments"
 			],
 			[
 				"c",
 				"circle"
 			],
 			[
+				"the",
+				"thetaStart"
+			],
+			[
+				"ca",
+				"cameraSettings"
+			],
+			[
 				"op",
-				"opacity"
+				"options"
+			],
+			[
+				"cyl",
+				"cylGeom"
+			],
+			[
+				"le",
+				"level"
+			],
+			[
+				"lev",
+				"levelheight"
 			],
 			[
 				"ring",
@@ -198,10 +234,6 @@
 			[
 				"sel",
 				"selectedCity"
-			],
-			[
-				"p",
-				"processDefinitions"
 			],
 			[
 				"oS",
@@ -482,38 +514,6 @@
 			[
 				"pal",
 				"placeData"
-			],
-			[
-				"ste",
-				"step1"
-			],
-			[
-				"go",
-				"goState"
-			],
-			[
-				"init",
-				"initControls"
-			],
-			[
-				"C",
-				"PlaceController"
-			],
-			[
-				"er",
-				"error"
-			],
-			[
-				"mar",
-				"markerOptions"
-			],
-			[
-				"opt",
-				"optionName"
-			],
-			[
-				"CO",
-				"console"
 			]
 		]
 	},
@@ -531,7 +531,7 @@
 			"file": "src/js/main.js",
 			"settings":
 			{
-				"buffer_size": 1870,
+				"buffer_size": 2960,
 				"line_ending": "Windows",
 				"name": "main.js"
 			}
@@ -540,7 +540,7 @@
 			"file": "src/js/cluster.js",
 			"settings":
 			{
-				"buffer_size": 2839,
+				"buffer_size": 4340,
 				"line_ending": "Windows"
 			}
 		},
@@ -548,7 +548,7 @@
 			"file": "src/js/ring.js",
 			"settings":
 			{
-				"buffer_size": 866,
+				"buffer_size": 968,
 				"line_ending": "Windows"
 			}
 		},
@@ -719,6 +719,14 @@
 	],
 	"file_history":
 	[
+		"/D/stuff/2015/junta/junta-list-2.txt",
+		"/D/stuff/2015/junta/junta-list-1.txt",
+		"/D/local/gl/Training-2-QA2JS/homework/Andrii Kremlovskyi/l-06.js",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/app.js",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/run.bat",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/1",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/package.json",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/ring.js",
 		"/D/stuff/2015/fr/backup/local/toys/fradio/css/fradio.css",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/cluster.sublime-project",
 		"/D/local/gl/Training-2-QA2JS/lessons/lesson-06/lesson-06.js",
@@ -730,8 +738,6 @@
 		"/D/local/gl/Training-2-QA2JS/homework/Tatiana Mazourick/l-05.js",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/three-test-0.txt",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/index.html",
-		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/run.bat",
-		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/app.js",
 		"/D/stuff/2015/fr/backup/local/toys/fradio/triangloid/triangloid.js",
 		"/D/local/gl/Training-2-QA2JS/homework/Andrii Kremlovskyi/l-05.js",
 		"/D/local/gl/Training-2-QA2JS/homework/Ilya Agrachev/l-05.js",
@@ -840,17 +846,11 @@
 		"/D/stuff/2015/egov/igov/temp/debug-uirouter.js",
 		"/D/stuff/2015/egov/igov/i/central-js/server/app.js",
 		"/D/stuff/2015/egov/igov/i/central-js/client/app/service/built-in/controllers/servicebuiltinbankid.controller.js",
-		"/D/stuff/2015/egov/igov/i/central-js/client/app/common/components/form/directives/place/place.js",
-		"/D/stuff/2015/egov/igov/i/central-js/client/app/service/place/console.logger.js",
-		"/D/stuff/2015/egov/igov/i/central-js/client/index.html",
-		"/D/local/gl/GLHRK/meetings/scrum-2015-10-05.txt",
-		"/D/local/gl/GLHRK/BrainMade/ux/personas/personas.txt",
-		"/D/Projects/Downloads/google.csv",
-		"/D/stuff/2015/egov/igov/i/central-js/client/app/about/test.html"
+		"/D/stuff/2015/egov/igov/i/central-js/client/app/common/components/form/directives/place/place.js"
 	],
 	"find":
 	{
-		"height": 34.0
+		"height": 90871.0
 	},
 	"find_in_files":
 	{
@@ -909,6 +909,43 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"Siryk",
+			"Рост",
+			"openEnded",
+			"62",
+			"getChunk",
+			"radiusOut",
+			"radiusInner",
+			"getChunk",
+			"usTop",
+			"getChunk",
+			"ringOptions",
+			"getChunk",
+			"level",
+			"getChunk",
+			"ringFactory",
+			"app.cluster.",
+			"segmentsSpacing",
+			"options.segmentsSpacing",
+			"level",
+			"getCyl",
+			"materi",
+			"	var phongMaterial = new THREE.MeshPhongMaterial({\n		color: 0x159269,\n		emissive: 0x074524,\n		side: THREE.DoubleSide,\n		shading: THREE.FlatShading,\n		transparent: true,\n		opacity: 0.2\n	});\n",
+			"phongMaterial",
+			"lineBasicMaterial ",
+			"ringOptions",
+			"clusterAxis\n",
+			"cameraSettings",
+			"position",
+			"position\n",
+			"app.camera",
+			"app.camera\n",
+			"FOV",
+			"cylinder",
+			"ringOpt",
+			"circle",
+			"cyl",
+			"// ring",
 			"stepIncrease",
 			"stepIncreaseStep",
 			"cluster",
@@ -999,44 +1036,7 @@
 			"initScene",
 			"gui",
 			"mesh",
-			"time",
-			"scene",
-			"lights",
-			"ambientLight",
-			"path",
-			"10",
-			"cell-size-input",
-			"absolu",
-			"triangli",
-			"IP5fgAEANIfQNGBRzI0AAAAASUVORK5CYII=\"",
-			"image/png;base64",
-			"image.src = ",
-			"imageData",
-			"event.target.resu",
-			"setImage",
-			"predef",
-			"reader",
-			"processInput",
-			"getImagePixelData",
-			"imageData",
-			"\"",
-			"repoLayouts",
-			"\"",
-			"json2html",
-			"LayoutsRepository",
-			"rts!!!!",
-			"!!!!",
-			"УЧзщкеы!!!!",
-			"block",
-			";*/\n",
-			"scree",
-			"template_",
-			"template_e",
-			"index.html",
-			"thumbWidth",
-			"mouseX",
-			"newPoint",
-			"volu"
+			"time"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1044,6 +1044,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			"clusterAxis",
+			"cyl",
 			"'",
 			"LayoutsFactory",
 			"'",
@@ -1169,9 +1171,7 @@
 			"markerName",
 			"validationClosure",
 			"existingValidator",
-			"validatorNameByMarkerName",
-			"testForm",
-			"form.testForm"
+			"validatorNameByMarkerName"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -1182,7 +1182,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -1220,15 +1220,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1870,
+						"buffer_size": 2960,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								433,
-								433
+								628,
+								669
 							]
 						],
 						"settings":
@@ -1238,10 +1238,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 92.0,
+						"translation.y": 393.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -1250,15 +1250,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2839,
+						"buffer_size": 4340,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2125,
-								2125
+								625,
+								625
 							]
 						],
 						"settings":
@@ -1267,10 +1267,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 474.0,
+						"translation.y": 360.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -1279,15 +1279,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 866,
+						"buffer_size": 968,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								309,
-								309
+								630,
+								630
 							]
 						],
 						"settings":
@@ -1296,7 +1296,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 17.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
