@@ -61,7 +61,6 @@ function ClusterFactory(app) {
 		var radiusStep = outerRadius / app.cluster.config.circles;
 
 		var cylMaterial = app.cylCircleCore;
-
 		if (circle === 1) {
 			cylMaterial = app.cylCircleMid;
 		} else if (circle === 2) {
@@ -82,10 +81,43 @@ function ClusterFactory(app) {
 			material: cylMaterial
 		});
 
+		var radiusAvg = ((circle * radiusStep) * 2 + radiusStep * 0.9) / 2;
+		var thetaAvg = tStart + tLength / 2;
 
+		var xx = Math.sin(thetaAvg) * radiusAvg + THREE.Math.random16() / 4;
+		var yy = Math.cos(thetaAvg) * radiusAvg + THREE.Math.random16() / 4;
 
 		ring.translateZ(level * app.cluster.config.levelsSpacing);
 
+		// //////////////////////////////////////////////////
+
+		var closedSpline = new THREE.SplineCurve3([
+			new THREE.Vector3(xx, yy, level),
+			new THREE.Vector3(xx, yy, level + 3)
+		]);
+
+		var extrudeSettings = {
+			steps: 2,
+			bevelEnabled: false,
+			extrudePath: closedSpline
+		};
+
+		var pts = [],
+			count = 4;
+
+		for (var i = 0; i < count; i++) {
+			var l = 0.5;
+			var a = 2 * i / count * Math.PI;
+			pts.push(new THREE.Vector2(Math.cos(a) * l, Math.sin(a) * l));
+		}
+
+		var shape = new THREE.Shape(pts);
+		var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+
+		var mesh = new THREE.Mesh(geometry, cylMaterial);
+
+		// clusterAxis.add(mesh);
+		// //////////////////////////////////////////////////
 
 		// This object extrudes an 2D shape to an 3D geometry.
 		// var e = THREE.ExtrudeGeometry(ring, { amount: 10 });
@@ -104,7 +136,7 @@ function ClusterFactory(app) {
 		// extrudeMaterial — int. material index for extrusion and beveled faces
 		// uvGenerator — Object. object that provides UV generator functions
 
-		return ring;
+		return mesh;
 	};
 
 	this.deleteCluster = function(options) {
@@ -167,41 +199,6 @@ function ClusterFactory(app) {
 		var material = new THREE.LineBasicMaterial({
 			color: 0x0000ff
 		});
-
-		// //////////////////////////////////////////////////
-
-		var closedSpline = new THREE.SplineCurve3([
-			new THREE.Vector3(0, 0, 4)
-		]);
-
-		var extrudeSettings = {
-			steps: 32,
-			bevelEnabled: false,
-			extrudePath: closedSpline
-		};
-
-		var pts = [],
-			count = 4;
-
-		for (var i = 0; i < count; i++) {
-			var l = 1;
-			var a = 2 * i / count * Math.PI;
-			pts.push(new THREE.Vector2(Math.cos(a) * l, Math.sin(a) * l));
-		}
-
-		var shape = new THREE.Shape(pts);
-
-		var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-
-		var material = new THREE.MeshLambertMaterial({
-			color: 0xb00000,
-			wireframe: false
-		});
-
-		var mesh = new THREE.Mesh(geometry, material);
-		clusterAxis.add(mesh);
-		// //////////////////////////////////////////////////
-
 
 		clusterAxis.rotation.x = Math.PI / 2;
 		clusterAxis.rotation.y = -Math.PI / 2;

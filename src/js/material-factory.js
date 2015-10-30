@@ -27,7 +27,7 @@ function MaterialFactory (app) {
 		side: THREE.DoubleSide,
 		shading: THREE.FlatShading,
 		transparent: true,
-		opacity: 0.08
+		opacity: 0.08 + app.opacityAdd
 	});	
 
 	app.cylCircleMid = new THREE.MeshPhongMaterial({
@@ -36,7 +36,7 @@ function MaterialFactory (app) {
 		side: THREE.DoubleSide,
 		shading: THREE.FlatShading,
 		transparent: true,
-		opacity: 0.07
+		opacity: 0.07 + app.opacityAdd
 	});	
 
 	app.cylCircleOut = new THREE.MeshPhongMaterial({
@@ -45,7 +45,7 @@ function MaterialFactory (app) {
 		side: THREE.DoubleSide,
 		shading: THREE.FlatShading,
 		transparent: true,
-		opacity: 0.03
+		opacity: 0.06 + app.opacityAdd
 	});	
 
 	app.phongCylinderMaterial = new THREE.MeshPhongMaterial({
@@ -71,6 +71,12 @@ function MaterialFactory (app) {
 
 	app.material = new THREE.MeshBasicMaterial({
 		color: 0x62989cf
+	});
+
+	app.nullMaterial = new THREE.MeshBasicMaterial({
+		color: 0x62989cf,
+		transparent: true,
+		opacity: 0
 	});
 
 }

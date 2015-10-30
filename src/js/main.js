@@ -13,15 +13,17 @@
 
 	var app = rootScope.getKLU5TER();
 
+	app.opacityAdd = 0.6;
+
 	app.cluster = {
 		config: {
+			segments: 8,
+			segmentsSpacing: 0.96,
+			levels: 3,
+			levelsSpacing: 1.2,
+			circles: 3,
 			height: 10,
-			radius: 20,
-			segments: 15,
-			segmentsSpacing: 0.9,
-			levels: 5,
-			levelsSpacing: 1.1,
-			circles: 3
+			radius: 20
 		}
 	};
 
