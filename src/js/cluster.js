@@ -10,9 +10,9 @@ function ClusterFactory(app) {
 	var rotationY = 0.01;
 	var rotationZ = 0.01;
 
-	var rotationSpeedX = 0.01;
-	var rotationSpeedY = 0.001;
-	var rotationSpeedZ = 0.001;
+	var rotationSpeedX = 0.0001;
+	var rotationSpeedY = 0.0002;
+	var rotationSpeedZ = 0.0003;
 	var speed = 0.0007;
 
 	var ringFactory;
@@ -209,7 +209,7 @@ function ClusterFactory(app) {
 
 			var rand = Math.random() * 0.001;
 
-			// rotationX += rotationSpeedX;
+			rotationX += rotationSpeedX;
 			// rotationY += rotationSpeedY + rand;
 			rotationZ += rotationSpeedZ;
 

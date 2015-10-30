@@ -13,7 +13,7 @@
 
 	var app = rootScope.getKLU5TER();
 
-	app.opacityAdd = 0.6;
+	app.opacityAdd = 0.1;
 
 	app.cluster = {
 		config: {
@@ -49,15 +49,17 @@
 
 	app.controls = {
 		level: {
-			val: 3
+			val: 0.1
 		},
 		segment: {
-			val: 3
+			val: 2.7
 		},
 		circle: {
-			val: 3
+			val: 4
 		}
 	};
+
+	app.initializeControls();
 
 	new MaterialFactory(app);
 
