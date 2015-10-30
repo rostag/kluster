@@ -8,16 +8,7 @@ function ClusterFactory(app) {
 
 	var rings = [];
 
-	var cylinder;
-
-	var ringOptions = {
-		x: 0,
-		y: 0,
-		z: 0,
-		segments: 16,
-		radius: 10,
-		inner: 0.05
-	};
+	var clusterAxis;
 
 	var rotationSpeedX = 0.01;
 	var rotationSpeedY = 0.001;
@@ -29,40 +20,67 @@ function ClusterFactory(app) {
 	var ring3;
 	var ring2;
 
-	var material = new THREE.MeshBasicMaterial({
-		color: 0x62989cf
-	});
-	
+	// radiusTop — Radius of the cylinder at the top. Default is 20.
+	// radiusBottom — Radius of the cylinder at the bottom. Default is 20.
+	// height — Height of the cylinder. Default is 100.
+	// radiusSegments — Number of segmented faces around the circumference of the cylinder. Default is 8
+	// heightSegments — Number of rows of faces along the height of the cylinder. Default is 1.
+	// openEnded — A Boolean indicating whether the ends of the cylinder are open or capped. Default is false, meaning capped.
+	// thetaStart — Start angle for first segment, default = 0 (three o'clock position).
+	// thetaLength — The central angle, often called theta, of the circular sector. The default is 2*Pi, which makes for a complete cylinder.
+	this.getCyl = function(level, segment, circle, radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded, thetaStart, thetaLength) {
+		var cylGeom = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded, thetaStart, thetaLength);
+		var cyl = new THREE.Mesh(cylGeom, app.phongCylinderMaterial);
+		cyl.add(new THREE.LineSegments(
+			cylGeom, app.lineMaterial
+		));
+		cyl.translateY(level * 1.2);
+		// cyls[i] = ring;
+		return cyl;
+	};
+
 	this.createCluster = function(options) {
-
-		var geometry = new THREE.CylinderGeometry(0.1, 0.1, options.height, 32);
-
-		cylinder = new THREE.Mesh(geometry, material);
 		
+		var geometry = new THREE.CylinderGeometry(0.001, 0.001, options.height, 8);
+		
+		clusterAxis = new THREE.Mesh(geometry, app.lineMaterial);
+
 		ringFactory = new RingFactory(app);
 
-		for (var i = 0; i < options.levels; i++) {
-			ring = ringFactory.createRing(ringOptions);
-			ring.rotation.x = Math.PI / 2;
-			ring.translateZ( i * (options.height / options.levels));
-			ring.scale.setX( i * (options.height / options.levels) / 10);
-			rings[i] = ring;
+		var levelheight = (options.height / options.levels);
 
-			cylinder.add(ring);
+		var level;
+		var segment;
+		var circle;
+
+		for (level = 0; level < options.levels; level++) {
+			// for (segment = 0; segment < options.segments; segment++) {
+				// for (circle = 0; circle < options.circles; circle++) {
+					// ring = ringFactory.createRing(ringOptions);
+					// ring.rotation.x = Math.PI / 2;
+					// ring.translateZ(i * levelheight);
+					// ring.scale.setX( i * (options.height / options.levels) / 10);
+					// rings[i] = ring;
+
+					// clusterAxis.add(ring);
+					clusterAxis.add(this.getCyl(level * levelheight, segment, circle, options.radius, options.radius, levelheight, 62, 1, false));
+				// }
+			// }
 		}
 
-		ring3 = ringFactory.createRing(ringOptions);
-		ring2 = ringFactory.createRing(ringOptions);
+		ring3 = ringFactory.createRing(app.ringOptions);
+		ring2 = ringFactory.createRing(app.ringOptions);
 		ring3.scale.set(0.5, 0.5, 0.5);
 		ring2.scale.set(0.5, 0.5, 0.5);
 
-		cylinder.add(ring3);
-		cylinder.add(ring2);
+		clusterAxis.add(ring3);
+		clusterAxis.add(ring2);
 
-		cylinder.onRender = function() {
+		clusterAxis.onRender = function() {
 
-			cylinder.rotation.x -= 0.001 + speed;
-			cylinder.rotation.z += 0.002 + speed;
+			clusterAxis.rotation.x -= 0.001 + speed;
+			clusterAxis.rotation.y += 0.001 - speed;
+			clusterAxis.rotation.z += 0.002 + speed;
 
 			// console.log(time, ring);
 
@@ -77,7 +95,7 @@ function ClusterFactory(app) {
 			ring2.rotation.y -= rotationSpeedX + speed + rand;
 		};
 
-		return cylinder;
+		return clusterAxis;
 	};
 
 }

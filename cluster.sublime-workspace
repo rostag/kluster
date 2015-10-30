@@ -4,12 +4,44 @@
 		"selected_items":
 		[
 			[
-				"rin",
-				"ring2"
+				"lev",
+				"levelheight"
+			],
+			[
+				"le",
+				"levelheight"
+			],
+			[
+				"c",
+				"circle"
+			],
+			[
+				"op",
+				"opacity"
 			],
 			[
 				"ring",
-				"ringFactory"
+				"ring3"
+			],
+			[
+				"r",
+				"rings"
+			],
+			[
+				"rin",
+				"ring"
+			],
+			[
+				"clu",
+				"cluster"
+			],
+			[
+				"li",
+				"lineBasicMaterial"
+			],
+			[
+				"g",
+				"geometry"
 			],
 			[
 				"ri",
@@ -24,20 +56,12 @@
 				"getCube"
 			],
 			[
-				"r",
-				"ring"
-			],
-			[
 				"fun",
 				"fun	Function"
 			],
 			[
 				"te",
 				"textShapes"
-			],
-			[
-				"li",
-				"LineBasicMaterial"
 			],
 			[
 				"rot",
@@ -176,10 +200,6 @@
 				"selectedCity"
 			],
 			[
-				"c",
-				"city"
-			],
-			[
 				"p",
 				"processDefinitions"
 			],
@@ -198,10 +218,6 @@
 			[
 				"set",
 				"setValidatorByMarker"
-			],
-			[
-				"op",
-				"options"
 			],
 			[
 				"for",
@@ -286,10 +302,6 @@
 			[
 				"cu",
 				"curState"
-			],
-			[
-				"g",
-				"getElementById"
 			],
 			[
 				"ba",
@@ -502,44 +514,16 @@
 			[
 				"CO",
 				"console"
-			],
-			[
-				"con",
-				"console"
-			],
-			[
-				"m",
-				"margin"
-			],
-			[
-				"border-c",
-				"border-collapse"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "/D/stuff/2015/fr/backup/local/toys/fradio/css/fradio.css",
-			"settings":
-			{
-				"buffer_size": 7813,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "src/index.html",
 			"settings":
 			{
-				"buffer_size": 1843,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/js/ring.js",
-			"settings":
-			{
-				"buffer_size": 794,
+				"buffer_size": 1883,
 				"line_ending": "Windows"
 			}
 		},
@@ -547,16 +531,32 @@
 			"file": "src/js/main.js",
 			"settings":
 			{
-				"buffer_size": 2487,
+				"buffer_size": 1870,
 				"line_ending": "Windows",
 				"name": "main.js"
+			}
+		},
+		{
+			"file": "src/js/cluster.js",
+			"settings":
+			{
+				"buffer_size": 2839,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/js/ring.js",
+			"settings":
+			{
+				"buffer_size": 866,
+				"line_ending": "Windows"
 			}
 		},
 		{
 			"file": "src/js/config.js",
 			"settings":
 			{
-				"buffer_size": 345,
+				"buffer_size": 276,
 				"line_ending": "Windows"
 			}
 		},
@@ -714,9 +714,13 @@
 	},
 	"expanded_folders":
 	[
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js"
 	],
 	"file_history":
 	[
+		"/D/stuff/2015/fr/backup/local/toys/fradio/css/fradio.css",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/cluster.sublime-project",
 		"/D/local/gl/Training-2-QA2JS/lessons/lesson-06/lesson-06.js",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/cube.js",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/three-test.js",
@@ -763,7 +767,6 @@
 		"/D/local/et/Layouts/gitlab/src/main.js",
 		"/D/local/et/layouts/gitlab/src/steps.html",
 		"/D/stuff/2015/fr/backup/local/toys/fradio/app.js",
-		"/D/stuff/2015/fr/backup/local/toys/fradio/css/fradio.css",
 		"/D/stuff/2015/fr/backup/local/toys/fradio/js/screensaver.js",
 		"/D/local/et/layouts/gitlab/bower_components/requirejs/require.js",
 		"/D/stuff/2015/fradio/github/index.html",
@@ -843,8 +846,7 @@
 		"/D/local/gl/GLHRK/meetings/scrum-2015-10-05.txt",
 		"/D/local/gl/GLHRK/BrainMade/ux/personas/personas.txt",
 		"/D/Projects/Downloads/google.csv",
-		"/D/stuff/2015/egov/igov/i/central-js/client/app/about/test.html",
-		"/D/stuff/2015/egov/igov/i/central-js/client/app/service/services/locationParser/serviceLocationParser.js"
+		"/D/stuff/2015/egov/igov/i/central-js/client/app/about/test.html"
 	],
 	"find":
 	{
@@ -907,6 +909,29 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"stepIncrease",
+			"stepIncreaseStep",
+			"cluster",
+			"ring3",
+			"stepIn",
+			"ste",
+			"	var speed = 0.0007;\n\n		speed += 0.00001;\n\n		var rand = Math.random() * 0.001;\n",
+			"rotationSpeedX",
+			"otationSpeed",
+			"ring",
+			"ringFactory",
+			"ringFactory\n",
+			"rotationSpeedX",
+			"camera",
+			"cluster",
+			"cluster\n",
+			"render",
+			"cluster",
+			"ring",
+			"ring2",
+			"createRing",
+			"camera",
+			"ring2",
 			"ring",
 			"function createMesh",
 			"function createMesh\n",
@@ -1011,30 +1036,7 @@
 			"thumbWidth",
 			"mouseX",
 			"newPoint",
-			"volu",
-			"audio",
-			"offset\n",
-			"clientY",
-			"font-size-input",
-			"\"",
-			"inputRange",
-			"$stationLink",
-			"inputRange",
-			"z-index:",
-			"\"",
-			"initRangeOutput",
-			"stepps",
-			"Template ",
-			"step-content",
-			"Searching",
-			"Template ",
-			"Template A",
-			"josn2html",
-			"uglif",
-			"index.",
-			"stepps",
-			"'",
-			"bootstrap"
+			"volu"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1180,52 +1182,24 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/D/stuff/2015/fr/backup/local/toys/fradio/css/fradio.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7813,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								7747,
-								7747
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 3941.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "src/index.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1843,
+						"buffer_size": 1883,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1678,
-								1678
+								1741,
+								1741
 							]
 						],
 						"settings":
@@ -1234,27 +1208,115 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 15.0,
+						"translation.y": 88.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "src/js/ring.js",
+					"buffer": 1,
+					"file": "src/js/main.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 794,
+						"buffer_size": 1870,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								700,
-								700
+								433,
+								433
+							]
+						],
+						"settings":
+						{
+							"auto_name": "main.js",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 92.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/js/cluster.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2839,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2125,
+								2125
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 474.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/js/ring.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 866,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								309,
+								309
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 17.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/js/config.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 276,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								191,
+								191
 							]
 						],
 						"settings":
@@ -1267,65 +1329,6 @@
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "src/js/main.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2487,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2361,
-								2361
-							]
-						],
-						"settings":
-						{
-							"auto_name": "main.js",
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1170.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "src/js/config.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 345,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								345,
-								345
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -1355,7 +1358,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -1413,6 +1416,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"ring",
+				"js\\ring.js"
+			],
 			[
 				"test",
 				"test\\test.js"
@@ -1920,10 +1927,6 @@
 			[
 				"te",
 				"app\\common\\components\\form\\directives\\tel.js"
-			],
-			[
-				"cscc",
-				"app\\service\\city\\controllers\\serviceCity.controller.js"
 			]
 		],
 		"width": 0.0

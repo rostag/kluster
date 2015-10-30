@@ -1,6 +1,4 @@
-// main.js
-
-/* globals THREE */
+/* globals THREE, ClusterFactory */
 
 'use strict';
 
@@ -11,10 +9,70 @@
 	var renderer;
 	var lights;
 
-	var gui;
 	var time;
 
 	var app = rootScope.getGlClusterApp();
+
+	app.cluster = {
+		config: {
+			height: 10,
+			radius: 10,
+			segments: 5,
+			levels: 5,
+			circles: 3
+		}
+	};
+
+	app.ringOptions = {
+		x: 0,
+		y: 0,
+		z: 0,
+		segments: 40,
+		radius: 10,
+		inner: 9
+	};
+
+	app.cameraSettings = {
+		FOV: 75,
+		position: {
+			z: 10
+		}
+	};
+
+	app.phongMaterial = new THREE.MeshPhongMaterial({
+		color: 0x156289,
+		emissive: 0x072534,
+		side: THREE.DoubleSide,
+		shading: THREE.FlatShading,
+		transparent: true,
+		opacity: 0.3
+	});	
+
+	app.phongCylinderMaterial = new THREE.MeshPhongMaterial({
+		color: 0x159269,
+		emissive: 0x074524,
+		side: THREE.DoubleSide,
+		shading: THREE.FlatShading,
+		transparent: true,
+		opacity: 0.2
+	});
+
+	app.lineMaterial = new THREE.LineBasicMaterial({
+		color: 0xffffff,
+		transparent: true,
+		opacity: 0.08
+	});
+
+	app.mainLineMaterial = new THREE.LineBasicMaterial({
+		color: 0xffffff,
+		transparent: true,
+		opacity: 0.01
+	});
+
+	app.material = new THREE.MeshBasicMaterial({
+		color: 0x62989cf
+	});
+
 
 	initScene();
 	initOrbit();
@@ -26,12 +84,7 @@
 	app.lights = lights;
 
 	var clusterFactory = new ClusterFactory(app);
-	var cluster = clusterFactory.createCluster({
-		height: 10,
-		segments: 10,
-		levels: 10,
-		circles: 3
-	});
+	var cluster = clusterFactory.createCluster(app.cluster.config);
 
 	scene.add(cluster);
 
@@ -44,8 +97,8 @@
 		scene.fog = new THREE.Fog(0x000000, 250, 1400);
 
 		// camera
-		camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 50);
-		camera.position.z = 4;
+		camera = new THREE.PerspectiveCamera(app.cameraSettings.FOV, window.innerWidth / window.innerHeight, 0.1, 1000);
+		camera.position.x = app.cameraSettings.position.z;
 
 		// renderer
 		renderer = new THREE.WebGLRenderer({
