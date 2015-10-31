@@ -1,0 +1,41 @@
+/*main.css*/
+
+/*
+		<div class="klapp-controls">
+			<form class="cluster-controls">
+				<input type="range" name="input-circle" />
+				<input type="range" name="input-level" />
+				<input type="range" name="input-segment" />
+			</form>>
+		</div>
+
+*/
+
+div.klapp-controls {
+	position: absolute;
+	right: 2em;
+	top: 2em;
+	text-align: right;
+	background: #559;
+	padding: 0.5em;
+	opacity: 0.5;
+}
+
+div.klapp-controls label {
+	padding-right: 1em;
+	line-height: 2;
+	display: inline-block;
+	font-size: 0.85em;
+}
+
+div.klapp-controls input {
+	width: 140px;
+	padding-right: 1em;
+	line-height: 2.8;
+	display: inline-block;
+}
+
+body * {
+	color: #ccc;
+	font-family: Arial, sans-serif;
+}

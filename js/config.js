@@ -1,16 +1,16 @@
 'use strict';
 (function(rootScope) {
 
-	rootScope.getGlClusterApp = function() {
+	rootScope.getKLU5TER = function() {
 
-		rootScope.glClusterApp = rootScope.glClusterApp || {
-			name: 'cluster',
+		rootScope.KLU5TER = rootScope.KLU5TER || {
+			name: 'KLU5TER',
 			version: '0.1',
 			options: {},
 			factories: {
 				cube: {}
 			}
 		};
-		return rootScope.glClusterApp;
+		return rootScope.KLU5TER;
 	};
 })(this);

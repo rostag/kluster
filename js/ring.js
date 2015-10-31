@@ -4,41 +4,29 @@
 
 function RingFactory(app) {
 
-	var self = this;
+	// RingGeometry(innerRadius, outerRadius, thetaSegments, phiSegments, thetaStart, thetaLength)
+
+	// innerRadius — Default is 0, but it doesn't work right when innerRadius is set to 0.
+	// outerRadius — Default is 50. 
+	// thetaSegments — Number of segments. A higher number means the ring will be more round. Minimum is 3. Default is 8. 
+	// phiSegments — Minimum is 1. Default is 8.
+	// thetaStart — Starting angle. Default is 0. 
+	// thetaLength — Central angle. Default is Math.PI * 2.
 
 	this.createRing = function(options) {
 
-		var geometry = new THREE.RingGeometry(options.inner, options.radius, options.segments);
-
-		var phongMaterial = new THREE.MeshPhongMaterial({
-			color: 0x156289,
-			emissive: 0x072534,
-			side: THREE.DoubleSide,
-			shading: THREE.FlatShading,
-			transparent: true,
-			opacity: 0.2
-		});
-
-		var lineBasicMaterial = new THREE.LineBasicMaterial({
-			color: 0xffffff,
-			transparent: true,
-			opacity: 0.1
-		});
-
-		var ring = new THREE.Mesh(geometry, phongMaterial);
+		var geometry = new THREE.RingGeometry(options.innerRadius, options.outerRadius, options.segments, options.phiSegments, options.thetaStart, options.thetaLength);
+		
+		var material = options.material || app.phongMaterial;
+		
+		var ring = new THREE.Mesh(geometry, material);
 
 		ring.position.set(options.x, options.y, options.z);
-		
-		// ring2.position.set(options.x, options.y + 10, options.z + 10);
 
 		ring.add(new THREE.LineSegments(
-			geometry, lineBasicMaterial
+			geometry, app.ringLineMaterial
 		));
 
 		return ring;
-	}
-
-	this.render = function () {
-		// ring.position.set();
-	}
+	};
 }
