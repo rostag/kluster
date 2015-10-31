@@ -181,7 +181,7 @@ function ClusterFactory(app) {
 
 			// rotationX += rotationSpeedX + app.speedX * speed;
 			// rotationY += rotationSpeedY + rand;
-			rotationZ += rotationSpeedZ + app.speedX + app.speedY * speed;
+			rotationZ += rotationSpeedZ + app.speedY * speed;
 
 			// clusterAxis.rotation.x += 0.0005;// + speed;
 			clusterAxis.rotation.x = (10 / app.controls.level.val) * (Math.PI / 4) + rotationX;

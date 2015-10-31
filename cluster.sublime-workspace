@@ -4,8 +4,84 @@
 		"selected_items":
 		[
 			[
+				"op",
+				"opacityAdd"
+			],
+			[
+				"a",
+				"opacityAdd"
+			],
+			[
+				"cl",
+				"clusterFactory"
+			],
+			[
+				"fu",
+				"fun	Function"
+			],
+			[
+				"add",
+				"addEventListener"
+			],
+			[
+				"i",
+				"initialValue"
+			],
+			[
+				"getEl",
+				"getElementById"
+			],
+			[
+				"s",
+				"step"
+			],
+			[
+				"in",
+				"inputRange"
+			],
+			[
+				"p",
+				"path"
+			],
+			[
+				"ini",
+				"initialValue"
+			],
+			[
 				"c",
 				"controls"
+			],
+			[
+				"sp",
+				"speedX"
+			],
+			[
+				"cre",
+				"createCluster"
+			],
+			[
+				"spe",
+				"speed"
+			],
+			[
+				"spee",
+				"speedX"
+			],
+			[
+				"cur",
+				"curMouseX"
+			],
+			[
+				"pre",
+				"prevMouseX"
+			],
+			[
+				"le",
+				"levelsSpacing"
+			],
+			[
+				"inn",
+				"innerRadius"
 			],
 			[
 				"va",
@@ -40,16 +116,8 @@
 				"segment"
 			],
 			[
-				"le",
-				"level"
-			],
-			[
 				"ri",
 				"ring"
-			],
-			[
-				"a",
-				"animator"
 			],
 			[
 				"rot",
@@ -72,10 +140,6 @@
 				"chunk"
 			],
 			[
-				"in",
-				"inline-block"
-			],
-			[
 				"te",
 				"text-align"
 			],
@@ -96,10 +160,6 @@
 				"function"
 			],
 			[
-				"p",
-				"PI"
-			],
-			[
 				"tL",
 				"tLength"
 			],
@@ -118,10 +178,6 @@
 			[
 				"ca",
 				"cameraSettings"
-			],
-			[
-				"op",
-				"options"
 			],
 			[
 				"ring",
@@ -154,18 +210,6 @@
 			[
 				"get",
 				"getCube"
-			],
-			[
-				"ini",
-				"initMesh"
-			],
-			[
-				"fu",
-				"fun	Function"
-			],
-			[
-				"cre",
-				"createCube"
 			],
 			[
 				"w",
@@ -222,10 +266,6 @@
 			[
 				"th",
 				"thumbWidth"
-			],
-			[
-				"s",
-				"script"
 			],
 			[
 				"fuel",
@@ -474,46 +514,6 @@
 			[
 				"loca",
 				"localityList"
-			],
-			[
-				"contr",
-				"controlIsDisabled"
-			],
-			[
-				"lo",
-				"log"
-			],
-			[
-				"fin",
-				"findServiceDataByRegion"
-			],
-			[
-				"regio",
-				"region"
-			],
-			[
-				"savedPlaceData",
-				"igSavedPlaceData"
-			],
-			[
-				"sav",
-				"savedPlaceData"
-			],
-			[
-				"Wiz",
-				"WizardController"
-			],
-			[
-				"pro",
-				"processPlaceChange"
-			],
-			[
-				"oServ",
-				"oServiceAvailable"
-			],
-			[
-				"res",
-				"result"
 			]
 		]
 	},
@@ -528,10 +528,10 @@
 			}
 		},
 		{
-			"file": "src/js/ring.js",
+			"file": "src/js/main.js",
 			"settings":
 			{
-				"buffer_size": 1022,
+				"buffer_size": 2674,
 				"line_ending": "Windows"
 			}
 		},
@@ -539,7 +539,7 @@
 			"file": "src/js/material-factory.js",
 			"settings":
 			{
-				"buffer_size": 1667,
+				"buffer_size": 1851,
 				"line_ending": "Windows"
 			}
 		},
@@ -547,15 +547,7 @@
 			"file": "src/js/cluster.js",
 			"settings":
 			{
-				"buffer_size": 7432,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/js/animator.js",
-			"settings":
-			{
-				"buffer_size": 259,
+				"buffer_size": 5622,
 				"line_ending": "Windows"
 			}
 		},
@@ -563,53 +555,25 @@
 			"file": "src/js/controls.js",
 			"settings":
 			{
-				"buffer_size": 882,
+				"buffer_size": 2595,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "src/js/main.js",
+			"contents": "Searching 36 files for \"circle.val\"\n\nD:\\local\\gl\\GLHRK\\BrainMade\\ux\\cluster\\work\\src\\js\\cluster.js:\n  205  			clusterAxis.rotation.x = (10 / app.controls.level.val) * (Math.PI / 4) + rotationX;\n  206  			clusterAxis.rotation.y = (10 / app.controls.segment.val) * (Math.PI / 4) + rotationY;\n  207: 			clusterAxis.rotation.z = (10 / app.controls.circle.val) * (Math.PI / 4) + rotationZ;\n  208  \n  209  			ring3.rotation.x = rotationX + speed;\n\nD:\\local\\gl\\GLHRK\\BrainMade\\ux\\cluster\\work\\src\\js\\controls.js:\n   19  		iLevel.value = app.controls.level.val;\n   20  		iSegment.value = app.controls.segment.val;\n   21: 		iCircle.value = app.controls.circle.val;\n   22  	};\n   23  \n   ..\n   36  \n   37  	iCircle.addEventListener('input', function() {\n   38: 		app.controls.circle.val = iCircle.value;\n   39  	});\n   40  \n\n5 matches across 2 files\n\n\nSearching 36 files for \"MaterialFactory\"\n\nD:\\local\\gl\\GLHRK\\BrainMade\\ux\\cluster\\work\\src\\js\\main.js:\n   64  	app.initializeControls();\n   65  \n   66: 	new MaterialFactory(app);\n   67  \n   68  	app.animator = new KlusterAnimator();\n\nD:\\local\\gl\\GLHRK\\BrainMade\\ux\\cluster\\work\\src\\js\\material-factory.js:\n    3  'use strict';\n    4  \n    5: function MaterialFactory(app) {\n    6  \n    7  	this.init = function() {\n\n2 matches across 2 files\n\n\nSearching 36 files for \"opacityAdd\"\n\nD:\\local\\gl\\GLHRK\\BrainMade\\ux\\cluster\\work\\src\\js\\controls.js:\n   48  	};\n   49  \n   50: 	app.addControl('opacityAdd', 'Opacity', 0.1, 0, 1, 0.0001);\n   51  \n   52  	iLevel.addEventListener('input', function() {\n\nD:\\local\\gl\\GLHRK\\BrainMade\\ux\\cluster\\work\\src\\js\\main.js:\n   16  	var app = rootScope.getKLU5TER();\n   17  \n   18: 	app.opacityAdd = 0.8;\n   19  \n   20  	app.cluster = {\n\nD:\\local\\gl\\GLHRK\\BrainMade\\ux\\cluster\\work\\src\\js\\material-factory.js:\n   29  			shading: THREE.FlatShading,\n   30  			transparent: true,\n   31: 			opacity: 0.08 + app.opacityAdd\n   32  		});\n   33  \n   ..\n   38  			shading: THREE.FlatShading,\n   39  			transparent: true,\n   40: 			opacity: 0.07 + app.opacityAdd\n   41  		});\n   42  \n   ..\n   47  			shading: THREE.FlatShading,\n   48  			transparent: true,\n   49: 			opacity: 0.06 + app.opacityAdd\n   50  		});\n   51  \n\n5 matches across 3 files\n\n\nSearching 36 files for \"speedX\"\n\nD:\\local\\gl\\GLHRK\\BrainMade\\ux\\cluster\\work\\src\\js\\cluster.js:\n   11  	var rotationZ = 0.01;\n   12  \n   13: 	var rotationSpeedX = 0.0001;\n   14  	var rotationSpeedY = 0.0002;\n   15  	var rotationSpeedZ = 0.0003;\n   ..\n  180  			var rand = Math.random() * 0.001;\n  181  \n  182: 			// rotationX += rotationSpeedX + app.speedX * speed;\n  183  			// rotationY += rotationSpeedY + rand;\n  184: 			rotationZ += rotationSpeedZ + app.speedX + app.speedY * speed;\n  185  \n  186  			// clusterAxis.rotation.x += 0.0005;// + speed;\n\nD:\\local\\gl\\GLHRK\\BrainMade\\ux\\cluster\\work\\src\\js\\controls.js:\n    9  	var iCircle = document.getElementById('input-circle');\n   10  \n   11: 	app.speedX = 0;\n   12  	app.speedY = 0;\n   13  	app.curMouseX = 0;\n   ..\n   75  		app.curMouseX = event.clientX;\n   76  		app.curMouseY = event.clientY;\n   77: 		app.speedX = app.prevMouseX - app.curMouseX;\n   78  		app.speedY = app.prevMouseY - app.curMouseY;\n   79  \n   80: 		// console.log(app.speedX, app.speedY);\n   81  	});\n   82  \n\n7 matches across 2 files\n",
 			"settings":
 			{
-				"buffer_size": 2556,
-				"line_ending": "Windows"
+				"buffer_size": 3269,
+				"line_ending": "Windows",
+				"name": "Find Results",
+				"scratch": true
 			}
 		},
 		{
-			"contents": "<!DOCTYPE html>\n<html>\n	<head>\n		<meta charset=utf-8>\n		<title>My first Three.js app</title>\n		<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">\n	</head>\n	<body>\n\n		<!-- some controls -->\n\n		<div class=\"klapp-controls\">\n		    <form class=\"cluster-controls\">\n		        <p>\n		            <label for=\"input-level\">Level</label>\n		            <input type=\"range\" id=\"input-level\" min=\"1\" max=\"10\" step=\"0.0001\" />\n		        </p>\n		        <p>\n		            <label for=\"input-segment\">Segment</label>\n		            <input type=\"range\" id=\"input-segment\" min=\"1\" max=\"10\" step=\"0.0001\" />\n		        </p>\n		        <p>\n		            <label for=\"input-circle\">Circle</label>\n		            <input type=\"range\" id=\"input-circle\" min=\"1\" max=\"10\" step=\"0.0001\" />\n		        </p>\n		    </form>\n		</div>\n\n		<script src=\"js/three/build/three.min.js\"></script>\n		<script src='js/three/examples/js/libs/dat.gui.min.js'></script>\n		<script src=\"js/three/examples/js/controls/OrbitControls.js\"></script>\n		<script src=\"js/three/examples/js/geometries/TextGeometry.js\"></script>\n		<script src=\"js/three/examples/js/utils/FontUtils.js\"></script>\n		<script src=\"js/three/examples/fonts/gentilis_bold.typeface.js\"></script>\n		<script src=\"js/three/examples/fonts/gentilis_regular.typeface.js\"></script>\n		<script src=\"js/three/examples/fonts/optimer_bold.typeface.js\"></script>\n		<script src=\"js/three/examples/fonts/optimer_regular.typeface.js\"></script>\n		<script src=\"js/three/examples/fonts/helvetiker_bold.typeface.js\"></script>\n		<script src=\"js/three/examples/fonts/helvetiker_regular.typeface.js\"></script>\n		<script src=\"js/three/examples/fonts/droid/droid_serif_regular.typeface.js\"></script>\n		<script src=\"js/three/examples/fonts/droid/droid_serif_bold.typeface.js\"></script>\n\n		<script src='js/three/geometry.js'></script>\n\n		<script src=\"js/config.js\"></script>\n		<script src=\"js/material-factory.js\"></script>\n		<script src=\"js/ring.js\"></script>\n		<script src=\"js/cluster.js\"></script>\n		<script src=\"js/cube.js\"></script>\n		<script src=\"js/text.js\"></script>\n		<script src=\"js/controls.js\"></script>\n		<script src=\"js/animator.js\"></script>\n		<script src=\"js/main.js\"></script>\n	</body>\n</html>",
 			"file": "src/index.html",
-			"file_size": 2253,
-			"file_write_time": 130907123224094729,
 			"settings":
 			{
-				"buffer_size": 2199,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "",
-			"file": "src/main.css",
-			"file_size": 425,
-			"file_write_time": 130907123225856028,
-			"settings":
-			{
-				"buffer_size": 0,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "cluster.sublime-project",
-			"settings":
-			{
-				"buffer_size": 47,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/css/main.css",
-			"settings":
-			{
-				"buffer_size": 1070,
+				"buffer_size": 2291,
 				"line_ending": "Windows"
 			}
 		}
@@ -762,17 +726,20 @@
 	],
 	"file_history":
 	[
+		"/C/Users/Rostyslav.Siryk/AppData/Roaming/.minecraft/versions/1.8-Forge11.14.3.1450/1.8-Forge11.14.3.1450.json",
+		"/C/Users/Rostyslav.Siryk/AppData/Roaming/.minecraft/launcher_profiles.json",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/ring.js",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/animator.js",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/css/main.css",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/main.css",
+		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/cluster.sublime-project",
 		"/C/Users/Rostyslav.Siryk/AppData/Roaming/Sublime Text 3/Packages/JSHint Gutter/JSHint.sublime-settings",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/text.js",
-		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/ring.js",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/material-factory.js",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/cluster.js",
-		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/animator.js",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/controls.js",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/main.js",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/index.html",
-		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/main.css",
-		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/css/main.css",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/config.js",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/cube.js",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/.jshintrc",
@@ -784,7 +751,6 @@
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/1",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/package.json",
 		"/D/stuff/2015/fr/backup/local/toys/fradio/css/fradio.css",
-		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/cluster.sublime-project",
 		"/D/local/gl/Training-2-QA2JS/lessons/lesson-06/lesson-06.js",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/three-test.js",
 		"/D/local/gl/GLHRK/BrainMade/ux/cluster/work/src/js/three-test-0.js",
@@ -887,9 +853,7 @@
 		"/D/stuff/2015/egov/igov/i/central-js/server/api/service/messages/get.js",
 		"/D/stuff/2015/egov/igov/i/central-js/server/api/messages/index.controller.js",
 		"/D/stuff/2015/egov/igov/i/central-js/client/app/service/place/templates/absent.html",
-		"/D/stuff/2015/egov/igov/i/central-js/client/app/common/components/form/directives/place/place.html",
-		"/D/stuff/2015/egov/igov/i/central-js/_/_run.bat",
-		"/D/local/et/CloudPages/messages/su-2015-10-12.txt"
+		"/D/stuff/2015/egov/igov/i/central-js/client/app/common/components/form/directives/place/place.html"
 	],
 	"find":
 	{
@@ -952,6 +916,33 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"mod",
+			"speedX",
+			"sppedX",
+			"app.opacityAdd",
+			"createCluster",
+			"opacityAdd",
+			"MaterialFactory",
+			"opa",
+			"label",
+			"speed",
+			"spee",
+			"segments",
+			"cluster",
+			"cluster\n",
+			"cluster",
+			"сдгые",
+			"SplineCurve3",
+			"circle.val",
+			"curMouseX",
+			"this",
+			"thuis",
+			"self",
+			"3",
+			"levelheight",
+			"height",
+			"getChunk",
+			"count",
 			"rotationSpeedX",
 			"3",
 			"radiusAvg",
@@ -1052,34 +1043,7 @@
 			".add",
 			"ring",
 			"scene",
-			"text",
-			"renderer",
-			"scene",
-			"scecn",
-			"scene",
-			";\n",
-			"ringFactory",
-			"stepIncrease",
-			"renderer",
-			"camera",
-			"lights",
-			"initOrbit",
-			"camera",
-			"initScene",
-			"scene",
-			"onDocumentMouseDown",
-			"mouse",
-			"composer",
-			"effectFXAA",
-			"onDocumentMouseDown",
-			"render",
-			"animate",
-			"render",
-			"fakepath",
-			"onWindowResize",
-			"effectFilm",
-			"effectBloom",
-			"effectBloom "
+			"text"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1087,6 +1051,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			"kluster",
+			"app",
 			"clusterAxis",
 			"cyl",
 			"'",
@@ -1212,9 +1178,7 @@
 			" required ng-model-options=\"{ updateOn: 'blur' }>",
 			"bValid",
 			"markerName",
-			"validationClosure",
-			"existingValidator",
-			"validatorNameByMarkerName"
+			"validationClosure"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -1225,7 +1189,7 @@
 	"groups":
 	[
 		{
-			"selected": 9,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -1254,24 +1218,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "src/js/ring.js",
+					"file": "src/js/main.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1022,
+						"buffer_size": 2674,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								1596,
+								1596
 							]
 						],
 						"settings":
@@ -1280,10 +1244,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 798.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -1292,15 +1256,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1667,
+						"buffer_size": 1851,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								676,
+								676
 							]
 						],
 						"settings":
@@ -1309,10 +1273,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 158.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
@@ -1321,7 +1285,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7432,
+						"buffer_size": 5622,
 						"regions":
 						{
 						},
@@ -1341,53 +1305,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
 					"buffer": 4,
-					"file": "src/js/animator.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 259,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
 					"file": "src/js/controls.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 882,
+						"buffer_size": 2595,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								244,
+								250
 							]
 						],
 						"settings":
@@ -1399,53 +1334,142 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3269,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										344,
+										354
+									],
+									[
+										616,
+										626
+									],
+									[
+										644,
+										654
+									],
+									[
+										766,
+										776
+									],
+									[
+										780,
+										790
+									],
+									[
+										998,
+										1013
+									],
+									[
+										1192,
+										1207
+									],
+									[
+										1428,
+										1438
+									],
+									[
+										1657,
+										1667
+									],
+									[
+										1877,
+										1887
+									],
+									[
+										2012,
+										2022
+									],
+									[
+										2147,
+										2157
+									],
+									[
+										2361,
+										2367
+									],
+									[
+										2544,
+										2550
+									],
+									[
+										2557,
+										2563
+									],
+									[
+										2666,
+										2672
+									],
+									[
+										2909,
+										2915
+									],
+									[
+										3071,
+										3077
+									],
+									[
+										3202,
+										3208
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								2668,
+								2668
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"line_numbers": false,
+							"output_tag": 4,
+							"result_base_dir": "",
+							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1230.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 6,
-					"file": "src/js/main.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2556,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
 					"file": "src/index.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2199,
+						"buffer_size": 2291,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								279,
+								279
 							]
 						],
 						"settings":
@@ -1457,93 +1481,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "src/main.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 0,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "cluster.sublime-project",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 47,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								47,
-								47
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "src/css/main.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1070,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								651,
-								651
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
+					"stack_index": 4,
 					"type": "text"
 				}
 			]
