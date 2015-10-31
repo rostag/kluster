@@ -8,8 +8,12 @@
 	var camera;
 	var renderer;
 	var lights;
-
 	var time;
+
+	var mouseX = 0, mouseY = 0,
+
+	windowHalfX = window.innerWidth / 2,
+	windowHalfY = window.innerHeight / 2;
 
 	var app = rootScope.getKLU5TER();
 
@@ -99,6 +103,10 @@
 		renderer.setClearColor(scene.fog.color);
 		renderer.setPixelRatio(window.devicePixelRatio);
 
+		document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+		document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+		document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+
 		document.body.appendChild(renderer.domElement);
 	}
 
@@ -124,12 +132,50 @@
 		scene.add(lights[2]);
 	}
 
+	function onDocumentMouseMove(event) {
+
+		mouseX = event.clientX - windowHalfX;
+		mouseY = event.clientY - windowHalfY;
+
+	}
+
+	function onDocumentTouchStart( event ) {
+
+		if ( event.touches.length > 1 ) {
+
+			event.preventDefault();
+
+			mouseX = event.touches[ 0 ].pageX - windowHalfX;
+			mouseY = event.touches[ 0 ].pageY - windowHalfY;
+
+		}
+
+	}
+
+	function onDocumentTouchMove( event ) {
+
+		if ( event.touches.length == 1 ) {
+
+			event.preventDefault();
+
+			mouseX = event.touches[ 0 ].pageX - windowHalfX;
+			mouseY = event.touches[ 0 ].pageY - windowHalfY;
+
+		}
+
+	}
+	
 	function render() {
 		requestAnimationFrame(render);
 		time = Date.now() * 0.001;
 
 		cluster.onRender();
-		renderer.render(scene, camera);
+		
+		camera.position.x += ( mouseX - camera.position.x ) * .05;
+		camera.position.y += ( - mouseY + 200 - camera.position.y ) * .05;
+		camera.lookAt( scene.position );
+		
+		renderer.render( scene, camera );
 	}
 
 	render();
