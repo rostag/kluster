@@ -33,7 +33,7 @@
 		x: 0,
 		y: 0,
 		z: 0,
-		segments: 36,
+		segments: 8,
 		innerRadius: 9,
 		outerRadius: 10,
 		phiSegments: 3,
@@ -63,7 +63,8 @@
 
 	app.initializeControls();
 
-	new MaterialFactory(app);
+	app.materialFactory = new MaterialFactory(app);
+	app.materialFactory.init();
 
 	app.animator = new KlusterAnimator();
 	app.animator.start();
@@ -82,7 +83,7 @@
 
 	cluster.translateX(	9 );
 
-	scene.add(cluster);
+	// scene.add(cluster);
 
 	// scene.add(app.factories.cube.getCube());
 	// textFactory(app);

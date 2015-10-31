@@ -21,36 +21,18 @@ function ClusterFactory(app) {
 	var ring2;
 	var chunks = [];
 
+	this.rebuildCluster = function() {
+		this.deleteCluster();
+		app.materialFactory.init();
+		this.createCluster(app.cluster.config);
+	};
+
+	/**
+	 * @todo
+	 */
 	function highlightKlusters(levels, segments, circles) {
 		console.log('highlightKlusters: ', levels, segments, circles);
 	}
-
-	// radiusTop — Radius of the cylinder at the top. Default is 20.
-	// radiusBottom — Radius of the cylinder at the bottom. Default is 20.
-	// height — Height of the cylinder. Default is 100.
-	// radiusSegments — Number of segmented faces around the circumference of the cylinder. Default is 8
-	// heightSegments — Number of rows of faces along the height of the cylinder. Default is 1.
-	// openEnded — A Boolean indicating whether the ends of the cylinder are open or capped. Default is false, meaning capped.
-	// thetaStart — Start angle for first segment, default = 0 (three o'clock position).
-	// thetaLength — The central angle, often called theta, of the circular sector. The default is 2*Pi, which makes for a complete cylinder.
-	this.getCyl = function(level, segment, circle, radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded) {
-
-		var segmentLength = (Math.PI * 2) / radiusSegments;
-		var tStart = segment * segmentLength;
-		var tLength = segmentLength * app.cluster.config.segmentsSpacing;
-
-		// console.log('tStart = ', tStart, 'tLength = ', tLength, radiusSegments);
-		var cylGeom = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded, tStart, tLength);
-
-		var cyl = new THREE.Mesh(cylGeom, app.phongCylinderMaterial);
-		cyl.add(new THREE.LineSegments(
-			cylGeom, app.lineMaterial
-		));
-		cyl.translateY(level * app.cluster.config.levelsSpacing);
-		// cyls[i] = ring;
-
-		return cyl;
-	};
 
 	this.getChunk = function(level, segment, circle, innerRadius, outerRadius, levelheight, radiusSegments, heightSegments) {
 
@@ -91,7 +73,7 @@ function ClusterFactory(app) {
 
 		// //////////////////////////////////////////////////
 
-		var closedSpline = new THREE.SplineCurve3([
+		var closedSpline = new THREE.CatmullRomCurve3([
 			new THREE.Vector3(xx, yy, level),
 			new THREE.Vector3(xx, yy, level + levelheight / app.cluster.config.levelsSpacing)
 		]);
@@ -193,18 +175,18 @@ function ClusterFactory(app) {
 
 		clusterAxis.onRender = function() {
 
-			speed += 0.00001 ;
+			speed += 0.00001;
 
 			var rand = Math.random() * 0.001;
 
 			// rotationX += rotationSpeedX + app.speedX * speed;
 			// rotationY += rotationSpeedY + rand;
-			rotationZ += rotationSpeedZ + app.speedY * speed;
+			rotationZ += rotationSpeedZ + app.speedX + app.speedY * speed;
 
 			// clusterAxis.rotation.x += 0.0005;// + speed;
 			clusterAxis.rotation.x = (10 / app.controls.level.val) * (Math.PI / 4) + rotationX;
 			clusterAxis.rotation.y = (10 / app.controls.segment.val) * (Math.PI / 4) + rotationY;
-			clusterAxis.rotation.z = (10 / app.controls.circle.val) * (Math.PI / 4) + rotationZ;
+			clusterAxis.rotation.z = rotationZ;
 
 			ring3.rotation.x = rotationX + speed;
 			ring3.rotation.y = rotationY + rand;
@@ -213,6 +195,9 @@ function ClusterFactory(app) {
 			ring2.rotation.y = rotationX + speed + rand;
 		};
 
+		app.scene.add(clusterAxis);
+
 		return clusterAxis;
+
 	};
 }
