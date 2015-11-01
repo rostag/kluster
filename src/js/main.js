@@ -171,9 +171,9 @@
 
 		cluster.onRender();
 		
-		camera.position.x += ( mouseX - camera.position.x ) * .05;
-		camera.position.y += ( - mouseY + 200 - camera.position.y ) * .05;
-		camera.lookAt( scene.position );
+		// camera.position.x += ( mouseX - camera.position.x ) * .05;
+		// camera.position.y += ( - mouseY + 200 - camera.position.y ) * .05;
+		// camera.lookAt( scene.position );
 		
 		renderer.render( scene, camera );
 	}
