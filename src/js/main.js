@@ -1,5 +1,7 @@
 /* globals THREE, ClusterFactory */
 
+// @todo Implement timeSpeedFunction
+
 'use strict';
 
 (function(rootScope) {
@@ -17,17 +19,17 @@
 
 	var app = rootScope.getKLU5TER();
 
-	app.opacityAdd = 0.6;
+	app.opacityAdd = 0.8;
 
 	app.cluster = {
 		config: {
-			segments: 28,
+			segments: 8,
 			segmentsSpacing: 0.96,
-			levels: 5,
+			levels: 1,
 			levelsSpacing: 1.2,
-			circles: 3,
+			circles: 1,
 			height: 10,
-			radius: 20
+			radius: 10
 		}
 	};
 
@@ -35,7 +37,7 @@
 		x: 0,
 		y: 0,
 		z: 0,
-		segments: 36,
+		segments: 8,
 		innerRadius: 9,
 		outerRadius: 10,
 		phiSegments: 3,
@@ -44,26 +46,29 @@
 	};
 
 	app.cameraSettings = {
-		FOV: 75,
+		FOV: 95,
 		antialias: true,
 		position: {
-			z: 8
+			z: 18
 		}
 	};
 
 	app.controls = {
 		level: {
-			val: 3
+			val: 0.1
 		},
 		segment: {
-			val: 3
+			val: 2.7
 		},
 		circle: {
-			val: 3
+			val: 4
 		}
 	};
 
-	new MaterialFactory(app);
+	app.initializeControls();
+
+	app.materialFactory = new MaterialFactory(app);
+	app.materialFactory.init();
 
 	app.animator = new KlusterAnimator();
 	app.animator.start();
@@ -80,7 +85,9 @@
 	app.clusterFactory = new ClusterFactory(app);
 	var cluster = app.clusterFactory.createCluster(app.cluster.config);
 
-	scene.add(cluster);
+	cluster.translateX(	9 );
+
+	// scene.add(cluster);
 
 	// scene.add(app.factories.cube.getCube());
 	// textFactory(app);
