@@ -23,11 +23,11 @@
 
 	app.cluster = {
 		config: {
-			segments: 8,
+			segments: 16,
+			levels: 5,
+			circles: 3,
 			segmentsSpacing: 0.96,
-			levels: 1,
 			levelsSpacing: 1.2,
-			circles: 1,
 			height: 10,
 			radius: 10
 		}
