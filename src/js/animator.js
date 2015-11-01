@@ -9,11 +9,11 @@ function KlusterAnimator() {
 	var timeOut;
 
 	this.start = function() {
-		timeOut = setTimeout(function() {
+		timeOut = setInterval(function() {
 			
 			app.controls.level.val += 0.1;
 
-			console.log(app.controls.level.val);
+			// console.log(app.controls.level.val);
 
 		}, 100);
 	};

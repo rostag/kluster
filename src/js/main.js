@@ -23,7 +23,7 @@
 
 	app.cluster = {
 		config: {
-			segments: 16,
+			segments: 8,
 			levels: 5,
 			circles: 3,
 			segmentsSpacing: 0.96,
@@ -49,7 +49,7 @@
 		FOV: 95,
 		antialias: true,
 		position: {
-			z: 8
+			z: 28
 		}
 	};
 
@@ -178,9 +178,12 @@
 
 		cluster.onRender();
 		
-		// camera.position.x += ( mouseX - camera.position.x ) * .05;
-		// camera.position.y += ( - mouseY + 200 - camera.position.y ) * .05;
+		// var dX = ( mouseX - camera.position.x ) * 1;
+		var dY = ( - mouseY - 200 - camera.position.y ) * 1;
+		// camera.position.x += dX;
+		// camera.position.y += dY;
 		// camera.lookAt( scene.position );
+		camera.lookAt( cluster.position );
 		
 		renderer.render( scene, camera );
 	}
