@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8>
+    <title>Kluster Three</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+
+<body>
+    <div class="klapp-controls">
+        <!-- some controls -->
+        <form class="cluster-controls" id="cControls">
+            <p>
+                <input type="range" id="input-level" min="1" max="10" step="0.0001" />
+                <label for="input-level">Level</label>
+            </p>
+            <p>
+                <input type="range" id="input-segment" min="1" max="10" step="0.0001" />
+                <label for="input-segment">Segment</label>
+            </p>
+            <p>
+                <input type="range" id="input-circle" min="1" max="10" step="0.0001" />
+                <label for="input-circle">Circle</label>
+            </p>
+        </form>
+    </div>
+    <script src="js/three/build/three.min.js"></script>
+    <script src='js/three/examples/js/libs/dat.gui.min.js'></script>
+    <script src="js/three/examples/js/controls/OrbitControls.js"></script>
+    <script src="js/three/examples/js/geometries/TextGeometry.js"></script>
+    <script src="js/three/examples/js/utils/FontUtils.js"></script>
+    <script src="js/three/examples/fonts/gentilis_bold.typeface.js"></script>
+    <script src="js/three/examples/fonts/gentilis_regular.typeface.js"></script>
+    <script src="js/three/examples/fonts/optimer_bold.typeface.js"></script>
+    <script src="js/three/examples/fonts/optimer_regular.typeface.js"></script>
+    <script src="js/three/examples/fonts/helvetiker_bold.typeface.js"></script>
+    <script src="js/three/examples/fonts/helvetiker_regular.typeface.js"></script>
+    <script src="js/three/examples/fonts/droid/droid_serif_regular.typeface.js"></script>
+    <script src="js/three/examples/fonts/droid/droid_serif_bold.typeface.js"></script>
+    <script src='js/three/geometry.js'></script>
+    <script src="js/config.js"></script>
+    <script src="js/material-factory.js"></script>
+    <script src="js/ring.js"></script>
+    <script src="js/cluster.js"></script>
+    <script src="js/cube.js"></script>
+    <script src="js/text.js"></script>
+    <script src="js/controls.js"></script>
+    <script src="js/animator.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
