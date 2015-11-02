@@ -131,8 +131,7 @@ function ClusterFactory(app) {
 
 	this.createCluster = function(options) {
 
-		var geometry = new THREE.CylinderGeometry(0.0001, 0.0001, options.height, 8);
-
+		var geometry = new THREE.CylinderGeometry(0.1, 0.1, options.height, 8);
 		clusterAxis = new THREE.Mesh(geometry, app.lineMaterial);
 
 		ringFactory = new RingFactory(app);
@@ -171,7 +170,10 @@ function ClusterFactory(app) {
 		});
 
 		clusterAxis.rotation.x = Math.PI / 2;
-		clusterAxis.rotation.y = -Math.PI / 2;
+		// clusterAxis.rotation.y = -Math.PI / 2;
+		// clusterAxis.rotation.z = -Math.PI / 2;
+
+		clusterAxis.translateZ(	-options.height );
 
 		clusterAxis.onRender = function() {
 
@@ -181,12 +183,16 @@ function ClusterFactory(app) {
 
 			// rotationX += rotationSpeedX + app.speedX * speed;
 			// rotationY += rotationSpeedY + rand;
-			rotationZ += rotationSpeedZ + app.speedY * speed;
+			// 
+			// rotationZ += rotationSpeedZ + app.speedY * speed;
+			// rotationZ += rotationSpeedZ + speed;
 
 			// clusterAxis.rotation.x += 0.0005;// + speed;
 			// clusterAxis.rotation.x = (10 / app.controls.level.val) * (Math.PI / 4) + rotationX;
 			// clusterAxis.rotation.y = (10 / app.controls.segment.val) * (Math.PI / 4) + rotationY;
-			clusterAxis.rotation.z = rotationZ;
+			// clusterAxis.rotation.z = rotationZ;
+
+			console.log( clusterAxis.rotation );
 
 			ring3.rotation.x = rotationX + speed;
 			ring3.rotation.y = rotationY + rand;

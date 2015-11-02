@@ -85,8 +85,6 @@
 	app.clusterFactory = new ClusterFactory(app);
 	var cluster = app.clusterFactory.createCluster(app.cluster.config);
 
-	cluster.translateX(	9 );
-
 	// scene.add(cluster);
 
 	// scene.add(app.factories.cube.getCube());
@@ -96,6 +94,9 @@
 		// scene 
 		scene = new THREE.Scene();
 		scene.fog = new THREE.Fog(0x000000, 250, 1400);
+
+		scene.add(new THREE.AxisHelper(30));
+		scene.add(new THREE.GridHelper(100,10));		
 
 		// camera
 		camera = new THREE.PerspectiveCamera(app.cameraSettings.FOV, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -147,29 +148,21 @@
 	}
 
 	function onDocumentTouchStart( event ) {
-
 		if ( event.touches.length > 1 ) {
-
 			event.preventDefault();
 
 			mouseX = event.touches[ 0 ].pageX - windowHalfX;
 			mouseY = event.touches[ 0 ].pageY - windowHalfY;
-
 		}
-
 	}
 
 	function onDocumentTouchMove( event ) {
-
 		if ( event.touches.length == 1 ) {
-
 			event.preventDefault();
 
 			mouseX = event.touches[ 0 ].pageX - windowHalfX;
 			mouseY = event.touches[ 0 ].pageY - windowHalfY;
-
 		}
-
 	}
 	
 	function render() {
@@ -183,7 +176,7 @@
 		// camera.position.x += dX;
 		// camera.position.y += dY;
 		// camera.lookAt( scene.position );
-		camera.lookAt( cluster.position );
+		// camera.lookAt( cluster.position );
 		
 		renderer.render( scene, camera );
 	}
