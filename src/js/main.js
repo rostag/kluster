@@ -70,9 +70,6 @@
 	app.materialFactory = new MaterialFactory(app);
 	app.materialFactory.init();
 
-	app.animator = new KlusterAnimator();
-	app.animator.start();
-
 	initScene();
 	initOrbit();
 	initLights();
@@ -84,8 +81,10 @@
 
 	app.clusterFactory = new ClusterFactory(app);
 	var cluster = app.clusterFactory.createCluster(app.cluster.config);
+	app.clusterAxis = cluster;
 
-	// scene.add(cluster);
+	app.animator = new KlusterAnimator();
+	app.animator.start();
 
 	// scene.add(app.factories.cube.getCube());
 	// textFactory(app);
@@ -96,7 +95,7 @@
 		scene.fog = new THREE.Fog(0x000000, 250, 1400);
 
 		scene.add(new THREE.AxisHelper(30));
-		scene.add(new THREE.GridHelper(100,10));		
+		// scene.add(new THREE.GridHelper(100,10));		
 
 		// camera
 		camera = new THREE.PerspectiveCamera(app.cameraSettings.FOV, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -118,9 +117,17 @@
 		document.body.appendChild(renderer.domElement);
 	}
 
+	var orbit;
+
 	function initOrbit() {
-		var orbit = new THREE.OrbitControls(camera, renderer.domElement);
+		orbit = new THREE.OrbitControls(camera, renderer.domElement);
 		orbit.enableZoom = true;
+		// orbit.autoRotate = true;
+		// orbit.autoRotate: = true;
+
+		// orbit.enableDamping = true;
+		// orbit.dampingFactor = 0.25;
+		// orbit.enableZoom = false;
 	}
 
 	function initLights() {
@@ -167,6 +174,9 @@
 	
 	function render() {
 		requestAnimationFrame(render);
+
+		orbit.update();
+
 		time = Date.now() * 0.001;
 
 		cluster.onRender();
@@ -178,6 +188,10 @@
 		// camera.lookAt( scene.position );
 		// camera.lookAt( cluster.position );
 		
+		// console.log(orbit);
+
+		TWEEN.update();
+
 		renderer.render( scene, camera );
 	}
 

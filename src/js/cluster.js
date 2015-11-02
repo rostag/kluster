@@ -192,8 +192,6 @@ function ClusterFactory(app) {
 			// clusterAxis.rotation.y = (10 / app.controls.segment.val) * (Math.PI / 4) + rotationY;
 			// clusterAxis.rotation.z = rotationZ;
 
-			console.log( clusterAxis.rotation );
-
 			ring3.rotation.x = rotationX + speed;
 			ring3.rotation.y = rotationY + rand;
 
