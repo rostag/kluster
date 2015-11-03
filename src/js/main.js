@@ -19,7 +19,9 @@
 
 	var app = rootScope.getKLU5TER();
 
-	app.opacityAdd = 0.8;
+	app.opacityAdd = 0.1;
+
+	app.isDebug = false;
 
 	app.cluster = {
 		config: {
@@ -47,7 +49,7 @@
 
 	app.cameraSettings = {
 		FOV: 95,
-		antialias: true,
+		antialias: !app.isDebug,
 		position: {
 			z: 28
 		}
@@ -94,7 +96,9 @@
 		scene = new THREE.Scene();
 		scene.fog = new THREE.Fog(0x000000, 250, 1400);
 
-		scene.add(new THREE.AxisHelper(30));
+		if ( app.isDebug ) {
+			scene.add(new THREE.AxisHelper(30));
+		}
 		// scene.add(new THREE.GridHelper(100,10));		
 
 		// camera

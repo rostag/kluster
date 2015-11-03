@@ -1,8 +1,10 @@
-/* globals THREE */
+/* globals THREE, console */
 
 'use strict';
 
 function ClusterFactory(app) {
+
+	var self = this;
 
 	var clusterAxis;
 
@@ -20,6 +22,7 @@ function ClusterFactory(app) {
 	var ring3;
 	var ring2;
 	var chunks = [];
+	var hiliters = [];
 
 	this.rebuildCluster = function() {
 		this.deleteCluster();
@@ -27,16 +30,32 @@ function ClusterFactory(app) {
 		this.createCluster(app.cluster.config);
 	};
 
+	// highlightKlusters( {levels: [1,5], segments:[1], circles: [1,1]});
+
 	/**
 	 * @todo
 	 */
-	function highlightKlusters(levels, segments, circles) {
-		console.log('highlightKlusters: ', levels, segments, circles);
+	function highlightChunk(options) {
+		console.log('highlightChunk: ', options);
+
+		var hiliterChunk = getChunk(options.level, options.segment, options.circle, app.cylCircleHiliter);
+
+		clusterAxis.add(hiliterChunk);
+
+		hiliters.push[hiliterChunk];
 	}
 
-	this.getChunk = function(level, segment, circle, innerRadius, outerRadius, levelheight, radiusSegments, heightSegments) {
+	function getChunk(level, segment, circle, givenMaterial, expandFactor) {
 
-		var segmentLength = (Math.PI * 2) / radiusSegments;
+		var e = expandFactor || 0;
+
+		var innerRadius = app.ringOptions.innerRadius;
+		var outerRadius = app.ringOptions.outerRadius;
+
+		var lvl = level * self.options.levelheight;
+
+		var segmentLength = (Math.PI * 2) / self.options.segments;
+
 		var tStart = segment * segmentLength;
 		var tLength = segmentLength * app.cluster.config.segmentsSpacing;
 
@@ -49,19 +68,8 @@ function ClusterFactory(app) {
 			cylMaterial = app.cylCircleOut;
 		}
 
-		var ring = ringFactory.createRing({
-			x: 0,
-			y: 0,
-			z: 0,
-			innerRadius: circle * radiusStep,
-			outerRadius: circle * radiusStep + radiusStep * 0.9,
-			segments: 8,
-			phiSegments: 100,
-			thetaStart: tStart,
-			thetaLength: tLength,
-			// app.cylCircleCore : cylCircleCore : cylCircleCore
-			material: cylMaterial
-		});
+		// if material is given, use it
+		cylMaterial = givenMaterial || cylMaterial;
 
 		var radiusAvg = ((circle * radiusStep) * 2 + radiusStep * 0.9) / 2;
 		var thetaAvg = tStart + tLength / 2;
@@ -69,13 +77,11 @@ function ClusterFactory(app) {
 		var xx = Math.sin(thetaAvg) * radiusAvg; // + THREE.Math.random16() / 4;
 		var yy = Math.cos(thetaAvg) * radiusAvg; // + THREE.Math.random16() / 4;
 
-		ring.translateZ(level * app.cluster.config.levelsSpacing);
-
 		// //////////////////////////////////////////////////
 
 		var closedSpline = new THREE.CatmullRomCurve3([
-			new THREE.Vector3(xx, yy, level),
-			new THREE.Vector3(xx, yy, level + levelheight / app.cluster.config.levelsSpacing)
+			new THREE.Vector3(xx, yy, lvl),
+			new THREE.Vector3(xx, yy, lvl + self.options.levelheight / app.cluster.config.levelsSpacing)
 		]);
 
 		var extrudeSettings = {
@@ -97,10 +103,15 @@ function ClusterFactory(app) {
 		var innerRadius = circle * radiusStep;
 		var outerRadius = circle * radiusStep + radiusStep * 0.9;
 
-		pts.push(new THREE.Vector2(Math.sin(tStart) * innerRadius, Math.cos(tStart) * innerRadius));
-		pts.push(new THREE.Vector2(Math.sin(tStart) * outerRadius, Math.cos(tStart) * outerRadius));
-		pts.push(new THREE.Vector2(Math.sin(tStart + tLength) * outerRadius, Math.cos(tStart + tLength) * outerRadius));
-		pts.push(new THREE.Vector2(Math.sin(tStart + tLength) * innerRadius, Math.cos(tStart + tLength) * innerRadius));
+		// pts.push(new THREE.Vector2(Math.sin(tStart) * innerRadius, Math.cos(tStart) * innerRadius));
+		// pts.push(new THREE.Vector2(Math.sin(tStart) * outerRadius, Math.cos(tStart) * outerRadius));
+		// pts.push(new THREE.Vector2(Math.sin(tStart + tLength) * outerRadius, Math.cos(tStart + tLength) * outerRadius));
+		// pts.push(new THREE.Vector2(Math.sin(tStart + tLength) * innerRadius, Math.cos(tStart + tLength) * innerRadius));
+
+		pts.push(new THREE.Vector2(Math.sin(tStart) * innerRadius + e, Math.cos(tStart) * innerRadius + e));
+		pts.push(new THREE.Vector2(Math.sin(tStart) * outerRadius + e, Math.cos(tStart) * outerRadius + e));
+		pts.push(new THREE.Vector2(Math.sin(tStart + tLength) * outerRadius + e, Math.cos(tStart + tLength) * outerRadius + e));
+		pts.push(new THREE.Vector2(Math.sin(tStart + tLength) * innerRadius + e, Math.cos(tStart + tLength) * innerRadius + e));
 
 		var shape = new THREE.Shape(pts);
 		var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
@@ -119,9 +130,6 @@ function ClusterFactory(app) {
 			clusterAxis.remove(chunk);
 		}
 
-		// ring3 = ringFactory.createRing(app.ringOptions);
-		// ring2 = ringFactory.createRing(app.ringOptions);
-
 		clusterAxis.remove(ring3);
 		clusterAxis.remove(ring2);
 
@@ -136,7 +144,8 @@ function ClusterFactory(app) {
 
 		ringFactory = new RingFactory(app);
 
-		var levelheight = (options.height / options.levels);
+		self.options = options;
+		self.options.levelheight = (options.height / options.levels);
 
 		var level;
 		var segment;
@@ -147,8 +156,7 @@ function ClusterFactory(app) {
 		for (level = 0; level < options.levels; level++) {
 			for (segment = 0; segment < options.segments; segment++) {
 				for (circle = 0; circle < options.circles; circle++) {
-					// clusterAxis.add(this.getCyl(level * levelheight, segment, circle, options.radius, options.radius, levelheight, options.segments, 1, false));
-					chunk = this.getChunk(level * levelheight, segment, circle, app.ringOptions.innerRadius, app.ringOptions.outerRadius, levelheight, options.segments, 1);
+					chunk = getChunk(level, segment, circle);
 					clusterAxis.add(chunk);
 					chunks.push[chunk];
 				}
@@ -173,7 +181,7 @@ function ClusterFactory(app) {
 		// clusterAxis.rotation.y = -Math.PI / 2;
 		// clusterAxis.rotation.z = -Math.PI / 2;
 
-		clusterAxis.translateZ(	-options.height );
+		clusterAxis.translateZ(-options.height);
 
 		clusterAxis.onRender = function() {
 
@@ -198,6 +206,13 @@ function ClusterFactory(app) {
 			ring2.rotation.x = rotationY;
 			ring2.rotation.y = rotationX + speed + rand;
 		};
+
+		// Hiliters
+		highlightChunk({
+			level: 1,
+			segment: 2,
+			circle: 2
+		});
 
 		app.scene.add(clusterAxis);
 

@@ -8,7 +8,12 @@ function KlusterAnimator() {
 
 	var app = KLU5TER;
 
-	// var camera = app.camera;
+	var camera = app.camera;
+
+	var easingFunc = TWEEN.Easing.Elastic.Out;
+	easingFunc = TWEEN.Easing.Circular.Out;
+	easingFunc = TWEEN.Easing.Linear.None;
+
 	// p = { x, y, z, theta, phi, psi };
 	function setClusterPosition(p) {
 		var o = app.clusterAxis;
@@ -17,14 +22,14 @@ function KlusterAnimator() {
 				y: p.y,
 				z: p.z
 			}, 2000)
-			.easing(TWEEN.Easing.Elastic.Out).start();
+			.easing(easingFunc).start();
 
 		new TWEEN.Tween(o.rotation).to({
 				x: p.theta,
 				y: p.phi,
 				z: p.psi
 			}, 2000)
-			.easing(TWEEN.Easing.Elastic.Out).start();
+			.easing(easingFunc).start();
 	}
 
 	function randomClusterPosition() {
@@ -38,70 +43,85 @@ function KlusterAnimator() {
 		});
 	}
 
+	var clusterPos = {
+		x: 0,
+		y: 0,
+		z: 0,
+		theta: Math.PI,
+		phi: 0,
+		psi: 0
+	}
+
 	var states = [{
 		id: 1,
-		time: 500,
+		time: 1000,
 		name: 'State 1',
 		handler: function() {
-			console.log('state1');
-
+			clusterPos.y = 0;
+			clusterPos.x += 10;
+			setClusterPosition(clusterPos);
 			// app.camera.translateY(5);
-
-			randomClusterPosition();
-
-			var camera = app.camera;
-
-			var selectedObject = app.clusterAxis;
-
-			// var tween = new TWEEN.Tween(camera.position).to({
-			// 	x: selectedObject.position.x,
-			// 	y: selectedObject.position.y,
-			// 	z: 1
-			// }).easing(TWEEN.Easing.Linear.None).onUpdate(function() {
-			// 	camera.lookAt(camera.target);
-			// }).onComplete(function() {
-			// 	camera.lookAt(selectedObject.position);
-			// }).start();
-
-			// var tween = new TWEEN.Tween(camera.target).to({
-			// 	x: selectedObject.position.x,
-			// 	y: selectedObject.position.y,
-			// 	z: 0
-			// }).easing(TWEEN.Easing.Linear.None).onUpdate(function() {}).onComplete(function() {
-			// 	camera.lookAt(selectedObject.position);
-			// }).start();
-
+			// randomClusterPosition();
 		}
 	}, {
 		id: 2,
-		time: 1500,
+		time: 1000,
 		name: 'State 2',
 		handler: function() {
-			console.log('state2');
-			randomClusterPosition();
-			// app.camera.translateY(10);
+			clusterPos.y = 5;
+			clusterPos.theta -= Math.PI / 2;
+			setClusterPosition(clusterPos);
 		}
 	}, {
 		id: 3,
-		time: 2500,
+		time: 1000,
 		name: 'State 3',
 		handler: function() {
-			console.log('state3');
-			randomClusterPosition();
-			// app.camera.translateY(15);
-			// app.camera.translateZ( 0 );
+			clusterPos.y = 10;
+			clusterPos.x -= 10;
+			setClusterPosition(clusterPos);
+		}
+	}, {
+		id: 4,
+		time: 1000,
+		name: 'State 4',
+		handler: function() {
+			clusterPos.y = 5;
+			clusterPos.theta += Math.PI / 2;
+			setClusterPosition(clusterPos);
 		}
 	}];
 
 	this.start = function() {
 		var state;
 
-		for (var s = 0; s < states.length; s++) {
-			state = states[s];
-			console.log(state.name, state.time);
+		return;
 
-			setTimeout(state.handler, state.time);
+		var s = 0;
+
+		state = states[s];
+
+		function nextState() {
+
+			setTimeout(function() {
+
+				state = states[s];
+
+				console.log(state.name, state.time);
+
+				state.handler();
+
+				s++;
+
+				s = s >= states.length ? 0 : s;
+
+				nextState();
+
+			}, state.time);
 		}
 
+		nextState();
+
 	};
+
 }

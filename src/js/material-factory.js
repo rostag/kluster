@@ -22,6 +22,16 @@ function MaterialFactory(app) {
 		});
 
 		// Cluster Circle Styles
+		app.cylCircleHiliter = new THREE.MeshPhongMaterial({
+			color: 0xffffff,
+			emissive: 0xffcc00,
+			side: THREE.DoubleSide,
+			shading: THREE.FlatShading,
+			transparent: true,
+			opacity: 1
+		});
+
+		// Cluster Circle Styles
 		app.cylCircleCore = new THREE.MeshPhongMaterial({
 			color: 0x254299,
 			emissive: 0x173584,
