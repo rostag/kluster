@@ -127,7 +127,7 @@ function ClusterFactory(app) {
 
       var mesh = new THREE.Mesh(geometry, cylMaterial);
 
-      mesh.rotation.y = Math.PI / 4;
+      // mesh.rotation. = Math.PI / 4;
 
       return mesh;
     }
@@ -147,16 +147,15 @@ function ClusterFactory(app) {
       clusterAxis.remove(chunk);
     }
 
-    clusterAxis.remove(ring3);
-    clusterAxis.remove(ring2);
+    // clusterAxis.remove(ring3);
+    // clusterAxis.remove(ring2);
 
     // clusterAxis = new THREE.Mesh(geometry, app.lineMaterial);
     app.scene.remove(clusterAxis);
   };
 
   this.createCluster = function(options) {
-
-    var geometry = new THREE.CylinderGeometry(0.1, 0.1, options.height, 8);
+    var geometry = new THREE.CylinderGeometry(0.0001, 0.0001, options.height, 8);
     clusterAxis = new THREE.Mesh(geometry, app.lineMaterial);
 
     ringFactory = new RingFactory(app);
@@ -180,13 +179,13 @@ function ClusterFactory(app) {
       }
     }
 
-    ring3 = ringFactory.createRing(app.ringOptions);
-    ring2 = ringFactory.createRing(app.ringOptions);
+    // ring3 = ringFactory.createRing(app.ringOptions);
+    // ring2 = ringFactory.createRing(app.ringOptions);
     // ring3.scale.set(0.5, 0.5, 0.5);
     // ring2.scale.set(0.5, 0.5, 0.5);
 
-    clusterAxis.add(ring3);
-    clusterAxis.add(ring2);
+    // clusterAxis.add(ring3);
+    // clusterAxis.add(ring2);
 
     // //////////////////////////////////////////////////
 
@@ -217,11 +216,11 @@ function ClusterFactory(app) {
       // clusterAxis.rotation.y = (10 / app.controls.segment.val) * (Math.PI / 4) + rotationY;
       // clusterAxis.rotation.z = rotationZ;
 
-      ring3.rotation.x = rotationX + speed;
-      ring3.rotation.y = rotationY + rand;
+      // ring3.rotation.x = rotationX + speed;
+      // ring3.rotation.y = rotationY + rand;
 
-      ring2.rotation.x = rotationY;
-      ring2.rotation.y = rotationX + speed + rand;
+      // ring2.rotation.x = rotationY;
+      // ring2.rotation.y = rotationX + speed + rand;
     };
 
     // Hiliters

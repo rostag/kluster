@@ -22,9 +22,9 @@ function KlusterAnimator() {
       z: 0
     },
     rotation: {
-      theta: Math.PI,
-      phi: 0,
-      psi: 0
+      x: Math.PI,
+      y: 0,
+      z: 0
     },
     camera: {
       x: 28,
@@ -45,48 +45,45 @@ function KlusterAnimator() {
     clusterPos.position.x = mrfs(20 * k);
     clusterPos.position.z = mrfs(20 * k);
 
-    // clusterPos.rotation.theta = mrfs(Math.PI * k);
-    // clusterPos.rotation.phi = mrfs(Math.PI * k);
-    // clusterPos.rotation.psi = mrfs(Math.PI * k);
+    // clusterPos.rotation.x = mrfs(Math.PI * k);
+    // clusterPos.rotation.y = mrfs(Math.PI * k);
+    // clusterPos.rotation.z = mrfs(Math.PI * k);
 
     clusterPos.camera.y = THREE.Math.randFloat(2, 40) * k;
     clusterPos.camera.x = THREE.Math.randFloat(2, 30) * k;
     clusterPos.camera.z = THREE.Math.randFloat(0, 30) * k;
     clusterPos.camera.fov = mrfs(10 * k);
-    // clusterPos.camera.theta = 0;
-    // clusterPos.camera.phi = Math.PI / 2;
-    // clusterPos.camera.psi = 0;
+    // clusterPos.camera.x = 0;
+    // clusterPos.camera.y = Math.PI / 2;
+    // clusterPos.camera.z = 0;
   }
 
   var states = {
     '1': {
-      id: 1,
       time: 1000,
       name: 'State 1',
       handler: function() {
-        clusterPos.position.y = -10;
-        clusterPos.position.x = 20;
+        clusterPos.position.y = 0;
+        clusterPos.position.x = 6;
+        clusterPos.position.z = 6;
 
-        clusterPos.position.z = 2;
+        clusterPos.rotation.x = 0;
+        clusterPos.rotation.y = Math.PI / 2;
+        clusterPos.rotation.z = 0;
 
-        clusterPos.rotation.theta = 0;
-        clusterPos.rotation.phi = Math.PI / 2;
-        clusterPos.rotation.psi = 0;
-
-        clusterPos.camera.y = 0;
-        clusterPos.camera.x = 28;
+        clusterPos.camera.y = 8;
+        clusterPos.camera.x = 0;
         clusterPos.camera.z = 0;
+
         clusterPos.camera.fov = app.cameraSettings.FOV;
-        // clusterPos.camera.theta = 0;
-        // clusterPos.camera.phi = Math.PI / 2;
-        // clusterPos.camera.psi = 0;
+        // clusterPos.camera.x = 0;
+        // clusterPos.camera.y = Math.PI / 2;
+        // clusterPos.camera.z = 0;
 
         tweenCluster(clusterPos);
-        // randomClusterPosition();
       }
     },
     '2': {
-      id: 2,
       time: 1000,
       name: 'State 2',
       handler: function() {
@@ -106,7 +103,6 @@ function KlusterAnimator() {
       }
     },
     '3': {
-      id: 3,
       time: 1000,
       name: 'State 3',
       handler: function() {
@@ -126,21 +122,27 @@ function KlusterAnimator() {
       }
     },
     '4': {
-      id: 4,
       time: 1000,
       name: 'State 4',
       handler: function() {
-        clusterPos.position.y = 5;
-        clusterPos.camera.x = 28;
-        // clusterPos.rotation.theta += Math.PI / 2;
+        setPosFromPosMap('4');
         tweenCluster(clusterPos);
+
         app.clusterFactory.hiliteChunk({
           level: 1,
-          segment: 1,
+          segment: 3,
           circle: 1,
           unhiliteChunks: true
         });
 
+      }
+    },
+    '5': {
+      time: 1000,
+      name: 'State 5',
+      handler: function() {
+        setPosFromPosMap('5');
+        tweenCluster(clusterPos);
       }
     },
     'STATE_STOP_ANIMATION': {
@@ -150,6 +152,19 @@ function KlusterAnimator() {
       handler: function() {
         app.isManualMode = true;
 
+      }
+    },
+    'STATE_PREV': {
+      name: 'State Prev',
+      handler: function() {
+        app.isManualMode = true;
+
+      }
+    },
+    'STATE_NEXT': {
+      name: 'State Next',
+      handler: function() {
+        app.isManualMode = true;
       }
     }
   };
@@ -182,24 +197,13 @@ function KlusterAnimator() {
   }
 
   /**
-   * @param position Object with properties { x, y, z, theta, phi, psi }
+   * @param position Object with properties { x, y, z }
    */
   function tweenCluster(position) {
     tweenObjProp(app.clusterAxis, 'position', position.position);
     tweenObjProp(app.clusterAxis, 'rotation', position.rotation);
-    tweenObjProp( app.camera, 'position', position.camera);
+    tweenObjProp(app.camera, 'position', position.camera);
     // @todo work it out: tweenObjProp( app.camera, 'fov', position.camera.fov);
-  }
-
-  function randomClusterPosition() {
-    tweenCluster({
-      x: Math.random() * 8 - 4,
-      y: Math.random() * 8 - 4,
-      z: Math.random() * 8 - 4,
-      theta: Math.random() * 2 * Math.PI,
-      phi: Math.random() * 2 * Math.PI,
-      psi: Math.random() * 2 * Math.PI
-    });
   }
 
   this.getStateById = function(stateId) {
@@ -239,5 +243,70 @@ function KlusterAnimator() {
       }, state.time);
     }
     nextState();
+  };
+
+  var step = 0;
+
+  function getPrevState() {
+    step--;
+    stateId = animationSequence[step];
+    self.getStateById(stateId);
+    self.setState(stateId);
+    step = step >= states.length ? 0 : step;
+  }
+
+  function getNextState() {
+    step++;
+    stateId = animationSequence[step];
+    self.getStateById(stateId);
+    self.setState(stateId);
+    step = step < 1 ? states.length : step;
+  }
+
+  function setPosFromPosMap(posId) {
+    var p = posMap[posId];
+
+    clusterPos.position.x = p[0]._x;
+    clusterPos.position.y = p[0]._y;
+    clusterPos.position.z = p[0]._z;
+
+    clusterPos.rotation.x = p[1]._x;
+    clusterPos.rotation.y = p[1]._y;
+    clusterPos.rotation.z = p[1]._z;
+
+    clusterPos.camera.x = p[2].x;
+    clusterPos.camera.y = p[2].y;
+    clusterPos.camera.z = p[2].z;
+
+    clusterPos.camera.fov = app.cameraSettings.FOV;
+  }
+
+  var posMap = {
+    '4': [{
+      _x: 1.5707963267948966,
+      _y: 0,
+      _z: 0
+    }, {
+      x: 6,
+      y: 0,
+      z: 6
+    }, {
+      x: -0.06005512073072366,
+      y: -7.432246638646143,
+      z: 2.9594092797053992
+    }],
+    '5': [{
+      _x: 1.5707963267948966,
+      _y: 0,
+      _z: 0
+    }, {
+      x: 6,
+      y: 0,
+      z: 6
+    }, {
+      x: 5.924207462789089,
+      y: -1.7707740057674255,
+      z: -5.076231412998507
+    }]
   };
 }

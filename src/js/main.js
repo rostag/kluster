@@ -89,7 +89,7 @@
   app.animator = new KlusterAnimator();
   app.animator.startAnimator();
 
-  scene.add(app.factories.cube.getCube());
+  // scene.add(app.factories.cube.getCube());
   // textFactory(app);
 
   function initScene() {
@@ -153,6 +153,7 @@
   function onDocumentMouseMove(event) {
     mouseX = event.clientX - windowHalfX;
     mouseY = event.clientY - windowHalfY;
+    // tracePos();
   }
 
   function onDocumentTouchStart(event) {
@@ -189,6 +190,25 @@
 
     TWEEN.update();
     renderer.render(scene, camera);
+  }
+
+  function tracePos() {
+    console.log(
+      JSON.stringify(clusterAxis.rotation),
+      JSON.stringify(clusterAxis.position),
+      JSON.stringify(camera.position)
+    );
+
+    // clusterAxis.rotation.x += 0.0005;// + speed;
+    // clusterAxis.rotation.x = (10 / app.controls.level.val) * (Math.PI / 4) + rotationX;
+    // clusterAxis.rotation.y = (10 / app.controls.segment.val) * (Math.PI / 4) + rotationY;
+    // clusterAxis.rotation.z = rotationZ;
+
+    // ring3.rotation.x = rotationX + speed;
+    // ring3.rotation.y = rotationY + rand;
+
+    // ring2.rotation.x = rotationY;
+    // ring2.rotation.y = rotationX + speed + rand;
   }
 
   render();
