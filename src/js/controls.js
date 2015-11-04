@@ -61,7 +61,7 @@
   // setup state links
   for (var l = 0; l < stateSelector.length; l++) {
     var link = stateSelector[l];
-    link.addEventListener('click', onStateChange);
+    link.addEventListener('mouseover', onStateChange);
   }
 
   iLevel.addEventListener('input', function() {

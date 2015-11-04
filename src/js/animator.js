@@ -37,25 +37,32 @@ function KlusterAnimator() {
   // This is the sequence of state id's for animated mode:
   var animationSequence = ['1', '2', '3', '4', '6', 'STATE_STOP_ANIMATION'];
 
+  function getRandomChunk() {
+    var mr = THREE.Math.randInt;
+    var chunk = {
+      level: mr(0,app.cluster.config.levels-1),
+      segment: mr(0, app.cluster.config.segments-1),
+      circle: mr(0, app.cluster.config.circles-1)
+    };
+    // console.log('random chunk:', chunk);
+    return chunk;
+  }
+
   function getRandomPos() {
     var k = 1;
 
     var mrfs = THREE.Math.randFloatSpread;
-    clusterPos.position.y = mrfs(20 * k);
     clusterPos.position.x = mrfs(20 * k);
+    clusterPos.position.y = mrfs(20 * k);
     clusterPos.position.z = mrfs(20 * k);
 
-    // clusterPos.rotation.x = mrfs(Math.PI * k);
-    // clusterPos.rotation.y = mrfs(Math.PI * k);
-    // clusterPos.rotation.z = mrfs(Math.PI * k);
+    clusterPos.rotation.x = mrfs(Math.PI * k);
+    clusterPos.rotation.y = mrfs(Math.PI * k);
+    clusterPos.rotation.z = mrfs(Math.PI * k);
 
-    clusterPos.camera.y = THREE.Math.randFloat(2, 40) * k;
     clusterPos.camera.x = THREE.Math.randFloat(2, 30) * k;
+    clusterPos.camera.y = THREE.Math.randFloat(2, 40) * k;
     clusterPos.camera.z = THREE.Math.randFloat(0, 30) * k;
-    clusterPos.camera.fov = mrfs(10 * k);
-    // clusterPos.camera.x = 0;
-    // clusterPos.camera.y = Math.PI / 2;
-    // clusterPos.camera.z = 0;
   }
 
   var states = {
@@ -64,21 +71,18 @@ function KlusterAnimator() {
       name: 'State 1',
       handler: function() {
         clusterPos.position.y = 0;
-        clusterPos.position.x = 6;
-        clusterPos.position.z = 6;
+        clusterPos.position.x = 0;
+        clusterPos.position.z = 0;
 
         clusterPos.rotation.x = 0;
-        clusterPos.rotation.y = Math.PI / 2;
+        clusterPos.rotation.y = 0;
         clusterPos.rotation.z = 0;
 
-        clusterPos.camera.y = 8;
+        clusterPos.camera.y = 20;
         clusterPos.camera.x = 0;
         clusterPos.camera.z = 0;
 
-        clusterPos.camera.fov = app.cameraSettings.FOV;
-        // clusterPos.camera.x = 0;
-        // clusterPos.camera.y = Math.PI / 2;
-        // clusterPos.camera.z = 0;
+        // clusterPos.camera.fov = app.cameraSettings.FOV;
 
         tweenCluster(clusterPos);
       }
@@ -87,19 +91,18 @@ function KlusterAnimator() {
       time: 1000,
       name: 'State 2',
       handler: function() {
-        clusterPos.position.z = 5;
+        // clusterPos.position.z = 5;
 
-        clusterPos.camera.x = 38;
+        clusterPos.camera.y = 28;
         //clusterPos.camera.fov = 75;
+        clusterPos.rotation.x = Math.PI / 2;
+        clusterPos.position.y = 10;
 
         tweenCluster(clusterPos);
 
-        app.clusterFactory.hiliteChunk({
-          level: 0,
-          segment: 0,
-          circle: 0,
-          unhiliteChunks: true
-        });
+        var rChunk = getRandomChunk();
+        rChunk.unhiliteChunks = true;
+        app.clusterFactory.hiliteChunk(rChunk);
       }
     },
     '3': {
@@ -145,13 +148,27 @@ function KlusterAnimator() {
         tweenCluster(clusterPos);
       }
     },
+    '6': {
+      handler: function() {
+        setPosFromPosMap('6');
+        tweenCluster(clusterPos);
+      }
+    },
+    '7': {
+      // CHUNKS random array creation:
+      handler: hiliteChunks
+    },
+    'STATE_HILITE': {
+      // CHUNKS random array creation:
+      handler: hiliteChunks
+    },
     'STATE_STOP_ANIMATION': {
       id: 4,
       time: 1000,
       name: 'State 5 - Stop Animation',
       handler: function() {
         app.isManualMode = true;
-
+        app.tracePos();
       }
     },
     'STATE_PREV': {
@@ -169,6 +186,17 @@ function KlusterAnimator() {
     }
   };
 
+  function hiliteChunks() {
+    app.clusterFactory.uhniliteChunk({unhiliteChunks:true});
+    var rChunk;
+    var i = 0;
+    while(i < 10) {
+      rChunk = getRandomChunk();
+      rChunk.unhiliteChunks = false;
+      app.clusterFactory.hiliteChunk(rChunk);
+      i++;
+    }
+}
   /**
    * Properties Tween
    * @param o Object to tween.
@@ -191,7 +219,7 @@ function KlusterAnimator() {
       console.log('plain:', tweenParams, op);
     }
 
-    console.log('tween params:', tweenParams, op);
+    // console.log('tween params:', tweenParams, op);
 
     new TWEEN.Tween(op).to(tweenParams, 200).easing(easingFunc).start();
   }
@@ -307,6 +335,14 @@ function KlusterAnimator() {
       x: 5.924207462789089,
       y: -1.7707740057674255,
       z: -5.076231412998507
-    }]
+    }],
+    '6i': [{_x:0,_y:1.5707963267948966,_z:0}, {x:6,y:0,z:6}, {x:6.95129248126769,y:-0.8778824404155695,z:3.86119868184483}],
+    '6s': [{_x:1.5707963267948966,_y:0,_z:0}, {x:1.5707963267948966,y:0,z:0}, {x:-0.060055120730723645,y:-7.432246638646141,z:2.9594092797053984}],
+    // othographic:
+    '6': [{_x:0,_y:0,_z:0}, {x:0,y:0,z:0}, {x:17.403784587301185,y:-0.12254841677667727,z:-14.008167078637566}]
+
+// Center vision:
+// {"_x":1.5707963267948966,"_y":0,"_z":0,"_order":"XYZ"} {"x":0,"y":10,"z":0} {"x":-0.2709624330095889,"y":13.080082406522363,"z":9.082308234026366}
+
   };
 }

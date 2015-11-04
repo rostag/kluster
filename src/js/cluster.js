@@ -50,15 +50,13 @@ function ClusterFactory(app) {
    * @todo
    */
   self.hiliteChunk = function(options) {
-    //self.uhniliteChunks( options );
-    console.log('hiliteChunk: ', options);
+    self.uhniliteChunk( options );
     var hilitedChunk = getChunk(options.level, options.segment, options.circle, app.cylCircleHiliter);
     clusterAxis.add(hilitedChunk);
     hiliters.push(hilitedChunk);
   };
 
   function getChunk(level, segment, circle, givenMaterial, expandFactor) {
-
     // Level
     var lvl = level * self.options.levelheight;
 

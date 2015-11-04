@@ -21,14 +21,14 @@
   var app = rootScope.getKLU5TER();
   var orbit;
 
-  app.opacityAdd = 0.3;
+  app.opacityAdd = 0.4;
   app.isManualMode = true;
   app.isDebug = false;
 
   app.cluster = {
     config: {
-      segments: 8,
       levels: 5,
+      segments: 8,
       circles: 3,
       segmentsSpacing: 0.96,
       levelsSpacing: 1.2,
@@ -89,10 +89,10 @@
   app.animator = new KlusterAnimator();
   app.animator.startAnimator();
 
-  scene.add(app.factories.cube.getCube(0, 0, 0, 1, 1, 1));
-  scene.add(app.factories.cube.getCube(0, 0, 10, 1, 1, 1));
-  scene.add(app.factories.cube.getCube(0, 10, 0, 1, 1, 1));
-  scene.add(app.factories.cube.getCube(10, 0, 0, 1, 1, 1));
+  scene.add(app.factories.cube.getCube(0, 0, 0, 1, 1, 1, 0xffffff));
+  scene.add(app.factories.cube.getCube(20, 0, 0, 1, 1, 1, 0xff0000));
+  scene.add(app.factories.cube.getCube(0, 20, 0, 1, 1, 1, 0x00ff00));
+  scene.add(app.factories.cube.getCube(0, 0, 20, 1, 1, 1, 0x0000ff));
   // textFactory(app);
 
   function initScene() {
@@ -189,8 +189,6 @@
     camera.lookAt( scene.position );
     // camera.lookAt( cluster.position );
 
-    // console.log(orbit);
-
     TWEEN.update();
     renderer.render(scene, camera);
   }
@@ -201,18 +199,9 @@
       JSON.stringify(clusterAxis.position),
       JSON.stringify(camera.position)
     );
-
-    // clusterAxis.rotation.x += 0.0005;// + speed;
-    // clusterAxis.rotation.x = (10 / app.controls.level.val) * (Math.PI / 4) + rotationX;
-    // clusterAxis.rotation.y = (10 / app.controls.segment.val) * (Math.PI / 4) + rotationY;
-    // clusterAxis.rotation.z = rotationZ;
-
-    // ring3.rotation.x = rotationX + speed;
-    // ring3.rotation.y = rotationY + rand;
-
-    // ring2.rotation.x = rotationY;
-    // ring2.rotation.y = rotationX + speed + rand;
   }
+
+  app.tracePos = tracePos;
 
   render();
 
