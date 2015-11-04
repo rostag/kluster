@@ -1,8 +1,8 @@
 /* globals THREE */
 
-'use strict';
-
 (function ( rootScope ) {
+
+	'use strict';
 
 	var mesh;
 

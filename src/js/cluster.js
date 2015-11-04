@@ -31,34 +31,51 @@ function ClusterFactory(app) {
   };
 
   /**
+   * @todo Implement re-using of chunks
+   */
+  self.uhniliteChunk = function(options) {
+    if (!options.unhiliteChunks) {
+      return;
+    }
+
+    while (hiliters.length) {
+      var hilitedChunk = hiliters.pop();
+      clusterAxis.remove(hilitedChunk);
+    }
+  };
+
+  /**
    * Highlights a chunk of Kluster
    * @param options Object in the form of { level: levelId, segment: segmentId; circle: circleId }
    * @todo
    */
   self.hiliteChunk = function(options) {
+    //self.uhniliteChunks( options );
     console.log('hiliteChunk: ', options);
-    var hiliterChunk = getChunk(options.level, options.segment, options.circle, app.cylCircleHiliter);
-    clusterAxis.add(hiliterChunk);
-    hiliters.push(hiliterChunk);
+    var hilitedChunk = getChunk(options.level, options.segment, options.circle, app.cylCircleHiliter);
+    clusterAxis.add(hilitedChunk);
+    hiliters.push(hilitedChunk);
   };
 
   function getChunk(level, segment, circle, givenMaterial, expandFactor) {
 
-    var e = expandFactor || 0;
-
+    // Level
     var lvl = level * self.options.levelheight;
 
+    // Segment
     var segmentLength = (Math.PI * 2) / self.options.segments;
-
-    var tStart = segment * segmentLength;
+    var thetaMin = segment * segmentLength;
     var tLength = segmentLength * app.cluster.config.segmentsSpacing;
+    var thetaMax = thetaMin + tLength;
 
+    // Radius
     var innerRadius = app.ringOptions.innerRadius;
     var outerRadius = app.ringOptions.outerRadius;
-    var radiusAvg = (outerRadius + innerRadius) / 2;
 
+    var radiusAvg = (outerRadius + innerRadius) / 2;
     var radiusStep = radiusAvg / app.cluster.config.circles;
 
+    // Material
     var cylMaterial = app.cylCircleCore;
     if (circle % 2) {
       cylMaterial = app.cylCircleMid;
@@ -70,47 +87,52 @@ function ClusterFactory(app) {
     cylMaterial = givenMaterial || cylMaterial;
 
     var radius = ((circle * radiusStep) * 2 + radiusStep * 0.9) / 2;
-    var thetaAvg = tStart + tLength / 2;
-
-    var xx = Math.sin(thetaAvg) * radius; // + THREE.Math.random16() / 4;
-    var yy = Math.cos(thetaAvg) * radius; // + THREE.Math.random16() / 4;
+    var thetaAvg = (thetaMin + thetaMax) / 2;
 
     //
     // create exrude from spline and path
     //
+    function getKlusterMesh() {
 
-    var closedSpline = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(xx, yy, lvl),
-      new THREE.Vector3(xx, yy, lvl + self.options.levelheight / app.cluster.config.levelsSpacing)
-    ]);
+      var xx = Math.sin(thetaAvg) * radius; // + THREE.Math.random16() / 4;
+      var yy = Math.cos(thetaAvg) * radius; // + THREE.Math.random16() / 4;
 
-    var extrudeSettings = {
-      steps: 1,
-      bevelEnabled: false,
-      extrudePath: closedSpline
-    };
+      var closedSpline = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(xx, yy, lvl),
+        new THREE.Vector3(xx, yy, lvl + self.options.levelheight / app.cluster.config.levelsSpacing)
+      ]);
 
-    var pts = [],
-      count = 14;
+      var extrudeSettings = {
+        steps: 1,
+        bevelEnabled: false,
+        extrudePath: closedSpline
+      };
 
-    // for (var i = 0; i < count; i++) {
-    // 	var l = 0.08 * (circle * 5 + 1);
-    // 	var a = 2 * i / count * Math.PI;
-    // 	pts.push(new THREE.Vector2(Math.cos(a) * l, Math.sin(a) * l));
-    // }
+      // Draw by points
+      var e = expandFactor || 0;
 
-    // inner radius, outer radius
-    var innerRadius = circle * radiusStep;
-    var outerRadius = circle * radiusStep + radiusStep * 0.9;
+      var iRadius = circle * radiusStep;
+      var oRadius = circle * radiusStep + radiusStep * 0.9;
 
-    pts.push(new THREE.Vector2(Math.sin(tStart) * innerRadius + e, Math.cos(tStart) * innerRadius + e));
-    pts.push(new THREE.Vector2(Math.sin(tStart) * outerRadius + e, Math.cos(tStart) * outerRadius + e));
-    pts.push(new THREE.Vector2(Math.sin(tStart + tLength) * outerRadius + e, Math.cos(tStart + tLength) * outerRadius + e));
-    pts.push(new THREE.Vector2(Math.sin(tStart + tLength) * innerRadius + e, Math.cos(tStart + tLength) * innerRadius + e));
+      var pts = [
+        new THREE.Vector2(Math.sin(thetaMin) * iRadius + e, Math.cos(thetaMin) * iRadius + e),
+        new THREE.Vector2(Math.sin(thetaMin) * oRadius + e, Math.cos(thetaMin) * oRadius + e),
+        new THREE.Vector2(Math.sin(thetaMax) * oRadius + e, Math.cos(thetaMax) * oRadius + e),
+        new THREE.Vector2(Math.sin(thetaMax) * iRadius + e, Math.cos(thetaMax) * iRadius + e)
+      ];
 
-    var shape = new THREE.Shape(pts);
-    var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-    var mesh = new THREE.Mesh(geometry, cylMaterial);
+      var shape = new THREE.Shape(pts);
+
+      var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+
+      var mesh = new THREE.Mesh(geometry, cylMaterial);
+
+      mesh.rotation.y = Math.PI / 4;
+
+      return mesh;
+    }
+
+    var mesh = getKlusterMesh();
 
     return mesh;
   }
@@ -210,6 +232,8 @@ function ClusterFactory(app) {
     });
 
     app.scene.add(clusterAxis);
+
+    app.clusterAxis = clusterAxis;
 
     return clusterAxis;
 

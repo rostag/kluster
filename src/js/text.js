@@ -1,15 +1,15 @@
 /* globals THREE */
 
-'use strict';
-
 function textFactory(app) {
+
+	'use strict';
 
 	var scene = app.scene;
 	var renderer = app.renderer;
 
 	var container, permalink, hex;
 
-	var camera, cameraTarget, renderer;
+	var camera, cameraTarget;
 
 	var composer;
 
@@ -57,7 +57,7 @@ function textFactory(app) {
 	var reverseWeightMap = {};
 
 	for (var i in fontMap) reverseFontMap[fontMap[i]] = i;
-	for (var i in weightMap) reverseWeightMap[weightMap[i]] = i;
+	for (i in weightMap) reverseWeightMap[weightMap[i]] = i;
 
 	var targetRotation = 0;
 	var targetRotationOnMouseDown = 0;
@@ -379,7 +379,7 @@ function textFactory(app) {
 
 					if (s > triangleAreaHeuristics) {
 
-						for (var j = 0; j < face.vertexNormals.length; j++) {
+						for (j = 0; j < face.vertexNormals.length; j++) {
 
 							face.vertexNormals[j].copy(face.normal);
 

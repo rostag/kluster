@@ -1,8 +1,8 @@
 /* global THREE */
 
-'use strict';
-
 function MaterialFactory(app) {
+
+	'use strict';
 
 	this.init = function() {
 		app.phongMaterial = new THREE.MeshPhongMaterial({

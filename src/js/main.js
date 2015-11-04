@@ -19,13 +19,11 @@
   var windowHalfY = window.innerHeight / 2;
 
   var app = rootScope.getKLU5TER();
-
   var orbit;
 
-  app.opacityAdd = 0.1;
-
-  app.isDebug = false;
-  app.isManualMode = false;
+  app.opacityAdd = 0.3;
+  app.isManualMode = true;
+  app.isDebug = true;
 
   app.cluster = {
     config: {
@@ -86,14 +84,12 @@
   app.lights = lights;
 
   app.clusterFactory = new ClusterFactory(app);
-  var cluster = app.clusterFactory.createCluster(app.cluster.config);
-  app.clusterAxis = cluster;
+  var clusterAxis = app.clusterFactory.createCluster(app.cluster.config);
 
   app.animator = new KlusterAnimator();
-
   app.animator.startAnimator();
 
-  // scene.add(app.factories.cube.getCube());
+  scene.add(app.factories.cube.getCube());
   // textFactory(app);
 
   function initScene() {
@@ -155,16 +151,13 @@
   }
 
   function onDocumentMouseMove(event) {
-
     mouseX = event.clientX - windowHalfX;
     mouseY = event.clientY - windowHalfY;
-
   }
 
   function onDocumentTouchStart(event) {
     if (event.touches.length > 1) {
       event.preventDefault();
-
       mouseX = event.touches[0].pageX - windowHalfX;
       mouseY = event.touches[0].pageY - windowHalfY;
     }
@@ -173,7 +166,6 @@
   function onDocumentTouchMove(event) {
     if (event.touches.length == 1) {
       event.preventDefault();
-
       mouseX = event.touches[0].pageX - windowHalfX;
       mouseY = event.touches[0].pageY - windowHalfY;
     }
@@ -181,24 +173,21 @@
 
   function render() {
     requestAnimationFrame(render);
-
     orbit.update();
-
     time = Date.now() * 0.001;
-
-    cluster.onRender();
+    clusterAxis.onRender();
 
     // var dX = ( mouseX - camera.position.x ) * 1;
     var dY = (-mouseY - 200 - camera.position.y) * 1;
     // camera.position.x += dX;
     // camera.position.y += dY;
-    // camera.lookAt( scene.position );
+
+    camera.lookAt( scene.position );
     // camera.lookAt( cluster.position );
 
     // console.log(orbit);
 
     TWEEN.update();
-
     renderer.render(scene, camera);
   }
 
