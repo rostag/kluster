@@ -2,9 +2,9 @@
 
 // @todo Implement timeSpeedFunction
 
-'use strict';
-
 (function(rootScope) {
+
+	'use strict';
 
 	var scene;
 	var camera;
@@ -12,16 +12,20 @@
 	var lights;
 	var time;
 
-	var mouseX = 0, mouseY = 0,
+	var mouseX = 0;
+	var mouseY = 0;
 
-	windowHalfX = window.innerWidth / 2,
-	windowHalfY = window.innerHeight / 2;
+	var windowHalfX = window.innerWidth / 2;
+	var windowHalfY = window.innerHeight / 2;
 
 	var app = rootScope.getKLU5TER();
+
+	var orbit;
 
 	app.opacityAdd = 0.1;
 
 	app.isDebug = false;
+	app.isManualMode = false;
 
 	app.cluster = {
 		config: {
@@ -86,20 +90,21 @@
 	app.clusterAxis = cluster;
 
 	app.animator = new KlusterAnimator();
-	app.animator.start();
+
+	app.animator.startAnimator();
 
 	// scene.add(app.factories.cube.getCube());
 	// textFactory(app);
 
 	function initScene() {
-		// scene 
+		// scene
 		scene = new THREE.Scene();
 		scene.fog = new THREE.Fog(0x000000, 250, 1400);
 
 		if ( app.isDebug ) {
 			scene.add(new THREE.AxisHelper(30));
 		}
-		// scene.add(new THREE.GridHelper(100,10));		
+		// scene.add(new THREE.GridHelper(100,10));
 
 		// camera
 		camera = new THREE.PerspectiveCamera(app.cameraSettings.FOV, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -120,8 +125,6 @@
 
 		document.body.appendChild(renderer.domElement);
 	}
-
-	var orbit;
 
 	function initOrbit() {
 		orbit = new THREE.OrbitControls(camera, renderer.domElement);
@@ -175,7 +178,7 @@
 			mouseY = event.touches[ 0 ].pageY - windowHalfY;
 		}
 	}
-	
+
 	function render() {
 		requestAnimationFrame(render);
 
@@ -184,14 +187,14 @@
 		time = Date.now() * 0.001;
 
 		cluster.onRender();
-		
+
 		// var dX = ( mouseX - camera.position.x ) * 1;
 		var dY = ( - mouseY - 200 - camera.position.y ) * 1;
 		// camera.position.x += dX;
 		// camera.position.y += dY;
 		// camera.lookAt( scene.position );
 		// camera.lookAt( cluster.position );
-		
+
 		// console.log(orbit);
 
 		TWEEN.update();

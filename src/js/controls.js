@@ -1,6 +1,8 @@
-'use strict';
+/* globals console */
 
 (function(rootScope) {
+
+	'use strict';
 
 	var app = rootScope.KLU5TER;
 
@@ -9,26 +11,18 @@
 	var iCircle = document.getElementById('input-circle');
 	var stateSelector = document.querySelectorAll('[data-state-selector] a');
 
-	console.log(stateSelector);
-
-	for (var l = 0; l < stateSelector.length; l++ ) {
-		var link = stateSelector[l];
-			console.log('' + l + '. StateSelector=' + link);
-			link.addEventListener('click', function (event) {
-				console.log('l:', link);
-				console.log('click:', event);
-			});
-	}
-
-	// stateSelector.forEach( function (link) {
-	// });
-
 	app.speedX = 0;
 	app.speedY = 0;
 	app.curMouseX = 0;
 	app.curMouseY = 0;
 	app.prevMouseX = 0;
 	app.prevMouseY = 0;
+
+	function onStateChange ( event ) {
+		var stateId = event && event.target && event.target.attributes && event.target.attributes['data-state'] && event.target.attributes['data-state'].value;
+		// console.log('state id:', stateId);
+		app.animator.setState( stateId );
+	}
 
 	app.addControl = function(path, label, initialValue, min, max, step) {
 		// app.controls.path.val = initialValue;
@@ -63,6 +57,12 @@
 	};
 
 	app.addControl('opacityAdd', 'Opacity', 0.1, 0.1, 1, 0.1);
+
+	// setup state links
+	for (var l = 0; l < stateSelector.length; l++) {
+		var link = stateSelector[l];
+		link.addEventListener('click', onStateChange);
+	}
 
 	iLevel.addEventListener('input', function() {
 		// console.log( iLevel.value );

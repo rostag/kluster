@@ -1,8 +1,8 @@
 /* globals console, KLU5TER */
 
-'use strict';
-
 function KlusterAnimator() {
+
+	'use strict';
 
 	var self = this;
 
@@ -50,9 +50,12 @@ function KlusterAnimator() {
 		theta: Math.PI,
 		phi: 0,
 		psi: 0
-	}
+	};
 
-	var states = [{
+	var animationSequence = ['1', '2', '3', '4', '6', 'STATE_STOP_ANIMATION'];
+
+	var states = {
+		'1': {
 		id: 1,
 		time: 1000,
 		name: 'State 1',
@@ -63,7 +66,7 @@ function KlusterAnimator() {
 			// app.camera.translateY(5);
 			// randomClusterPosition();
 		}
-	}, {
+	}, '2': {
 		id: 2,
 		time: 1000,
 		name: 'State 2',
@@ -72,7 +75,7 @@ function KlusterAnimator() {
 			clusterPos.theta -= Math.PI / 2;
 			setClusterPosition(clusterPos);
 		}
-	}, {
+	}, '3': {
 		id: 3,
 		time: 1000,
 		name: 'State 3',
@@ -81,7 +84,7 @@ function KlusterAnimator() {
 			clusterPos.x -= 10;
 			setClusterPosition(clusterPos);
 		}
-	}, {
+	}, '4': {
 		id: 4,
 		time: 1000,
 		name: 'State 4',
@@ -90,38 +93,52 @@ function KlusterAnimator() {
 			clusterPos.theta += Math.PI / 2;
 			setClusterPosition(clusterPos);
 		}
-	}];
-
-	this.start = function() {
-		var state;
-
-		return;
-
-		var s = 0;
-
-		state = states[s];
-
-		function nextState() {
-
-			setTimeout(function() {
-
-				state = states[s];
-
-				console.log(state.name, state.time);
-
-				state.handler();
-
-				s++;
-
-				s = s >= states.length ? 0 : s;
-
-				nextState();
-
-			}, state.time);
+	}, 'STATE_STOP_ANIMATION': {
+		id: 4,
+		time: 1000,
+		name: 'State 5 - Stop Animation',
+		handler: function() {
+			app.isManualMode = true;
 		}
+	}
+};
 
-		nextState();
-
+	this.getStateById = function ( stateId ) {
+		var state = states[stateId];
+		return state;
 	};
 
+	this.setState = function (stateId) {
+		var state = self.getStateById(stateId);
+
+		if ( !state ) {
+			console.log('A: State not found: ', stateId );
+			return;
+		}
+		console.log('A: Go to State: ', state.name, state.time);
+		state.handler();
+	};
+
+	this.startAnimator = function() {
+		var s = 0;
+		var stateId = animationSequence[s];
+		var state = self.getStateById( stateId );
+
+		self.setState(stateId);
+
+		function nextState() {
+			if ( app.isManualMode ) {
+				return;
+			}
+
+			setTimeout(function() {
+				stateId = animationSequence[s];
+				self.getStateById( stateId );
+				self.setState( stateId );
+				s = s >= states.length ? 0 : ++s;
+				nextState();
+			}, state.time);
+		}
+		nextState();
+	};
 }
