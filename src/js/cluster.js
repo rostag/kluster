@@ -187,16 +187,6 @@ function ClusterFactory(app) {
     // clusterAxis.add(ring3);
     // clusterAxis.add(ring2);
 
-    // //////////////////////////////////////////////////
-
-    var material = new THREE.LineBasicMaterial({
-      color: 0x0000ff
-    });
-
-    clusterAxis.rotation.x = Math.PI / 2;
-    // clusterAxis.rotation.y = -Math.PI / 2;
-    // clusterAxis.rotation.z = -Math.PI / 2;
-
     clusterAxis.translateZ(-options.height);
 
     clusterAxis.onRender = function() {

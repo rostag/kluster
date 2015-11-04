@@ -23,7 +23,7 @@
 
   app.opacityAdd = 0.3;
   app.isManualMode = true;
-  app.isDebug = true;
+  app.isDebug = false;
 
   app.cluster = {
     config: {
@@ -89,7 +89,10 @@
   app.animator = new KlusterAnimator();
   app.animator.startAnimator();
 
-  // scene.add(app.factories.cube.getCube());
+  scene.add(app.factories.cube.getCube(0, 0, 0, 1, 1, 1));
+  scene.add(app.factories.cube.getCube(0, 0, 10, 1, 1, 1));
+  scene.add(app.factories.cube.getCube(0, 10, 0, 1, 1, 1));
+  scene.add(app.factories.cube.getCube(10, 0, 0, 1, 1, 1));
   // textFactory(app);
 
   function initScene() {

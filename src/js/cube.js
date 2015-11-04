@@ -10,13 +10,14 @@
 
 	app.factories.cube.getCube = createMesh;
 
+	function createMesh(x,y,z,w,h,d) {
+		var geometry = new THREE.BoxGeometry(w,h,d);
 
-	function createMesh() {
-		var geometry = new THREE.BoxGeometry(1, 2, 3);
-		var material = new THREE.MeshBasicMaterial({
-			color: 0x00ff00
-		});
-		mesh = new THREE.Mesh(geometry, material);
+		mesh = new THREE.Mesh(geometry, app.material);
+
+		mesh.position.x = x;
+		mesh.position.y = y;
+		mesh.position.z = z;
 
 		return mesh;
 	}
