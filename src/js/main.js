@@ -21,7 +21,7 @@
   var app = rootScope.getKLU5TER();
   var orbit;
 
-  app.opacityAdd = 0.4;
+  app.opacityAdd = 0.3;
   app.isManualMode = true;
   app.isDebug = false;
 

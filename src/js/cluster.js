@@ -34,10 +34,7 @@ function ClusterFactory(app) {
    * @todo Implement re-using of chunks
    */
   self.uhniliteChunk = function(options) {
-    if (!options.unhiliteChunks) {
-      return;
-    }
-
+    if( !options.unhiliteChunks ) return;
     while (hiliters.length) {
       var hilitedChunk = hiliters.pop();
       clusterAxis.remove(hilitedChunk);

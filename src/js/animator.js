@@ -190,7 +190,7 @@ function KlusterAnimator() {
     app.clusterFactory.uhniliteChunk({unhiliteChunks:true});
     var rChunk;
     var i = 0;
-    while(i < 10) {
+    while(i < 20) {
       rChunk = getRandomChunk();
       rChunk.unhiliteChunks = false;
       app.clusterFactory.hiliteChunk(rChunk);
