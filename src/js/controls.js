@@ -7,6 +7,21 @@
 	var iLevel = document.getElementById('input-level');
 	var iSegment = document.getElementById('input-segment');
 	var iCircle = document.getElementById('input-circle');
+	var stateSelector = document.querySelectorAll('[data-state-selector] a');
+
+	console.log(stateSelector);
+
+	for (var l = 0; l < stateSelector.length; l++ ) {
+		var link = stateSelector[l];
+			console.log('' + l + '. StateSelector=' + link);
+			link.addEventListener('click', function (event) {
+				console.log('l:', link);
+				console.log('click:', event);
+			});
+	}
+
+	// stateSelector.forEach( function (link) {
+	// });
 
 	app.speedX = 0;
 	app.speedY = 0;

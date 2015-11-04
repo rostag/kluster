@@ -30,18 +30,13 @@ function ClusterFactory(app) {
 		this.createCluster(app.cluster.config);
 	};
 
-	// highlightKlusters( {levels: [1,5], segments:[1], circles: [1,1]});
-
 	/**
 	 * @todo
 	 */
 	function highlightChunk(options) {
 		console.log('highlightChunk: ', options);
-
 		var hiliterChunk = getChunk(options.level, options.segment, options.circle, app.cylCircleHiliter);
-
 		clusterAxis.add(hiliterChunk);
-
 		hiliters.push[hiliterChunk];
 	}
 
@@ -77,7 +72,9 @@ function ClusterFactory(app) {
 		var xx = Math.sin(thetaAvg) * radiusAvg; // + THREE.Math.random16() / 4;
 		var yy = Math.cos(thetaAvg) * radiusAvg; // + THREE.Math.random16() / 4;
 
-		// //////////////////////////////////////////////////
+		//
+		// create exrude from spline and path
+		//
 
 		var closedSpline = new THREE.CatmullRomCurve3([
 			new THREE.Vector3(xx, yy, lvl),
@@ -191,7 +188,7 @@ function ClusterFactory(app) {
 
 			// rotationX += rotationSpeedX + app.speedX * speed;
 			// rotationY += rotationSpeedY + rand;
-			// 
+			//
 			// rotationZ += rotationSpeedZ + app.speedY * speed;
 			// rotationZ += rotationSpeedZ + speed;
 
