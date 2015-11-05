@@ -4,7 +4,7 @@
 
   'use strict';
 
-  var app = rootScope.KLU5TER;
+  var app = rootScope.getKLU5TER();
 
   var iLevel = document.getElementById('input-level');
   var iSegment = document.getElementById('input-segment');
@@ -61,26 +61,29 @@
   // setup state links
   for (var l = 0; l < stateSelector.length; l++) {
     var link = stateSelector[l];
-    link.addEventListener('mouseover', onStateChange);
+    link.addEventListener('click', onStateChange);
+    if ( app.changeStateOnMouseOver ) {
+      link.addEventListener('mouseover', onStateChange);
+    }
   }
 
   iLevel.addEventListener('input', function() {
     // console.log( iLevel.value );
-    // app.controls.level.val = iLevel.value;
-    app.cluster.config.levels = Math.ceil(iLevel.value);
+    app.controls.level.val = iLevel.value;
+    app.clusterConfig.levels = Math.ceil(iLevel.value);
     app.clusterFactory.rebuildCluster();
   });
 
   iSegment.addEventListener('input', function() {
     // console.log( iSegment.value );
-    // app.controls.segment.val = iSegment.value;
-    app.cluster.config.segments = Math.ceil(iSegment.value);
+    app.controls.segment.val = iSegment.value;
+    app.clusterConfig.segments = Math.ceil(iSegment.value);
     app.clusterFactory.rebuildCluster();
   });
 
   iCircle.addEventListener('input', function() {
-    // app.controls.circle.val = iCircle.value;
-    app.cluster.config.circles = Math.ceil(iCircle.value);
+    app.controls.circle.val = iCircle.value;
+    app.clusterConfig.circles = Math.ceil(iCircle.value);
     app.clusterFactory.rebuildCluster();
   });
 

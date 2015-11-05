@@ -27,7 +27,7 @@ function ClusterFactory(app) {
   this.rebuildCluster = function() {
     this.deleteCluster();
     app.materialFactory.init();
-    this.createCluster(app.cluster.config);
+    this.createCluster(app.clusterConfig);
   };
 
   /**
@@ -53,16 +53,25 @@ function ClusterFactory(app) {
     hiliters.push(hilitedChunk);
   };
 
+  /**
+   * Generates one chunk of the kluster based on its level, segment, circle, and given material properties.
+   *
+   * @param level The level in the kluster
+   * @param segment The segment in the kluster
+   * @param circle The circle in the kluster   
+   * @param givenMaterial Material to use instead of the default one 
+   * @param expandFactor To increase a bit in size (wip)
+   */
   function getChunk(level, segment, circle, givenMaterial, expandFactor) {
     // Level
-    var levelMin = level * self.options.levelheight;
-    var levelMax = levelMin + self.options.levelheight / app.cluster.config.levelsSpacing;
-    var levelHeight = self.options.levelheight / app.cluster.config.levelsSpacing;
+    var levelMin = level;
+    var levelMax = level + self.options.levelheight / app.clusterConfig.levelsSpacing;
+    var levelHeight = self.options.levelheight / app.clusterConfig.levelsSpacing;
 
     // Segment
     var segmentLength = (Math.PI * 2) / self.options.segments;
     var thetaMin = segment * segmentLength;
-    var tLength = segmentLength * app.cluster.config.segmentsSpacing;
+    var tLength = segmentLength * app.clusterConfig.segmentsSpacing;
     var thetaMax = thetaMin + tLength;
 
     // Radius
@@ -70,7 +79,7 @@ function ClusterFactory(app) {
     var outerRadius = app.ringOptions.outerRadius;
 
     var radiusAvg = (outerRadius + innerRadius) / 2;
-    var radiusStep = radiusAvg / app.cluster.config.circles;
+    var radiusStep = radiusAvg / app.clusterConfig.circles;
 
     // Material
     var cylMaterial = app.cylCircleCore;
@@ -89,17 +98,28 @@ function ClusterFactory(app) {
     var xx = Math.sin(thetaAvg) * radius; // + THREE.Math.random16() / 4;
     var yy = Math.cos(thetaAvg) * radius; // + THREE.Math.random16() / 4;
 
+    function traceChunk() {
+      var dec = 1;
+      var r = (num) => Math.round(num * 100) / 100;
+
+      console.log(
+        'levelMin=' + r(levelMin, dec) +
+        ', levelMax=' + r(levelMax, dec) +
+        ', thetaMin=' + r(thetaMin, dec) +
+        ', thetaMax=' + r(thetaMax, dec) +
+        ', innerRadius=' + r(innerRadius, dec) +
+        ', outerRadius=' + r(outerRadius, dec)
+      );
+    }
+
     function getCubicMesh() {
+      traceChunk();
       var cube = app.factories.cube.getCube(xx, yy, levelMin, 0.5, 0.5, levelHeight, cylMaterial.color.getHex());
       return cube;
     }
 
-    //
     // create exrude from spline and path
-    //
     function getKlusterMesh() {
-
-
       var closedSpline = new THREE.CatmullRomCurve3([
         new THREE.Vector3(xx, yy, levelMin),
         new THREE.Vector3(xx, yy, levelMax)
@@ -135,8 +155,8 @@ function ClusterFactory(app) {
       return mesh;
     }
 
-    // var mesh = getKlusterMesh();
-    var mesh = getCubicMesh();
+    var mesh = getKlusterMesh();
+    // var mesh = getCubicMesh();
 
     return mesh;
   }
@@ -144,8 +164,10 @@ function ClusterFactory(app) {
   this.deleteCluster = function(options) {
     // chunk
     var chunk;
-    
-    self.unhiliteChunk( {removeOld: true} );
+
+    self.unhiliteChunk({
+      removeOld: true
+    });
 
     // clusterAxis.add(chunk);
     for (var c = 0; c < chunks.length; c++) {
@@ -209,8 +231,6 @@ function ClusterFactory(app) {
       // rotationZ += rotationSpeedZ + speed;
 
       // clusterAxis.rotation.x += 0.0005;// + speed;
-      // clusterAxis.rotation.x = (10 / app.controls.level.val) * (Math.PI / 4) + rotationX;
-      // clusterAxis.rotation.y = (10 / app.controls.segment.val) * (Math.PI / 4) + rotationY;
       // clusterAxis.rotation.z = rotationZ;
 
       // ring3.rotation.x = rotationX + speed;

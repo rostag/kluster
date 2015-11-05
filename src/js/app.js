@@ -1,40 +1,37 @@
-/* globals THREE, ClusterFactory */
+/* globals THREE, TWEEN, ClusterFactory, MaterialFactory, KlusterAnimator, console */
 
-// @todo Implement timeSpeedFunction
+/**
+ * Kluster main application
+ * @todo Dynamic (Text) Labels. 
+ * @todo Dynamic Chunks. May generate chunks only located to some rotation angle or length.
+ * @todo Cubic Model. More illustrative
+ * @todo Invisible Circle(s)
+ * @todo Variable segment length
+ * @todo Percentage-based length of the segment
+ * @todo Pie chart-alike
+ * @todo Level can have its subdivisions
+ * @todo Each metrioc can be subdivided
+ */
 
 (function(rootScope) {
 
   'use strict';
 
-  var scene;
-  var camera;
-  var renderer;
-  var lights;
-  var time;
-
-  var mouseX = 0;
-  var mouseY = 0;
-
-  var windowHalfX = window.innerWidth / 2;
-  var windowHalfY = window.innerHeight / 2;
-
   var app = rootScope.getKLU5TER();
-  var orbit;
 
   app.opacityAdd = 0.3;
   app.isManualMode = true;
+  app.changeStateOnMouseOver = false;
   app.isDebug = false;
 
-  app.cluster = {
-    config: {
-      levels: 5,
-      segments: 8,
-      circles: 3,
-      segmentsSpacing: 0.96,
-      levelsSpacing: 1.2,
-      height: 10,
-      radius: 10
-    }
+  app.clusterConfig = {
+    levels: 2,
+    segments: 40,
+    circles: 5,
+    segmentsSpacing: 0.96,
+    levelsSpacing: 1.2,
+    height: 10,
+    radius: 10
   };
 
   app.ringOptions = {
@@ -59,15 +56,29 @@
 
   app.controls = {
     level: {
-      val: 0.1
+      val: app.clusterConfig.levels
     },
     segment: {
-      val: 2.7
+      val: app.clusterConfig.segments
     },
     circle: {
-      val: 4
+      val: app.clusterConfig.circles
     }
   };
+
+  var scene;
+  var camera;
+  var renderer;
+  var lights;
+  var time;
+
+  var mouseX = 0;
+  var mouseY = 0;
+
+  var windowHalfX = window.innerWidth / 2;
+  var windowHalfY = window.innerHeight / 2;
+
+  var orbit;
 
   app.initializeControls();
 
@@ -84,15 +95,16 @@
   app.lights = lights;
 
   app.clusterFactory = new ClusterFactory(app);
-  var clusterAxis = app.clusterFactory.createCluster(app.cluster.config);
+  var clusterAxis = app.clusterFactory.createCluster(app.clusterConfig);
 
   app.animator = new KlusterAnimator();
   app.animator.startAnimator();
 
-  scene.add(app.factories.cube.getCube(0, 0, 0, 1, 1, 1, 0xffffff));
-  scene.add(app.factories.cube.getCube(20, 0, 0, 1, 1, 1, 0xff0000));
-  scene.add(app.factories.cube.getCube(0, 20, 0, 1, 1, 1, 0x00ff00));
-  scene.add(app.factories.cube.getCube(0, 0, 20, 1, 1, 1, 0x0000ff));
+  var hcWidth = 0.33;
+  scene.add(app.factories.cube.getCube(0, 0, 0, hcWidth, hcWidth, hcWidth, 0xffffff));
+  scene.add(app.factories.cube.getCube(20, 0, 0, hcWidth, hcWidth, hcWidth, 0xff0000));
+  scene.add(app.factories.cube.getCube(0, 20, 0, hcWidth, hcWidth, hcWidth, 0x00ff00));
+  scene.add(app.factories.cube.getCube(0, 0, 20, hcWidth, hcWidth, hcWidth, 0x0000ff));
   // textFactory(app);
 
   function initScene() {
@@ -129,7 +141,6 @@
     orbit = new THREE.OrbitControls(camera, renderer.domElement);
     orbit.enableZoom = true;
     // orbit.autoRotate = true;
-    // orbit.autoRotate: = true;
 
     // orbit.enableDamping = true;
     // orbit.dampingFactor = 0.25;
@@ -182,11 +193,11 @@
     clusterAxis.onRender();
 
     // var dX = ( mouseX - camera.position.x ) * 1;
-    var dY = (-mouseY - 200 - camera.position.y) * 1;
+    // var dY = (-mouseY - 200 - camera.position.y) * 1;
     // camera.position.x += dX;
     // camera.position.y += dY;
 
-    camera.lookAt( scene.position );
+    camera.lookAt(scene.position);
     // camera.lookAt( cluster.position );
 
     TWEEN.update();

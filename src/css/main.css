@@ -52,6 +52,11 @@ div.klapp-controls input {
 	display: inline-block;
 }
 
+div.klapp-controls a:hover {
+	font-weight: bold;
+	color: #eee;
+}
+
 body * {
 	color: #ccc;
 	font-family: Arial, sans-serif;

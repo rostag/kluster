@@ -1,9 +1,10 @@
-/* globals console, KLU5TER, THREE, TWEEN */
+/* globals console, KLU5TER, THREE, TWEEN, KlusterAnimator */
 
 /**
  * Animates the Kluster and Camera
  * @todo: implement idle cycle
  * @todo: implement rings, sectors and levels animation
+ * @todo Implement timeSpeedFunction
  */
 
 function KlusterAnimator() {
@@ -46,9 +47,9 @@ function KlusterAnimator() {
   function getRandomChunk() {
     var mr = THREE.Math.randInt;
     var chunk = {
-      level: mr(0, app.cluster.config.levels - 1),
-      segment: mr(0, app.cluster.config.segments - 1),
-      circle: mr(0, app.cluster.config.circles - 1)
+      level: mr(0, app.clusterConfig.levels - 1),
+      segment: mr(0, app.clusterConfig.segments - 1),
+      circle: mr(0, app.clusterConfig.circles - 1)
     };
     // console.log('random chunk:', chunk);
     return chunk;
@@ -66,9 +67,9 @@ function KlusterAnimator() {
     clusterPos.rotation.y = mrfs(Math.PI * k);
     clusterPos.rotation.z = mrfs(Math.PI * k);
 
-    clusterPos.camera.x = THREE.Math.randFloat(2, 30) * k;
-    clusterPos.camera.y = THREE.Math.randFloat(2, 40) * k;
-    clusterPos.camera.z = THREE.Math.randFloat(0, 30) * k;
+    clusterPos.camera.x = THREE.Math.randFloat(2, 15) * k;
+    clusterPos.camera.y = THREE.Math.randFloat(2, 25) * k;
+    clusterPos.camera.z = THREE.Math.randFloat(0, 10) * k;
   }
 
   var states = {
@@ -187,13 +188,14 @@ function KlusterAnimator() {
       name: 'State Prev',
       handler: function() {
         app.isManualMode = true;
-
+        getPrevState();
       }
     },
     'STATE_NEXT': {
       name: 'State Next',
       handler: function() {
         app.isManualMode = true;
+        getNextState();
       }
     }
   };
