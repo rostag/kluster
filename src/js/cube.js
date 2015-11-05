@@ -21,9 +21,9 @@
 		mesh = new THREE.Mesh(geometry, mat);
 
 		// Add Lines
-		mesh.add(new THREE.LineSegments(
-			geometry, app.cubeLineMaterial
-		));		
+		// mesh.add(new THREE.LineSegments(
+		// 	geometry, app.cubeLineMaterial
+		// ));		
 
 		mesh.position.x = x;
 

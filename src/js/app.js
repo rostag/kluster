@@ -94,7 +94,7 @@
   app.animator = new KlusterAnimator();
   app.animator.startAnimator();
 
-  var hcWidth = 0.33;
+  var hcWidth = 0.93;
   scene.add(app.factories.cube.getCube(0, 0, 0, hcWidth, hcWidth, hcWidth, 0xffffff));
   scene.add(app.factories.cube.getCube(20, 0, 0, hcWidth, hcWidth, hcWidth, 0xff0000));
   scene.add(app.factories.cube.getCube(0, 20, 0, hcWidth, hcWidth, hcWidth, 0x00ff00));
@@ -106,7 +106,7 @@
     scene = new THREE.Scene();
     scene.fog = new THREE.Fog(0x000000, 250, 1400);
 
-    if (app.isDebug) {
+    if (app.isDebug || true) {
       scene.add(new THREE.AxisHelper(30));
     }
     // scene.add(new THREE.GridHelper(100,10));

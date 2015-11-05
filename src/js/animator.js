@@ -500,18 +500,19 @@ function KlusterAnimator() {
     'Ring Debugger': {
       clusterAxisPosition: {
         x: 0,
-        y: 10,
+        y: 0,
         z: 0
       },
       clusterAxisRotation: {
-        _x: 1.5707963267948966,
+        _x: 0,
         _y: 0,
-        _z: 0
+        _z: -1.57
       },
       cameraPosition: {
-        x: -1.735643158085054e-7,
-        y: -13.922664522547741,
-        z: 0.00001392158263048721
+        x: 0,
+        y: 19,
+        // y: -13.922664522547741,
+        z: 0
       },
       clusterOptions: {
         levels: 1,
