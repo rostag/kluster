@@ -71,10 +71,10 @@ function MaterialFactory(app) {
 			opacity: 0.2
 		});
 
-		app.lineMaterial = new THREE.LineBasicMaterial({
+		app.cubeLineMaterial = new THREE.LineBasicMaterial({
 			color: 0xffffff,
 			transparent: true,
-			opacity: 0.1
+			opacity: 1.1
 		});
 
 		app.mainLineMaterial = new THREE.LineBasicMaterial({

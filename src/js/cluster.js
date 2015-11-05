@@ -22,10 +22,16 @@ function ClusterFactory(app) {
   var chunks = [];
   var hiliters = [];
 
+  this.rebuildIfNeeded = function( rebuildIsNeeded ) {
+    if ( rebuildIsNeeded ) {
+      self.rebuildCluster();
+    }
+  };
+
   this.rebuildCluster = function() {
     this.deleteCluster();
-    app.materialFactory.init();
-    this.createCluster(app.clusterOptions);
+    // app.materialFactory.init();
+    this.createCluster(self.options);
   };
 
   /**
@@ -62,14 +68,14 @@ function ClusterFactory(app) {
    */
   function getChunk(level, segment, circle, givenMaterial, expandFactor) {
     // Level
-    var levelMin = level;
-    var levelMax = level + self.options.levelheight / app.clusterOptions.levelsSpacing;
-    var levelHeight = self.options.levelheight / app.clusterOptions.levelsSpacing;
+    var levelHeight = self.options.height / self.options.levels;
+    var levelMin = levelHeight * (level + 0.5) * self.options.levelsSpacing;
+    var levelMax = levelHeight * (level + 1.5);
 
     // Segment
     var segmentLength = (Math.PI * 2) / self.options.segments;
     var thetaMin = segment * segmentLength;
-    var tLength = segmentLength * app.clusterOptions.segmentsSpacing;
+    var tLength = segmentLength * self.options.segmentsSpacing;
     var thetaMax = thetaMin + tLength;
 
     // Radius
@@ -79,7 +85,7 @@ function ClusterFactory(app) {
     var outerRadius = circle * ringWidth + ringWidth / self.options.ringSpacing;
 
     var radiusAvg = (outerRadius + innerRadius) / 2;
-    var radiusStep = radiusAvg / app.clusterOptions.circles;
+    var radiusStep = radiusAvg / self.options.circles;
 
     // Material
     var cylMaterial = app.cylCircleCore;
@@ -99,22 +105,32 @@ function ClusterFactory(app) {
     var yy = Math.cos(thetaAvg) * radius; // + THREE.Math.random16() / 4;
 
     function traceChunk() {
+      var td = '; ';
       var dec = 1;
       var r = (num) => Math.round(num * 100) / 100;
 
       console.log(
-        'levelMin=' + r(levelMin, dec) +
-        ', levelMax=' + r(levelMax, dec) +
-        ', thetaMin=' + r(thetaMin, dec) +
-        ', thetaMax=' + r(thetaMax, dec) +
-        ', innerRadius=' + r(innerRadius, dec) +
-        ', outerRadius=' + r(outerRadius, dec)
+        'level=' + r(level, dec) +
+        td + 'levelHeight=' + r(levelHeight, dec) +
+        td + 'levelMin=' + r(levelMin, dec) +
+        td + 'levelMax=' + r(levelMax, dec) +
+        '\nsegment=' + r(segment, dec) +
+        td + 'segmentLength=' + r(segmentLength, dec) +
+        td + 'thetaMin=' + r(thetaMin, dec) +
+        td + 'thetaMax=' + r(thetaMax, dec) +
+        '\ncircle=' + r(circle, dec) +
+        td + 'ringWidth=' + r(ringWidth, dec) +
+        td + 'innerRadius=' + r(innerRadius, dec) +
+        td + 'outerRadius=' + r(outerRadius, dec)
       );
+
+      app.tracePos && app.tracePos();
     }
 
     function getCubicMesh() {
       traceChunk();
-      var cube = app.factories.cube.getCube(xx, yy, levelMin, 0.5, 0.5, levelHeight, cylMaterial.color.getHex());
+      // level=0; levelHeight=10; levelMin=0; levelMax=10
+      var cube = app.factories.cube.getCube(xx, yy, levelMin, 0.5, 0.5, levelHeight, cylMaterial.color.getHex(), cylMaterial);
       return cube;
     }
 
@@ -155,8 +171,8 @@ function ClusterFactory(app) {
       return mesh;
     }
 
-    // var mesh = getKlusterMesh();
-    var mesh = getCubicMesh();
+    var mesh = getKlusterMesh();
+    // var mesh = getCubicMesh();
 
     return mesh;
   }
@@ -176,20 +192,17 @@ function ClusterFactory(app) {
     }
 
     clusterAxis.remove(levelPointer);
-    
-    // clusterAxis = new THREE.Mesh(geometry, app.lineMaterial);
 
     app.scene.remove(clusterAxis);
   };
 
   this.createCluster = function(options) {
     var geometry = new THREE.CylinderGeometry(0.0001, 0.0001, options.height, 8);
-    clusterAxis = new THREE.Mesh(geometry, app.lineMaterial);
+    clusterAxis = new THREE.Mesh(geometry);
 
     ringFactory = new RingFactory(app);
 
     self.options = options;
-    self.options.levelheight = (options.height / options.levels);
 
     var level;
     var segment;
@@ -213,7 +226,7 @@ function ClusterFactory(app) {
     levelPointer.scale.set(0.5, 0.5, 0.5);
     clusterAxis.add(levelPointer);
 
-    clusterAxis.translateZ(-options.height);
+    // clusterAxis.translateZ(-options.height);
 
     clusterAxis.onRender = function() {
       speed += 0.00001;
@@ -230,13 +243,6 @@ function ClusterFactory(app) {
       levelPointer.rotation.x = rotationX + speed;
       levelPointer.rotation.y = rotationY + rand;
     };
-
-    // Hiliters
-    self.hiliteChunk({
-      level: 1,
-      segment: 2,
-      circle: 2
-    });
 
     app.scene.add(clusterAxis);
 

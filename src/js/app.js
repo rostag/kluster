@@ -19,6 +19,8 @@
 
   var app = rootScope.getKLU5TER();
 
+  // Screensaver mode 
+  app.autoPlayIsOn = false;
   app.opacityAdd = 0.3;
   app.isManualMode = true;
   app.changeStateOnMouseOver = false;
@@ -27,10 +29,10 @@
   // Kluster Looks like this
   app.clusterOptions = {
     levels: 1,
-    segments: 16,
+    segments: 1,
     circles: 1,
     segmentsSpacing: 0.96,
-    levelsSpacing: 1.2,
+    levelsSpacing: 1.3,
     ringSpacing: 0.96,
     height: 10,
     radius: 10
@@ -85,6 +87,7 @@
   app.lights = lights;
 
   app.clusterFactory = new ClusterFactory(app);
+
   var clusterAxis = app.clusterFactory.createCluster(app.clusterOptions);
 
   app.animator = new KlusterAnimator();
@@ -177,20 +180,26 @@
   }
 
   function render() {
+
     requestAnimationFrame(render);
+
     orbit.update();
-    time = Date.now() * 0.001;
-    clusterAxis.onRender();
-
-    // var dX = ( mouseX - camera.position.x ) * 1;
-    // var dY = (-mouseY - 200 - camera.position.y) * 1;
-    // camera.position.x += dX;
-    // camera.position.y += dY;
-
-    camera.lookAt(scene.position);
-    // camera.lookAt( cluster.position );
 
     TWEEN.update();
+
+    clusterAxis.onRender();
+
+    camera.lookAt(scene.position);
+
+    if ( app.autoPlayIsOn === true ) {
+      // it used to tweal slightly scenee rotation, may be still helpful
+      var dX = ( mouseX - camera.position.x ) * 1;
+      var dY = (-mouseY - 200 - camera.position.y) * 1;
+      scene.rotation.x += dX / 10000;
+      scene.rotation.y += dY / 10000;
+      scene.rotation.z -= dX / 20000;
+    }
+
     renderer.render(scene, camera);
   }
 
@@ -204,7 +213,15 @@
     - materials config
    */
   function tracePos() {
-    var str = JSON.stringify(clusterAxis.rotation, ['_x', '_y', '_z']) + ', ' + JSON.stringify(clusterAxis.position) + ', ' + JSON.stringify(camera.position);
+    var delim = '  ';
+    var clusterAxisPosition = 'clusterAxisPosition: ' + JSON.stringify(clusterAxis.position, null, delim);
+    var clusterAxisRotation = 'clusterAxisRotation: ' + JSON.stringify(clusterAxis.rotation, ['_x', '_y', '_z'], delim);
+    var cameraPosition = 'cameraPosition: ' + JSON.stringify(camera.position, null, delim);
+    var clusterOptions = 'clusterOptions: ' + JSON.stringify(app.clusterOptions, null, delim);
+
+    // levelMin=1, levelMax=5.17, thetaMin=5.89, thetaMax=6.27, innerRadius=0, outerRadius=10.42
+    var str = '{' + clusterAxisPosition + ', ' + clusterAxisRotation + ', ' + cameraPosition + ', ' + clusterOptions + '}';
+    // remove double qoutes, because on next step this string is going back to JS code
     str = str.replace(/"/g, '');
     console.log(str);
   }

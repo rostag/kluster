@@ -90,9 +90,11 @@ function KlusterAnimator() {
         clusterPos.camera.z = 0;
 
         // TWEAK it ti get the best result
-        setPosFromPosMap('Initial One');
+        var rebuildIsNeeded = setPosFromPosMap('Initial Two');
 
         // clusterPos.camera.fov = app.cameraSettings.FOV;
+
+        // var a = app.clusterAxis.rebuildIfNeeded && app.clusterAxis.rebuildIfNeeded(rebuildIsNeeded);
 
         tweenCluster(clusterPos);
       }
@@ -185,6 +187,14 @@ function KlusterAnimator() {
       handler: function() {
         app.isManualMode = true;
         app.tracePos();
+      }
+    },
+    'STATE_SCREEN_SAVE': {
+      name: 'State of Going to screen saver mode',
+      handler: function() {
+        app.autoPlayIsOn = !app.autoPlayIsOn;
+        console.log('app.autoPlayIsOn =', app.autoPlayIsOn);
+        app.isManualMode = true;
       }
     },
     'STATE_PREV': {
@@ -311,117 +321,186 @@ function KlusterAnimator() {
   }
 
   function setPosFromPosMap(posId) {
+    var rebuildIsNeeded = false;
+
     var p = posMap[posId];
 
-    clusterPos.position.x = p[0]._x;
-    clusterPos.position.y = p[0]._y;
-    clusterPos.position.z = p[0]._z;
+    clusterPos.position.x = p.clusterAxisPosition._x;
+    clusterPos.position.y = p.clusterAxisPosition._y;
+    clusterPos.position.z = p.clusterAxisPosition._z;
 
-    clusterPos.rotation.x = p[1]._x;
-    clusterPos.rotation.y = p[1]._y;
-    clusterPos.rotation.z = p[1]._z;
+    clusterPos.rotation.x = p.clusterAxisRotation.x;
+    clusterPos.rotation.y = p.clusterAxisRotation.y;
+    clusterPos.rotation.z = p.clusterAxisRotation.z;
 
-    clusterPos.camera.x = p[2].x;
-    clusterPos.camera.y = p[2].y;
-    clusterPos.camera.z = p[2].z;
+    clusterPos.camera.x = p.cameraPosition.x;
+    clusterPos.camera.y = p.cameraPosition.y;
+    clusterPos.camera.z = p.cameraPosition.z;
 
     clusterPos.camera.fov = app.cameraSettings.FOV;
+
+    // @todo debug rebuild...
+    // We can also rebuild cluster in each separate state 
+    // which makes it even more crazy :-)
+    // if (p.clusterOptions) {
+    //   console.log('rebuildIsNeeded : ', p.clusterOptions)
+    //   for ( var prop in p.clusterOptions ) {
+    //     app.clusterOptions[prop] = p.clusterOptions[prop];
+    //   }
+    //   rebuildIsNeeded = true;
+    // }
+
+    return rebuildIsNeeded;
   }
 
   var posMap = {
-    '4': [{
-      _x: 1.5707963267948966,
-      _y: 0,
-      _z: 0
-    }, {
-      x: 6,
-      y: 0,
-      z: 6
-    }, {
-      x: -0.06005512073072366,
-      y: -7.432246638646143,
-      z: 2.9594092797053992
-    }],
-    '5': [{
-      _x: 1.5707963267948966,
-      _y: 0,
-      _z: 0
-    }, {
-      x: 6,
-      y: 0,
-      z: 6
-    }, {
-      x: 5.924207462789089,
-      y: -1.7707740057674255,
-      z: -5.076231412998507
-    }],
-    '6i': [{
-      _x: 0,
-      _y: 1.5707963267948966,
-      _z: 0
-    }, {
-      x: 6,
-      y: 0,
-      z: 6
-    }, {
-      x: 6.95129248126769,
-      y: -0.8778824404155695,
-      z: 3.86119868184483
-    }],
-    '6s': [{
-      _x: 1.5707963267948966,
-      _y: 0,
-      _z: 0
-    }, {
-      x: 1.5707963267948966,
-      y: 0,
-      z: 0
-    }, {
-      x: -0.060055120730723645,
-      y: -7.432246638646141,
-      z: 2.9594092797053984
-    }],
+    '4': {
+      clusterAxisPosition: {
+        _x: 1.5707963267948966,
+        _y: 0,
+        _z: 0
+      },
+      clusterAxisRotation: {
+        x: 6,
+        y: 0,
+        z: 6
+      },
+      cameraPosition: {
+        x: -0.06005512073072366,
+        y: -7.432246638646143,
+        z: 2.9594092797053992
+      }
+    },
+    '5': {
+      clusterAxisPosition: {
+        _x: 1.5707963267948966,
+        _y: 0,
+        _z: 0
+      },
+      clusterAxisRotation: {
+        x: 6,
+        y: 0,
+        z: 6
+      },
+      cameraPosition: {
+        x: 5.924207462789089,
+        y: -1.7707740057674255,
+        z: -5.076231412998507
+      }
+    },
+    '6i': {
+      clusterAxisPosition: {
+        _x: 0,
+        _y: 1.5707963267948966,
+        _z: 0
+      },
+      clusterAxisRotation: {
+        x: 6,
+        y: 0,
+        z: 6
+      },
+      cameraPosition: {
+        x: 6.95129248126769,
+        y: -0.8778824404155695,
+        z: 3.86119868184483
+      }
+    },
+    '6s': {
+      clusterAxisPosition: {
+        _x: 1.5707963267948966,
+        _y: 0,
+        _z: 0
+      },
+      clusterAxisRotation: {
+        x: 1.5707963267948966,
+        y: 0,
+        z: 0
+      },
+      cameraPosition: {
+        x: -0.060055120730723645,
+        y: -7.432246638646141,
+        z: 2.9594092797053984
+      }
+    },
     // othographic:
-    '6': [{
-      _x: 0,
-      _y: 0,
-      _z: 0
-    }, {
-      x: 0,
-      y: 0,
-      z: 0
-    }, {
-      x: 17.403784587301185,
-      y: -0.12254841677667727,
-      z: -14.008167078637566
-    }],
-    '8': [{
-      _x: 0,
-      _y: 0,
-      _z: 0
-    }, {
-      x: 0,
-      y: 0,
-      z: 0
-    }, {
-      x: 0.8672603877122337,
-      y: 0.09869212668477238,
-      z: 13.895276416525217
-    }],
-    'Initial One': [{
-      _x: 0,
-      _y: 0,
-      _z: 0
-    }, {
-      x: 0,
-      y: 0,
-      z: 0
-    }, {
-      x: 0.2705519085581147,
-      y: 2.9760709941392562,
-      z: 1.6566526440945126e-17
-    }]
-
+    '6': {
+      clusterAxisPosition: {
+        _x: 0,
+        _y: 0,
+        _z: 0
+      },
+      clusterAxisRotation: {
+        x: 0,
+        y: 0,
+        z: 0
+      },
+      cameraPosition: {
+        x: 17.403784587301185,
+        y: -0.12254841677667727,
+        z: -14.008167078637566
+      }
+    },
+    '8': {
+      clusterAxisPosition: {
+        _x: 0,
+        _y: 0,
+        _z: 0
+      },
+      clusterAxisRotation: {
+        x: 0,
+        y: 0,
+        z: 0
+      },
+      cameraPosition: {
+        x: 0.8672603877122337,
+        y: 0.09869212668477238,
+        z: 13.895276416525217
+      }
+    },
+    'Initial One': {
+      clusterAxisPosition: {
+        _x: 0,
+        _y: 0,
+        _z: 0
+      },
+      clusterAxisRotation: {
+        x: 0,
+        y: 0,
+        z: 0
+      },
+      cameraPosition: {
+        x: 0.2705519085581147,
+        y: 2.9760709941392562,
+        z: 1.6566526440945126e-17
+      }
+    },
+    'Initial Two': {
+      clusterAxisPosition: {
+        x: 0,
+        y: 0,
+        z: 0
+      },
+      clusterAxisRotation: {
+        _x: 0,
+        _y: 0,
+        _z: 0
+      },
+      cameraPosition: {
+        x: 7.616083989998293,
+        y: -0.5361002156843375,
+        z: 11.321729010548237
+      },
+      clusterOptions: {
+        levels: 7,
+        segments: 11,
+        circles: 7,
+        segmentsSpacing: 0.96,
+        levelsSpacing: 1.3,
+        ringSpacing: 0.96,
+        height: 10,
+        radius: 10
+      }
+    }
 
     // Center ortho vision:
     // {_x:1.5707963267948966,_y:0,_z:0,_order:XYZ} {x:0,y:10,z:0} {x:-0.2709624330095889,y:13.080082406522363,z:9.082308234026366}

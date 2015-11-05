@@ -1,6 +1,6 @@
 /* globals THREE */
 
-(function ( rootScope ) {
+(function(rootScope) {
 
 	'use strict';
 
@@ -10,22 +10,28 @@
 
 	app.factories.cube.getCube = createMesh;
 
-	function createMesh(x,y,z,w,h,d, clr) {
-		var geometry = new THREE.BoxGeometry(w,h,d);
+	function createMesh(x, y, z, w, h, d, clr, material) {
+		
+		var geometry = new THREE.BoxGeometry(w, h, d);
 
-		mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
+		var mat = material || new THREE.MeshBasicMaterial({
 			color: clr || 0x62989cf
-		}));
+		});
+
+		mesh = new THREE.Mesh(geometry, mat);
+
+		// Add Lines
+		mesh.add(new THREE.LineSegments(
+			geometry, app.cubeLineMaterial
+		));		
 
 		mesh.position.x = x;
-		mesh.position.y = y;
-		mesh.position.z = z;
 
-		// mesh.material.color.setHex(clr);
+		mesh.position.y = y;
+
+		mesh.position.z = z;
 
 		return mesh;
 	}
 
-	// console.log(app.factories.cube.getCube);
-
-})( this );
+})(this);
