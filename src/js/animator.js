@@ -78,8 +78,8 @@ function KlusterAnimator() {
         clusterPos.rotation.y = 0;
         clusterPos.rotation.z = 0;
 
-        clusterPos.camera.y = 20;
-        clusterPos.camera.x = 0;
+        clusterPos.camera.y = 22;
+        clusterPos.camera.x = 2;
         clusterPos.camera.z = 0;
 
         // clusterPos.camera.fov = app.cameraSettings.FOV;
@@ -190,7 +190,7 @@ function KlusterAnimator() {
     app.clusterFactory.uhniliteChunk({unhiliteChunks:true});
     var rChunk;
     var i = 0;
-    while(i < 20) {
+    while(i < 40) {
       rChunk = getRandomChunk();
       rChunk.unhiliteChunks = false;
       app.clusterFactory.hiliteChunk(rChunk);
