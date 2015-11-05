@@ -33,8 +33,8 @@ function ClusterFactory(app) {
   /**
    * @todo Implement re-using of chunks
    */
-  self.uhniliteChunk = function(options) {
-    if( !options.unhiliteChunks ) return;
+  self.unhiliteChunk = function(options) {
+    if (!options.removeOld) return;
     while (hiliters.length) {
       var hilitedChunk = hiliters.pop();
       clusterAxis.remove(hilitedChunk);
@@ -47,7 +47,7 @@ function ClusterFactory(app) {
    * @todo
    */
   self.hiliteChunk = function(options) {
-    self.uhniliteChunk( options );
+    self.unhiliteChunk(options);
     var hilitedChunk = getChunk(options.level, options.segment, options.circle, app.cylCircleHiliter);
     clusterAxis.add(hilitedChunk);
     hiliters.push(hilitedChunk);
@@ -55,7 +55,9 @@ function ClusterFactory(app) {
 
   function getChunk(level, segment, circle, givenMaterial, expandFactor) {
     // Level
-    var lvl = level * self.options.levelheight;
+    var levelMin = level * self.options.levelheight;
+    var levelMax = levelMin + self.options.levelheight / app.cluster.config.levelsSpacing;
+    var levelHeight = self.options.levelheight / app.cluster.config.levelsSpacing;
 
     // Segment
     var segmentLength = (Math.PI * 2) / self.options.segments;
@@ -84,17 +86,23 @@ function ClusterFactory(app) {
     var radius = ((circle * radiusStep) * 2 + radiusStep * 0.9) / 2;
     var thetaAvg = (thetaMin + thetaMax) / 2;
 
+    var xx = Math.sin(thetaAvg) * radius; // + THREE.Math.random16() / 4;
+    var yy = Math.cos(thetaAvg) * radius; // + THREE.Math.random16() / 4;
+
+    function getCubicMesh() {
+      var cube = app.factories.cube.getCube(xx, yy, levelMin, 0.5, 0.5, levelHeight, cylMaterial.color.getHex());
+      return cube;
+    }
+
     //
     // create exrude from spline and path
     //
     function getKlusterMesh() {
 
-      var xx = Math.sin(thetaAvg) * radius; // + THREE.Math.random16() / 4;
-      var yy = Math.cos(thetaAvg) * radius; // + THREE.Math.random16() / 4;
 
       var closedSpline = new THREE.CatmullRomCurve3([
-        new THREE.Vector3(xx, yy, lvl),
-        new THREE.Vector3(xx, yy, lvl + self.options.levelheight / app.cluster.config.levelsSpacing)
+        new THREE.Vector3(xx, yy, levelMin),
+        new THREE.Vector3(xx, yy, levelMax)
       ]);
 
       var extrudeSettings = {
@@ -127,7 +135,8 @@ function ClusterFactory(app) {
       return mesh;
     }
 
-    var mesh = getKlusterMesh();
+    // var mesh = getKlusterMesh();
+    var mesh = getCubicMesh();
 
     return mesh;
   }
@@ -135,12 +144,15 @@ function ClusterFactory(app) {
   this.deleteCluster = function(options) {
     // chunk
     var chunk;
+    
+    self.unhiliteChunk( {removeOld: true} );
 
     // clusterAxis.add(chunk);
     for (var c = 0; c < chunks.length; c++) {
       chunk = chunks[c];
       clusterAxis.remove(chunk);
     }
+
 
     // clusterAxis.remove(ring3);
     // clusterAxis.remove(ring2);

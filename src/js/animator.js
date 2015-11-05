@@ -1,4 +1,10 @@
-/* globals console, KLU5TER */
+/* globals console, KLU5TER, THREE, TWEEN */
+
+/**
+ * Animates the Kluster and Camera
+ * @todo: implement idle cycle
+ * @todo: implement rings, sectors and levels animation
+ */
 
 function KlusterAnimator() {
 
@@ -8,7 +14,7 @@ function KlusterAnimator() {
 
   var app = KLU5TER;
 
-  var camera = app.camera;
+  // var camera = app.camera;
 
   var easingFunc = TWEEN.Easing.Elastic.Out;
   easingFunc = TWEEN.Easing.Circular.Out;
@@ -40,9 +46,9 @@ function KlusterAnimator() {
   function getRandomChunk() {
     var mr = THREE.Math.randInt;
     var chunk = {
-      level: mr(0,app.cluster.config.levels-1),
-      segment: mr(0, app.cluster.config.segments-1),
-      circle: mr(0, app.cluster.config.circles-1)
+      level: mr(0, app.cluster.config.levels - 1),
+      segment: mr(0, app.cluster.config.segments - 1),
+      circle: mr(0, app.cluster.config.circles - 1)
     };
     // console.log('random chunk:', chunk);
     return chunk;
@@ -101,7 +107,7 @@ function KlusterAnimator() {
         tweenCluster(clusterPos);
 
         var rChunk = getRandomChunk();
-        rChunk.unhiliteChunks = true;
+        rChunk.removeOld = true;
         app.clusterFactory.hiliteChunk(rChunk);
       }
     },
@@ -119,7 +125,7 @@ function KlusterAnimator() {
           level: 2,
           segment: 2,
           circle: 2,
-          unhiliteChunks: true
+          removeOld: true
         });
 
       }
@@ -135,7 +141,7 @@ function KlusterAnimator() {
           level: 1,
           segment: 3,
           circle: 1,
-          unhiliteChunks: true
+          removeOld: true
         });
 
       }
@@ -157,6 +163,12 @@ function KlusterAnimator() {
     '7': {
       // CHUNKS random array creation:
       handler: hiliteChunks
+    },
+    '8': {
+      handler: function() {
+        setPosFromPosMap('8');
+        tweenCluster(clusterPos);
+      }
     },
     'STATE_HILITE': {
       // CHUNKS random array creation:
@@ -187,16 +199,18 @@ function KlusterAnimator() {
   };
 
   function hiliteChunks() {
-    app.clusterFactory.uhniliteChunk({unhiliteChunks:true});
+    app.clusterFactory.unhiliteChunk({
+      removeOld: true
+    });
     var rChunk;
     var i = 0;
-    while(i < 40) {
+    while (i < 40) {
       rChunk = getRandomChunk();
-      rChunk.unhiliteChunks = false;
+      rChunk.removeOld = false;
       app.clusterFactory.hiliteChunk(rChunk);
       i++;
     }
-}
+  }
   /**
    * Properties Tween
    * @param o Object to tween.
@@ -246,7 +260,7 @@ function KlusterAnimator() {
       console.log('A: State not found: ', stateId);
       return;
     }
-    console.log('A: Go to State: ', state.name, state.time);
+    // console.log('A: Go to State: ', state.name, state.time);
     state.handler();
   };
 
@@ -277,7 +291,7 @@ function KlusterAnimator() {
 
   function getPrevState() {
     step--;
-    stateId = animationSequence[step];
+    var stateId = animationSequence[step];
     self.getStateById(stateId);
     self.setState(stateId);
     step = step >= states.length ? 0 : step;
@@ -285,7 +299,7 @@ function KlusterAnimator() {
 
   function getNextState() {
     step++;
-    stateId = animationSequence[step];
+    var stateId = animationSequence[step];
     self.getStateById(stateId);
     self.setState(stateId);
     step = step < 1 ? states.length : step;
@@ -336,13 +350,62 @@ function KlusterAnimator() {
       y: -1.7707740057674255,
       z: -5.076231412998507
     }],
-    '6i': [{_x:0,_y:1.5707963267948966,_z:0}, {x:6,y:0,z:6}, {x:6.95129248126769,y:-0.8778824404155695,z:3.86119868184483}],
-    '6s': [{_x:1.5707963267948966,_y:0,_z:0}, {x:1.5707963267948966,y:0,z:0}, {x:-0.060055120730723645,y:-7.432246638646141,z:2.9594092797053984}],
+    '6i': [{
+      _x: 0,
+      _y: 1.5707963267948966,
+      _z: 0
+    }, {
+      x: 6,
+      y: 0,
+      z: 6
+    }, {
+      x: 6.95129248126769,
+      y: -0.8778824404155695,
+      z: 3.86119868184483
+    }],
+    '6s': [{
+      _x: 1.5707963267948966,
+      _y: 0,
+      _z: 0
+    }, {
+      x: 1.5707963267948966,
+      y: 0,
+      z: 0
+    }, {
+      x: -0.060055120730723645,
+      y: -7.432246638646141,
+      z: 2.9594092797053984
+    }],
     // othographic:
-    '6': [{_x:0,_y:0,_z:0}, {x:0,y:0,z:0}, {x:17.403784587301185,y:-0.12254841677667727,z:-14.008167078637566}]
+    '6': [{
+      _x: 0,
+      _y: 0,
+      _z: 0
+    }, {
+      x: 0,
+      y: 0,
+      z: 0
+    }, {
+      x: 17.403784587301185,
+      y: -0.12254841677667727,
+      z: -14.008167078637566
+    }],
+    '8': [{
+      _x: 0,
+      _y: 0,
+      _z: 0
+    }, {
+      x: 0,
+      y: 0,
+      z: 0
+    }, {
+      x: 0.8672603877122337,
+      y: 0.09869212668477238,
+      z: 13.895276416525217
+    }]
 
-// Center vision:
-// {"_x":1.5707963267948966,"_y":0,"_z":0,"_order":"XYZ"} {"x":0,"y":10,"z":0} {"x":-0.2709624330095889,"y":13.080082406522363,"z":9.082308234026366}
+    // Center ortho vision:
+    // {_x:1.5707963267948966,_y:0,_z:0,_order:XYZ} {x:0,y:10,z:0} {x:-0.2709624330095889,y:13.080082406522363,z:9.082308234026366}
 
   };
 }
