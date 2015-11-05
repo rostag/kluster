@@ -28,9 +28,9 @@
 
   // Kluster Looks like this
   app.clusterOptions = {
-    levels: 1,
-    segments: 1,
-    circles: 1,
+    levels: 2,
+    segments: 5,
+    circles: 4,
     segmentsSpacing: 0.96,
     levelsSpacing: 1.3,
     ringSpacing: 0.96,

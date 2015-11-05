@@ -89,9 +89,6 @@ function KlusterAnimator() {
         clusterPos.camera.x = 2;
         clusterPos.camera.z = 0;
 
-        // TWEAK it ti get the best result
-        var rebuildIsNeeded = setPosFromPosMap('Initial Two');
-
         // clusterPos.camera.fov = app.cameraSettings.FOV;
 
         // var a = app.clusterAxis.rebuildIfNeeded && app.clusterAxis.rebuildIfNeeded(rebuildIsNeeded);
@@ -103,7 +100,6 @@ function KlusterAnimator() {
       time: 1000,
       name: 'State 2',
       handler: function() {
-        // clusterPos.position.z = 5;
 
         clusterPos.camera.y = 28;
         //clusterPos.camera.fov = 75;
@@ -118,22 +114,11 @@ function KlusterAnimator() {
       }
     },
     '3': {
-      time: 1000,
-      name: 'State 3',
       handler: function() {
-        clusterPos.position.z = 10;
-        clusterPos.camera.x = 48;
+        // TWEAK it to get the best result
+        var rebuildIsNeeded = setPosFromPosMap('Initial Two');
 
-        getRandomPos();
         tweenCluster(clusterPos);
-
-        app.clusterFactory.hiliteChunk({
-          level: 2,
-          segment: 2,
-          circle: 2,
-          removeOld: true
-        });
-
       }
     },
     '4': {
@@ -173,6 +158,13 @@ function KlusterAnimator() {
     '8': {
       handler: function() {
         setPosFromPosMap('8');
+        tweenCluster(clusterPos);
+      }
+    },
+    'RANDOMIZE': {
+      name: 'State RANDOMIZE',
+      handler: function() {
+        getRandomPos();
         tweenCluster(clusterPos);
       }
     },
