@@ -11,12 +11,13 @@ function RingFactory(app) {
 			x: 0,
 			y: 0,
 			z: 0,
-			segments: 8,
+			segments: 32,
 			innerRadius: 9,
 			outerRadius: 10,
 			phiSegments: 3,
 			thetaStart: 0,
-			thetaLength: Math.PI * 2
+			thetaLength: Math.PI * 2,
+			material: app.ringPointerMaterial
 		};
 
 		// applied it there's no given options
@@ -31,9 +32,7 @@ function RingFactory(app) {
 		// thetaLength — Central angle. Default is Math.PI * 2.
 		var geometry = new THREE.RingGeometry(options.innerRadius, options.outerRadius, options.segments, options.phiSegments, options.thetaStart, options.thetaLength);
 
-		var material = options.material || app.phongMaterial;
-
-		var ring = new THREE.Mesh(geometry, material);
+		var ring = new THREE.Mesh(geometry, options.material);
 
 		ring.position.set(options.x, options.y, options.z);
 

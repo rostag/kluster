@@ -5,13 +5,13 @@ function MaterialFactory(app) {
 	'use strict';
 
 	this.init = function() {
-		app.phongMaterial = new THREE.MeshPhongMaterial({
+		app.ringPointerMaterial = new THREE.MeshPhongMaterial({
 			color: 0x156289,
 			emissive: 0x072534,
 			side: THREE.DoubleSide,
 			shading: THREE.FlatShading,
 			transparent: true,
-			opacity: 0.08
+			opacity: 0.8
 		});
 
 		// Cluster Circle Line Style

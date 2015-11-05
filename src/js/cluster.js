@@ -155,8 +155,8 @@ function ClusterFactory(app) {
       return mesh;
     }
 
-    var mesh = getKlusterMesh();
-    // var mesh = getCubicMesh();
+    // var mesh = getKlusterMesh();
+    var mesh = getCubicMesh();
 
     return mesh;
   }

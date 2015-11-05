@@ -26,9 +26,9 @@
 
   // Kluster Looks like this
   app.clusterOptions = {
-    levels: 2,
-    segments: 40,
-    circles: 5,
+    levels: 1,
+    segments: 16,
+    circles: 1,
     segmentsSpacing: 0.96,
     levelsSpacing: 1.2,
     ringSpacing: 0.96,
@@ -194,6 +194,15 @@
     renderer.render(scene, camera);
   }
 
+  /**
+   * @todo trace / save additionally 
+    - cluster options:
+      - levels
+      - segments
+      - circles
+    - hilite state
+    - materials config
+   */
   function tracePos() {
     var str = JSON.stringify(clusterAxis.rotation, ['_x', '_y', '_z']) + ', ' + JSON.stringify(clusterAxis.position) + ', ' + JSON.stringify(camera.position);
     str = str.replace(/"/g, '');
