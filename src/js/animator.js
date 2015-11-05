@@ -91,20 +91,16 @@ function KlusterAnimator() {
 
         // clusterPos.camera.fov = app.cameraSettings.FOV;
 
-        // var a = app.clusterAxis.rebuildIfNeeded && app.clusterAxis.rebuildIfNeeded(rebuildIsNeeded);
-
         tweenCluster(clusterPos);
       }
     },
     '2': {
-      time: 1000,
       name: 'State 2',
       handler: function() {
 
-        clusterPos.camera.y = 28;
-        //clusterPos.camera.fov = 75;
-        clusterPos.rotation.x = Math.PI / 2;
         clusterPos.position.y = 10;
+        clusterPos.rotation.x = Math.PI / 2;
+        clusterPos.camera.y = 28;
 
         tweenCluster(clusterPos);
 
@@ -116,7 +112,7 @@ function KlusterAnimator() {
     '3': {
       handler: function() {
         // TWEAK it to get the best result
-        var rebuildIsNeeded = setPosFromPosMap('Initial Two');
+        setPosFromPosMap('Initial Two');
 
         tweenCluster(clusterPos);
       }
@@ -151,9 +147,12 @@ function KlusterAnimator() {
         tweenCluster(clusterPos);
       }
     },
-    '7': {
+    'RING_DEBUGGER': {
       // CHUNKS random array creation:
-      handler: hiliteChunks
+      handler: function() {
+        setPosFromPosMap('Ring Debugger');
+        tweenCluster(clusterPos);
+      }
     },
     '8': {
       handler: function() {
@@ -170,7 +169,11 @@ function KlusterAnimator() {
     },
     'STATE_HILITE': {
       // CHUNKS random array creation:
-      handler: hiliteChunks
+      handler: function() {
+        setPosFromPosMap('Overloaded');
+        tweenCluster(clusterPos);
+        hiliteChunks();
+      }
     },
     'STATE_STOP_ANIMATION': {
       id: 4,
@@ -313,17 +316,15 @@ function KlusterAnimator() {
   }
 
   function setPosFromPosMap(posId) {
-    var rebuildIsNeeded = false;
-
     var p = posMap[posId];
 
-    clusterPos.position.x = p.clusterAxisPosition._x;
-    clusterPos.position.y = p.clusterAxisPosition._y;
-    clusterPos.position.z = p.clusterAxisPosition._z;
+    clusterPos.position.x = p.clusterAxisPosition.x;
+    clusterPos.position.y = p.clusterAxisPosition.y;
+    clusterPos.position.z = p.clusterAxisPosition.z;
 
-    clusterPos.rotation.x = p.clusterAxisRotation.x;
-    clusterPos.rotation.y = p.clusterAxisRotation.y;
-    clusterPos.rotation.z = p.clusterAxisRotation.z;
+    clusterPos.rotation.x = p.clusterAxisRotation._x;
+    clusterPos.rotation.y = p.clusterAxisRotation._y;
+    clusterPos.rotation.z = p.clusterAxisRotation._z;
 
     clusterPos.camera.x = p.cameraPosition.x;
     clusterPos.camera.y = p.cameraPosition.y;
@@ -334,28 +335,29 @@ function KlusterAnimator() {
     // @todo debug rebuild...
     // We can also rebuild cluster in each separate state 
     // which makes it even more crazy :-)
-    // if (p.clusterOptions) {
-    //   console.log('rebuildIsNeeded : ', p.clusterOptions)
-    //   for ( var prop in p.clusterOptions ) {
-    //     app.clusterOptions[prop] = p.clusterOptions[prop];
-    //   }
-    //   rebuildIsNeeded = true;
-    // }
-
-    return rebuildIsNeeded;
+    if (p.clusterOptions) {
+      // console.log('rebuildIsNeeded : ', p.clusterOptions);
+      for (var prop in p.clusterOptions) {
+        if ( app.clusterOptions[prop] !== p.clusterOptions[prop] ){
+          app.clusterOptions[prop] = p.clusterOptions[prop]
+          app.rebuildIsNeeded = true;
+        }
+      }
+      app.clusterFactory.checkIfRebuildIsNeeded();
+    }
   }
 
   var posMap = {
     '4': {
       clusterAxisPosition: {
-        _x: 1.5707963267948966,
-        _y: 0,
-        _z: 0
-      },
-      clusterAxisRotation: {
         x: 6,
         y: 0,
         z: 6
+      },
+      clusterAxisRotation: {
+        _x: 1.5707963267948966,
+        _y: 0,
+        _z: 0
       },
       cameraPosition: {
         x: -0.06005512073072366,
@@ -365,14 +367,14 @@ function KlusterAnimator() {
     },
     '5': {
       clusterAxisPosition: {
-        _x: 1.5707963267948966,
-        _y: 0,
-        _z: 0
-      },
-      clusterAxisRotation: {
         x: 6,
         y: 0,
         z: 6
+      },
+      clusterAxisRotation: {
+        _x: 1.5707963267948966,
+        _y: 0,
+        _z: 0
       },
       cameraPosition: {
         x: 5.924207462789089,
@@ -382,14 +384,14 @@ function KlusterAnimator() {
     },
     '6i': {
       clusterAxisPosition: {
-        _x: 0,
-        _y: 1.5707963267948966,
-        _z: 0
-      },
-      clusterAxisRotation: {
         x: 6,
         y: 0,
         z: 6
+      },
+      clusterAxisRotation: {
+        _x: 0,
+        _y: 1.5707963267948966,
+        _z: 0
       },
       cameraPosition: {
         x: 6.95129248126769,
@@ -399,14 +401,14 @@ function KlusterAnimator() {
     },
     '6s': {
       clusterAxisPosition: {
-        _x: 1.5707963267948966,
-        _y: 0,
-        _z: 0
-      },
-      clusterAxisRotation: {
         x: 1.5707963267948966,
         y: 0,
         z: 0
+      },
+      clusterAxisRotation: {
+        _x: 1.5707963267948966,
+        _y: 0,
+        _z: 0
       },
       cameraPosition: {
         x: -0.060055120730723645,
@@ -417,14 +419,14 @@ function KlusterAnimator() {
     // othographic:
     '6': {
       clusterAxisPosition: {
-        _x: 0,
-        _y: 0,
-        _z: 0
-      },
-      clusterAxisRotation: {
         x: 0,
         y: 0,
         z: 0
+      },
+      clusterAxisRotation: {
+        _x: 0,
+        _y: 0,
+        _z: 0
       },
       cameraPosition: {
         x: 17.403784587301185,
@@ -434,14 +436,14 @@ function KlusterAnimator() {
     },
     '8': {
       clusterAxisPosition: {
-        _x: 0,
-        _y: 0,
-        _z: 0
-      },
-      clusterAxisRotation: {
         x: 0,
         y: 0,
         z: 0
+      },
+      clusterAxisRotation: {
+        _x: 0,
+        _y: 0,
+        _z: 0
       },
       cameraPosition: {
         x: 0.8672603877122337,
@@ -451,14 +453,14 @@ function KlusterAnimator() {
     },
     'Initial One': {
       clusterAxisPosition: {
-        _x: 0,
-        _y: 0,
-        _z: 0
-      },
-      clusterAxisRotation: {
         x: 0,
         y: 0,
         z: 0
+      },
+      clusterAxisRotation: {
+        _x: 0,
+        _y: 0,
+        _z: 0
       },
       cameraPosition: {
         x: 0.2705519085581147,
@@ -492,8 +494,88 @@ function KlusterAnimator() {
         height: 10,
         radius: 10
       }
+    },
+    'Ring Debugger': {
+      clusterAxisPosition: {
+        x: 0,
+        y: 10,
+        z: 0
+      },
+      clusterAxisRotation: {
+        _x: 1.5707963267948966,
+        _y: 0,
+        _z: 0
+      },
+      cameraPosition: {
+        x: -1.735643158085054e-7,
+        y: -13.922664522547741,
+        z: 0.00001392158263048721
+      },
+      clusterOptions: {
+        levels: 1,
+        segments: 7,
+        circles: 2,
+        segmentsSpacing: 0.96,
+        levelsSpacing: 1.3,
+        ringSpacing: 0.96,
+        height: 10,
+        radius: 10
+      }
+    },
+    'Overloaded': {
+      clusterAxisPosition: {
+        x: 0,
+        y: 0,
+        z: 0
+      },
+      clusterAxisRotation: {
+        _x: 0,
+        _y: 0,
+        _z: 0
+      },
+      cameraPosition: {
+        x: 2.643754331703072,
+        y: -0.48247358349057407,
+        z: 9.45864986354379
+      },
+      clusterOptions: {
+        levels: 7,
+        segments: 14,
+        circles: 7,
+        segmentsSpacing: 0.96,
+        levelsSpacing: 1.3,
+        ringSpacing: 0.96,
+        height: 10,
+        radius: 10
+      }
+    },
+    'Overloaded2': {
+      clusterAxisPosition: {
+        x: 0,
+        y: 0,
+        z: 0
+      },
+      clusterAxisRotation: {
+        _x: 0,
+        _y: 0,
+        _z: 0
+      },
+      cameraPosition: {
+        x: 2.643754331703072,
+        y: -0.48247358349057407,
+        z: 9.45864986354379
+      },
+      clusterOptions: {
+        levels: 7,
+        segments: 14,
+        circles: 7,
+        segmentsSpacing: 0.96,
+        levelsSpacing: 1.3,
+        ringSpacing: 0.96,
+        height: 10,
+        radius: 10
+      }
     }
-
     // Center ortho vision:
     // {_x:1.5707963267948966,_y:0,_z:0,_order:XYZ} {x:0,y:10,z:0} {x:-0.2709624330095889,y:13.080082406522363,z:9.082308234026366}
 

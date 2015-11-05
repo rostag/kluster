@@ -28,9 +28,9 @@
 
   // Kluster Looks like this
   app.clusterOptions = {
-    levels: 2,
-    segments: 5,
-    circles: 4,
+    levels: 1,
+    segments: 8,
+    circles: 2,
     segmentsSpacing: 0.96,
     levelsSpacing: 1.3,
     ringSpacing: 0.96,
@@ -89,6 +89,7 @@
   app.clusterFactory = new ClusterFactory(app);
 
   var clusterAxis = app.clusterFactory.createCluster(app.clusterOptions);
+  app.scene.add(clusterAxis);
 
   app.animator = new KlusterAnimator();
   app.animator.startAnimator();

@@ -22,8 +22,9 @@ function ClusterFactory(app) {
   var chunks = [];
   var hiliters = [];
 
-  this.rebuildIfNeeded = function( rebuildIsNeeded ) {
-    if ( rebuildIsNeeded ) {
+  this.checkIfRebuildIsNeeded = function( ) {
+    if ( app.rebuildIsNeeded === true ) {
+      app.rebuildIsNeeded = false;
       self.rebuildCluster();
     }
   };
@@ -128,14 +129,16 @@ function ClusterFactory(app) {
     }
 
     function getCubicMesh() {
-      traceChunk();
-      // level=0; levelHeight=10; levelMin=0; levelMax=10
+      // traceChunk();
       var cube = app.factories.cube.getCube(xx, yy, levelMin, 0.5, 0.5, levelHeight, cylMaterial.color.getHex(), cylMaterial);
       return cube;
     }
 
     // create exrude from spline and path
     function getKlusterMesh() {
+
+      traceChunk();
+
       var closedSpline = new THREE.CatmullRomCurve3([
         new THREE.Vector3(xx, yy, levelMin),
         new THREE.Vector3(xx, yy, levelMax)
@@ -193,12 +196,14 @@ function ClusterFactory(app) {
 
     clusterAxis.remove(levelPointer);
 
-    app.scene.remove(clusterAxis);
+    // app.scene.remove(clusterAxis);
   };
 
   this.createCluster = function(options) {
     var geometry = new THREE.CylinderGeometry(0.0001, 0.0001, options.height, 8);
-    clusterAxis = new THREE.Mesh(geometry);
+
+    // Reuse existing if possible
+    clusterAxis = clusterAxis || new THREE.Mesh(geometry);
 
     ringFactory = new RingFactory(app);
 
@@ -243,8 +248,6 @@ function ClusterFactory(app) {
       levelPointer.rotation.x = rotationX + speed;
       levelPointer.rotation.y = rotationY + rand;
     };
-
-    app.scene.add(clusterAxis);
 
     app.clusterAxis = clusterAxis;
 
