@@ -22,8 +22,8 @@ function ClusterFactory(app) {
   var chunks = [];
   var hiliters = [];
 
-  this.checkIfRebuildIsNeeded = function( ) {
-    if ( app.rebuildIsNeeded === true ) {
+  this.checkIfRebuildIsNeeded = function() {
+    if (app.rebuildIsNeeded === true) {
       app.rebuildIsNeeded = false;
       self.rebuildCluster();
     }
@@ -80,13 +80,11 @@ function ClusterFactory(app) {
     var thetaMax = thetaMin + tLength;
 
     // Radius
-    // FIXME
     var ringWidth = self.options.radius / self.options.circles;
     var innerRadius = circle * ringWidth;
     var outerRadius = circle * ringWidth + ringWidth / self.options.ringSpacing;
 
     var radiusAvg = (outerRadius + innerRadius) / 2;
-    var radiusStep = radiusAvg / self.options.circles;
 
     // Material
     var cylMaterial = app.cylCircleCore;
@@ -95,15 +93,17 @@ function ClusterFactory(app) {
     } else if (circle % 3) {
       cylMaterial = app.cylCircleOut;
     }
-
+    
     // if material is given, use it
     cylMaterial = givenMaterial || cylMaterial;
 
-    var radius = ((circle * radiusStep) * 2 + radiusStep * 0.9) / 2;
+    var radius = radiusAvg; //((circle * ringWidth) * 2 + ringWidth * 0.9) / 2;
     var thetaAvg = (thetaMin + thetaMax) / 2;
 
     var xx = Math.sin(thetaAvg) * radius; // + THREE.Math.random16() / 4;
     var yy = Math.cos(thetaAvg) * radius; // + THREE.Math.random16() / 4;
+
+    var e = expandFactor || 0;
 
     function traceChunk() {
       var td = '; ';
@@ -137,11 +137,19 @@ function ClusterFactory(app) {
     // create exrude from spline and path
     function getKlusterMesh() {
 
-      traceChunk();
+      var vec1 = new THREE.Vector3(xx, yy, levelMin);
+      var vec2 = new THREE.Vector3(xx, yy, levelMax);
+
+      var axis = new THREE.Vector3( 0, 1, 0 );
+      var angle = Math.PI / 2;
+
+      //Applies a rotation specified by an axis and an angle to this vector.
+      vec1.applyAxisAngle (axis, angle);
+      vec2.applyAxisAngle (axis, angle);
+
 
       var closedSpline = new THREE.CatmullRomCurve3([
-        new THREE.Vector3(xx, yy, levelMin),
-        new THREE.Vector3(xx, yy, levelMax)
+        vec1, vec2
       ]);
 
       var extrudeSettings = {
@@ -151,25 +159,18 @@ function ClusterFactory(app) {
       };
 
       // Draw by points
-      var e = expandFactor || 0;
-
-      var iRadius = circle * radiusStep;
-      var oRadius = circle * radiusStep + radiusStep * 0.9;
-
       var pts = [
-        new THREE.Vector2(Math.sin(thetaMin) * iRadius + e, Math.cos(thetaMin) * iRadius + e),
-        new THREE.Vector2(Math.sin(thetaMin) * oRadius + e, Math.cos(thetaMin) * oRadius + e),
-        new THREE.Vector2(Math.sin(thetaMax) * oRadius + e, Math.cos(thetaMax) * oRadius + e),
-        new THREE.Vector2(Math.sin(thetaMax) * iRadius + e, Math.cos(thetaMax) * iRadius + e)
+        new THREE.Vector2(Math.sin(thetaMin) * innerRadius + e, Math.cos(thetaMin) * innerRadius + e),
+        new THREE.Vector2(Math.sin(thetaMin) * outerRadius + e, Math.cos(thetaMin) * outerRadius + e),
+        new THREE.Vector2(Math.sin(thetaMax) * outerRadius + e, Math.cos(thetaMax) * outerRadius + e),
+        new THREE.Vector2(Math.sin(thetaMax) * innerRadius + e, Math.cos(thetaMax) * innerRadius + e)
       ];
 
       var shape = new THREE.Shape(pts);
-
       var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-
       var mesh = new THREE.Mesh(geometry, cylMaterial);
 
-      // mesh.rotation. = Math.PI / 4;
+      // cosshape.rotation.y = Math.PI / 4;
 
       return mesh;
     }

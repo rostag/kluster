@@ -89,6 +89,8 @@ function KlusterAnimator() {
         clusterPos.camera.x = 2;
         clusterPos.camera.z = 0;
 
+        setPosFromPosMap('Ring Debugger');
+
         // clusterPos.camera.fov = app.cameraSettings.FOV;
 
         tweenCluster(clusterPos);
