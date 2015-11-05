@@ -70,20 +70,20 @@
   iLevel.addEventListener('input', function() {
     // console.log( iLevel.value );
     app.controls.level.val = iLevel.value;
-    app.clusterConfig.levels = Math.ceil(iLevel.value);
+    app.clusterOptions.levels = Math.ceil(iLevel.value);
     app.clusterFactory.rebuildCluster();
   });
 
   iSegment.addEventListener('input', function() {
     // console.log( iSegment.value );
     app.controls.segment.val = iSegment.value;
-    app.clusterConfig.segments = Math.ceil(iSegment.value);
+    app.clusterOptions.segments = Math.ceil(iSegment.value);
     app.clusterFactory.rebuildCluster();
   });
 
   iCircle.addEventListener('input', function() {
     app.controls.circle.val = iCircle.value;
-    app.clusterConfig.circles = Math.ceil(iCircle.value);
+    app.clusterOptions.circles = Math.ceil(iCircle.value);
     app.clusterFactory.rebuildCluster();
   });
 

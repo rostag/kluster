@@ -47,9 +47,9 @@ function KlusterAnimator() {
   function getRandomChunk() {
     var mr = THREE.Math.randInt;
     var chunk = {
-      level: mr(0, app.clusterConfig.levels - 1),
-      segment: mr(0, app.clusterConfig.segments - 1),
-      circle: mr(0, app.clusterConfig.circles - 1)
+      level: mr(0, app.clusterOptions.levels - 1),
+      segment: mr(0, app.clusterOptions.segments - 1),
+      circle: mr(0, app.clusterOptions.circles - 1)
     };
     // console.log('random chunk:', chunk);
     return chunk;
@@ -88,6 +88,9 @@ function KlusterAnimator() {
         clusterPos.camera.y = 22;
         clusterPos.camera.x = 2;
         clusterPos.camera.z = 0;
+
+        // TWEAK it ti get the best result
+        setPosFromPosMap('Initial One');
 
         // clusterPos.camera.fov = app.cameraSettings.FOV;
 
@@ -404,7 +407,21 @@ function KlusterAnimator() {
       x: 0.8672603877122337,
       y: 0.09869212668477238,
       z: 13.895276416525217
+    }],
+    'Initial One': [{
+      _x: 0,
+      _y: 0,
+      _z: 0
+    }, {
+      x: 0,
+      y: 0,
+      z: 0
+    }, {
+      x: 0.2705519085581147,
+      y: 2.9760709941392562,
+      z: 1.6566526440945126e-17
     }]
+
 
     // Center ortho vision:
     // {_x:1.5707963267948966,_y:0,_z:0,_order:XYZ} {x:0,y:10,z:0} {x:-0.2709624330095889,y:13.080082406522363,z:9.082308234026366}

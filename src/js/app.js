@@ -24,26 +24,16 @@
   app.changeStateOnMouseOver = false;
   app.isDebug = false;
 
-  app.clusterConfig = {
+  // Kluster Looks like this
+  app.clusterOptions = {
     levels: 2,
     segments: 40,
     circles: 5,
     segmentsSpacing: 0.96,
     levelsSpacing: 1.2,
+    ringSpacing: 0.96,
     height: 10,
     radius: 10
-  };
-
-  app.ringOptions = {
-    x: 0,
-    y: 0,
-    z: 0,
-    segments: 8,
-    innerRadius: 9,
-    outerRadius: 10,
-    phiSegments: 3,
-    thetaStart: 0,
-    thetaLength: Math.PI * 2
   };
 
   app.cameraSettings = {
@@ -56,13 +46,13 @@
 
   app.controls = {
     level: {
-      val: app.clusterConfig.levels
+      val: app.clusterOptions.levels
     },
     segment: {
-      val: app.clusterConfig.segments
+      val: app.clusterOptions.segments
     },
     circle: {
-      val: app.clusterConfig.circles
+      val: app.clusterOptions.circles
     }
   };
 
@@ -95,7 +85,7 @@
   app.lights = lights;
 
   app.clusterFactory = new ClusterFactory(app);
-  var clusterAxis = app.clusterFactory.createCluster(app.clusterConfig);
+  var clusterAxis = app.clusterFactory.createCluster(app.clusterOptions);
 
   app.animator = new KlusterAnimator();
   app.animator.startAnimator();

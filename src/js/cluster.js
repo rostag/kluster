@@ -1,4 +1,4 @@
-/* globals THREE, console */
+/* globals RingFactory, THREE, console */
 
 function ClusterFactory(app) {
 
@@ -10,24 +10,22 @@ function ClusterFactory(app) {
 
   var rotationX = 0.01;
   var rotationY = 0.01;
-  var rotationZ = 0.01;
+  // var rotationZ = 0.01;
 
-  var rotationSpeedX = 0.0001;
-  var rotationSpeedY = 0.0002;
-  var rotationSpeedZ = 0.0003;
+  // var rotationSpeedX = 0.0001;
+  // var rotationSpeedY = 0.0002;
+  // var rotationSpeedZ = 0.0003;
   var speed = 0.0007;
 
   var ringFactory;
-  var ring;
-  var ring3;
-  var ring2;
+  var levelPointer;
   var chunks = [];
   var hiliters = [];
 
   this.rebuildCluster = function() {
     this.deleteCluster();
     app.materialFactory.init();
-    this.createCluster(app.clusterConfig);
+    this.createCluster(app.clusterOptions);
   };
 
   /**
@@ -65,21 +63,23 @@ function ClusterFactory(app) {
   function getChunk(level, segment, circle, givenMaterial, expandFactor) {
     // Level
     var levelMin = level;
-    var levelMax = level + self.options.levelheight / app.clusterConfig.levelsSpacing;
-    var levelHeight = self.options.levelheight / app.clusterConfig.levelsSpacing;
+    var levelMax = level + self.options.levelheight / app.clusterOptions.levelsSpacing;
+    var levelHeight = self.options.levelheight / app.clusterOptions.levelsSpacing;
 
     // Segment
     var segmentLength = (Math.PI * 2) / self.options.segments;
     var thetaMin = segment * segmentLength;
-    var tLength = segmentLength * app.clusterConfig.segmentsSpacing;
+    var tLength = segmentLength * app.clusterOptions.segmentsSpacing;
     var thetaMax = thetaMin + tLength;
 
     // Radius
-    var innerRadius = app.ringOptions.innerRadius;
-    var outerRadius = app.ringOptions.outerRadius;
+    // FIXME
+    var ringWidth = self.options.radius / self.options.circles;
+    var innerRadius = circle * ringWidth;
+    var outerRadius = circle * ringWidth + ringWidth / self.options.ringSpacing;
 
     var radiusAvg = (outerRadius + innerRadius) / 2;
-    var radiusStep = radiusAvg / app.clusterConfig.circles;
+    var radiusStep = radiusAvg / app.clusterOptions.circles;
 
     // Material
     var cylMaterial = app.cylCircleCore;
@@ -161,7 +161,7 @@ function ClusterFactory(app) {
     return mesh;
   }
 
-  this.deleteCluster = function(options) {
+  this.deleteCluster = function() {
     // chunk
     var chunk;
 
@@ -175,11 +175,10 @@ function ClusterFactory(app) {
       clusterAxis.remove(chunk);
     }
 
-
-    // clusterAxis.remove(ring3);
-    // clusterAxis.remove(ring2);
-
+    clusterAxis.remove(levelPointer);
+    
     // clusterAxis = new THREE.Mesh(geometry, app.lineMaterial);
+
     app.scene.remove(clusterAxis);
   };
 
@@ -208,36 +207,28 @@ function ClusterFactory(app) {
       }
     }
 
-    // ring3 = ringFactory.createRing(app.ringOptions);
-    // ring2 = ringFactory.createRing(app.ringOptions);
-    // ring3.scale.set(0.5, 0.5, 0.5);
-    // ring2.scale.set(0.5, 0.5, 0.5);
-
-    // clusterAxis.add(ring3);
-    // clusterAxis.add(ring2);
+    // ring is a level pointer
+    // @todo @p1 include in animation setup
+    levelPointer = ringFactory.createRing();
+    levelPointer.scale.set(0.5, 0.5, 0.5);
+    clusterAxis.add(levelPointer);
 
     clusterAxis.translateZ(-options.height);
 
     clusterAxis.onRender = function() {
-
       speed += 0.00001;
-
       var rand = Math.random() * 0.001;
 
       // rotationX += rotationSpeedX + app.speedX * speed;
       // rotationY += rotationSpeedY + rand;
-      //
       // rotationZ += rotationSpeedZ + app.speedY * speed;
       // rotationZ += rotationSpeedZ + speed;
 
       // clusterAxis.rotation.x += 0.0005;// + speed;
       // clusterAxis.rotation.z = rotationZ;
 
-      // ring3.rotation.x = rotationX + speed;
-      // ring3.rotation.y = rotationY + rand;
-
-      // ring2.rotation.x = rotationY;
-      // ring2.rotation.y = rotationX + speed + rand;
+      levelPointer.rotation.x = rotationX + speed;
+      levelPointer.rotation.y = rotationY + rand;
     };
 
     // Hiliters
