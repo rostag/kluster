@@ -76,8 +76,7 @@ function ClusterFactory(app) {
     // Segment
     var segmentLength = (Math.PI * 2) / self.options.segments;
     var thetaMin = segment * segmentLength;
-    var tLength = segmentLength * self.options.segmentsSpacing;
-    var thetaMax = thetaMin + tLength;
+    var thetaMax = thetaMin + segmentLength / self.options.segmentsSpacing;
 
     // Radius
     var ringWidth = self.options.radius / self.options.circles;
@@ -139,15 +138,8 @@ function ClusterFactory(app) {
     // create exrude from spline and path
     function getKlusterMesh() {
 
-      var vec1 = new THREE.Vector3(xx, yy, levelMin);
-      var vec2 = new THREE.Vector3(xx, yy, levelMax);
-
-      var axis = new THREE.Vector3(0, 1, 0);
-      var angle = Math.PI / 2;
-
-      //Applies a rotation specified by an axis and an angle to this vector.
-      vec1.applyAxisAngle(axis, angle);
-      vec2.applyAxisAngle(axis, angle);
+      var vec1 = new THREE.Vector3(0, 0, levelMin);
+      var vec2 = new THREE.Vector3(0, 0, levelMax);
 
       var closedSpline = new THREE.CatmullRomCurve3([
         vec1, vec2
@@ -169,7 +161,7 @@ function ClusterFactory(app) {
 
       var shape = new THREE.Shape(pts);
       var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-      var mesh = new THREE.Mesh(geometry, cylMaterial);
+      var mesh = new THREE.Mesh(geometry, cylMaterial); 
 
       // cosshape.rotation.y = Math.PI / 4;
 
@@ -203,8 +195,7 @@ function ClusterFactory(app) {
 
   this.createCluster = function(options) {
     // Reuse existing if possible
-    clusterAxis = clusterAxis || app.factories.cube.getCube(0, 0, 0, 0.33, options.height, 0.33);
-
+    clusterAxis = clusterAxis || app.factories.cube.getCube(0, 0, options.height, 0.1, 0.1, options.height, 0xffffff);
     ringFactory = new RingFactory(app);
 
     self.options = options;

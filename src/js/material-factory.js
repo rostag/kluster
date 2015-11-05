@@ -34,12 +34,12 @@ function MaterialFactory(app) {
 
 		// Cluster Core Circle
 		app.cylCircleCore = new THREE.MeshPhongMaterial({
-			color: 0x254299,
+			color: 0x254279,
 			emissive: 0x173584,
 			side: THREE.DoubleSide,
 			shading: THREE.FlatShading,
 			transparent: true,
-			opacity: 0.08 + parseFloat(app.opacityAdd)
+			opacity: 0.01 + parseFloat(app.opacityAdd)
 		});
 
 		app.cylCircleMid = new THREE.MeshPhongMaterial({
