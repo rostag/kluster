@@ -16,12 +16,16 @@
   var iCircle = document.getElementById('input-circle');
   var stateSelector = document.querySelectorAll('[data-state-selector] a');
 
+  var chunkInfo = document.getElementById('chunkInfo');
+
   app.speedX = 0;
   app.speedY = 0;
   app.curMouseX = 0;
   app.curMouseY = 0;
   app.prevMouseX = 0;
   app.prevMouseY = 0;
+
+  app.chunkInfoDiv = chunkInfo;
 
   function onStateChange(event) {
     var stateId = event && event.target && event.target.attributes && event.target.attributes['data-state'] && event.target.attributes['data-state'].value;

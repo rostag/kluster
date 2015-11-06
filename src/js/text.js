@@ -23,16 +23,16 @@ function textFactory(app) {
 
 	var clusterAxis = app.clusterAxis;
 
-	app.getSpriteForChunk = getSpriteForChunk;
+	app.getSpriteForMesh = getSpriteForMesh;
 
 	var defaultPosition = {
-		x: -40,
-		y: 0,
-		z: 0
+		x: 0,
+		y: -10,
+		z: -60
 	};
 	var defaultTextParameters = {
 		fontface: 'Arial',
-		fontsize: 42,
+		fontsize: 32,
 		borderColor: {
 			r: 100,
 			g: 100,
@@ -48,24 +48,19 @@ function textFactory(app) {
 		borderThickness: 1
 	};
 
-	getSpriteForChunk(app.scene, 'cluster', null, defaultPosition);
+	app.chunkInfoSprite = getSpriteForMesh(app.scene, 'cluster', null, defaultPosition);
 
 	/**
 	 * @param textParamaters Object like defaultTextParameters above
 	 */
-	function getSpriteForChunk(chunk, text, textParamaters, position) {
+	function getSpriteForMesh(mesh, text, textParamaters, position) {
 
-		var textParent = chunk || scene;
+		var textParent = scene;
 		// var textParent = scene;
-
 		var spritey = makeTextSprite(text, textParamaters || defaultTextParameters);
-
 		var pos = position || defaultPosition;
-
 		spritey.position.set(pos.x, pos.y, pos.z);
-
 		textParent.add(spritey);
-
 		return spritey;
 	}
 
@@ -129,6 +124,26 @@ function textFactory(app) {
 		var sprite = new THREE.Sprite(spriteMaterial);
 		sprite.scale.set(100, 50, 1);
 		return sprite;
+	}
+
+	app.updateChunkInfo = function ( chunk ) { 
+		// REMOVE OLD
+		var textParent = scene;
+		textParent.remove(app.chunkInfoSprite);
+
+		// GET NEW
+		var text =  'c: ' + chunk.level + ':' + chunk.segment + ':' + chunk.circle;
+
+		// app.chunkInfoSprite = getSpriteForMesh(app.scene, text, null, defaultPosition);
+
+		var i = app.klusterModel.getInfoByMetrics( {level: chunk.level, segment: chunk.segment, circle: chunk.circle });
+
+		text = '<h2>Domain: ' + i.level.name + '</h2>' +
+		'<h2>Technology: ' + i.segment.name + '</h2>' +
+		'<h2>Stage: ' + i.circle.name + '</h2>';
+
+
+		app.chunkInfoDiv.innerHTML = text;
 	}
 
 

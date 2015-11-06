@@ -110,10 +110,6 @@
   scene.add(app.factories.cube.getCube(0, 20, 0, hcWidth, hcWidth, hcWidth, 0x00ff00));
   scene.add(app.factories.cube.getCube(0, 0, 20, hcWidth, hcWidth, hcWidth, 0x0000ff));
  
-  app.updateChunkInfo = function ( chunk ) {
-    console.log( 'updateChunkInfo: ' + chunk.level, ', ' + chunk.segment + ',' + chunk.circle );
-  }
-
   function initScene() {
     // scene
     scene = new THREE.Scene();

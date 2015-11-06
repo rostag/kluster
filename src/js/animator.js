@@ -117,7 +117,9 @@ function KlusterAnimator() {
     '3': {
       handler: function() {
         // TWEAK it to get the best result
-        setPosFromPosMap('Initial Two');
+        // setPosFromPosMap('Initial Two');
+
+        setPosFromPosMap('Step-3');
 
         tweenCluster(clusterPos);
       }
@@ -126,15 +128,16 @@ function KlusterAnimator() {
       time: 1000,
       name: 'State 4',
       handler: function() {
-        setPosFromPosMap('4');
+
+        setPosFromPosMap('Step-4');
         tweenCluster(clusterPos);
 
-        app.clusterFactory.hiliteChunk({
-          level: 1,
-          segment: 3,
-          circle: 1,
-          removeOld: true
-        });
+        // app.clusterFactory.hiliteChunk({
+        //   level: 1,
+        //   segment: 3,
+        //   circle: 1,
+        //   removeOld: true
+        // });
 
       }
     },
@@ -196,7 +199,7 @@ function KlusterAnimator() {
         console.log('app.autoPlayIsOn =', app.autoPlayIsOn);
         app.isManualMode = true;
       }
-    },   
+    },
     'MOUSE_SWITCH': {
       name: 'Enable / Disable Mouse',
       handler: function() {
@@ -791,7 +794,63 @@ function KlusterAnimator() {
         height: 10,
         radius: 10
       }
+    },
+    'Step-3': {
+      clusterAxisPosition: {
+        x: -5.324477492831647,
+        y: 6.651247451081872,
+        z: 4.412601953372359
+      },
+      clusterAxisRotation: {
+        _x: 0,
+        _y: 0.934758015554807,
+        _z: -1.4502125457792625
+      },
+      cameraPosition: {
+        x: 11.52916901138159,
+        y: -6.5168099316621,
+        z: 7.651627379189595
+      },
+      clusterOptions: {
+        levels: 7,
+        segments: 12,
+        circles: 3,
+        segmentsSpacing: 1,
+        levelsSpacing: 1,
+        ringSpacing: 1,
+        height: 10,
+        radius: 10
+      }
+    },
+
+    'Step-4': {
+      clusterAxisPosition: {
+        x: -5.324477492831647,
+        y: 6.651247451081872,
+        z: 4.412601953372359
+      },
+      clusterAxisRotation: {
+        _x: -1,
+        _y: 0.934758015554807,
+        _z: -1.4502125457792625
+      },
+      cameraPosition: {
+        x: 11.52916901138159,
+        y: -6.5168099316621,
+        z: 7.651627379189595
+      },
+      clusterOptions: {
+        levels: 7,
+        segments: 12,
+        circles: 3,
+        segmentsSpacing: 1,
+        levelsSpacing: 1,
+        ringSpacing: 1,
+        height: 10,
+        radius: 10
+      }
     }
+
 
   };
 }

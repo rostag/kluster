@@ -168,12 +168,8 @@ function ClusterFactory(app) {
       return mesh;
     }
 
-
     var mesh = getKlusterMesh();
     // var mesh = getCubicMesh();
-
-    // var textSprite = app.getSpriteForChunk( mesh, '' + level + ', ' + segment + ', ' + circle, null, mesh.position );
-     // clusterAxis, 'SOME TEXT', defaultTextParameters, defaultPosition);
 
     return mesh;
   }
