@@ -103,9 +103,7 @@ function KlusterAnimator() {
       name: 'State 2',
       handler: function() {
 
-        clusterPos.position.y = 10;
-        clusterPos.rotation.x = Math.PI / 2;
-        clusterPos.camera.y = 28;
+        setPosFromPosMap('Disks');
 
         tweenCluster(clusterPos);
 
@@ -668,6 +666,61 @@ function KlusterAnimator() {
         segmentsSpacing: 9,
         levelsSpacing: 1.1,
         ringSpacing: 1.1,
+        height: 10,
+        radius: 10
+      }
+    },
+    'Disks': {
+
+      clusterAxisPosition: {
+        x: -5.324477492831647,
+        y: 10,
+        z: 4.412601953372359
+      },
+      clusterAxisRotation: {
+        _x: 1.5707963267948966,
+        _y: 0.934758015554807,
+        _z: -1.4502125457792625
+      },
+      cameraPosition: {
+        x: -3.348838656422682,
+        y: 28,
+        z: -3.4786507378435365
+      },
+      clusterOptions: {
+        levels: 4,
+        segments: 16,
+        circles: 3,
+        segmentsSpacing: 1,
+        levelsSpacing: 1,
+        ringSpacing: 3,
+        height: 10,
+        radius: 10
+      }
+    },
+    'Latter': {
+      clusterAxisPosition: {
+        x: -4.595486847683787,
+        y: 0.2847801288589835,
+        z: 3.7462094333022833
+      },
+      clusterAxisRotation: {
+        _x: 0.8990244925501427,
+        _y: -0.5514296000219416,
+        _z: -1.322576143496501
+      },
+      cameraPosition: {
+        x: -6.443634778338715,
+        y: -9.618009412738955,
+        z: 2.7964773912157024
+      },
+      clusterOptions: {
+        levels: 4,
+        segments: 5,
+        circles: 7,
+        segmentsSpacing: 1,
+        levelsSpacing: 1,
+        ringSpacing: 3,
         height: 10,
         radius: 10
       }

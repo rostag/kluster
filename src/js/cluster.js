@@ -138,17 +138,13 @@ function ClusterFactory(app) {
     // create exrude from spline and path
     function getKlusterMesh() {
 
-      var vec1 = new THREE.Vector3(0, 0, levelMin);
-      var vec2 = new THREE.Vector3(0, 0, levelMax);
-
-      var closedSpline = new THREE.CatmullRomCurve3([
-        vec1, vec2
-      ]);
-
       var extrudeSettings = {
         steps: 1,
         bevelEnabled: false,
-        extrudePath: closedSpline
+        extrudePath: new THREE.CatmullRomCurve3([
+          new THREE.Vector3(xx, yy, levelMin), new THREE.Vector3(xx, yy, levelMax)
+          // new THREE.Vector3(0, 0, levelMin), new THREE.Vector3(0, 0, levelMax)
+        ])
       };
 
       // Draw by points
@@ -161,7 +157,7 @@ function ClusterFactory(app) {
 
       var shape = new THREE.Shape(pts);
       var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-      var mesh = new THREE.Mesh(geometry, cylMaterial); 
+      var mesh = new THREE.Mesh(geometry, cylMaterial);
 
       // cosshape.rotation.y = Math.PI / 4;
 
@@ -222,8 +218,6 @@ function ClusterFactory(app) {
     levelPointer.scale.set(0.5, 0.5, 0.5);
     clusterAxis.add(levelPointer);
 
-    // clusterAxis.translateZ(-options.height);
-
     clusterAxis.onRender = function() {
       speed += 0.00001;
       var rand = Math.random() * 0.001;
@@ -233,7 +227,7 @@ function ClusterFactory(app) {
       // rotationZ += rotationSpeedZ + app.speedY * speed;
       // rotationZ += rotationSpeedZ + speed;
 
-      // clusterAxis.rotation.x += 0.0005;// + speed;
+      // clusterAxis.rotation.x += 0.0005 + speed;
       // clusterAxis.rotation.z = rotationZ;
 
       // levelPointer.rotation.x = rotationX + speed;
