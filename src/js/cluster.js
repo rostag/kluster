@@ -102,6 +102,9 @@ function ClusterFactory(app) {
     var xx = Math.sin(thetaAvg) * radius; // + THREE.Math.random16() / 4;
     var yy = Math.cos(thetaAvg) * radius; // + THREE.Math.random16() / 4;
 
+    var xxx = 0;
+    var yyy = 0;
+
     var e = expandFactor || 0;
 
     function traceChunk() {
@@ -142,8 +145,8 @@ function ClusterFactory(app) {
         steps: 1,
         bevelEnabled: false,
         extrudePath: new THREE.CatmullRomCurve3([
-          // new THREE.Vector3(xx, yy, levelMin), new THREE.Vector3(xx, yy, levelMax)
-          new THREE.Vector3(0, 0, levelMin), new THREE.Vector3(0, 0, levelMax)
+          new THREE.Vector3(xxx, yyy, levelMin), new THREE.Vector3(xxx, yyy, levelMax)
+          // new THREE.Vector3(0, 0, levelMin), new THREE.Vector3(0, 0, levelMax)
         ])
       };
 

@@ -178,9 +178,13 @@ function KlusterAnimator() {
     'STATE_HILITE': {
       // CHUNKS random array creation:
       handler: function() {
+        hiliteChunks();
+      }
+    },
+    'END_STATE': {
+      handler: function() {
         setPosFromPosMap('Overloaded');
         tweenCluster(clusterPos);
-        hiliteChunks();
       }
     },
     'STATE_STOP_ANIMATION': {
@@ -385,21 +389,31 @@ function KlusterAnimator() {
         z: 2.9594092797053992
       }
     },
-    '5': {
+    'COLORFUL': {
       clusterAxisPosition: {
-        x: 6,
-        y: 0,
-        z: 6
+        x: -7.214533654041588,
+        y: -2.4396179197356105,
+        z: -6.001599505543709
       },
       clusterAxisRotation: {
-        _x: 1.5707963267948966,
-        _y: 0,
-        _z: 0
+        _x: -0.004470624985189575,
+        _y: 0.8727285247146759,
+        _z: 0.2941807983596372
       },
       cameraPosition: {
-        x: 5.924207462789089,
-        y: -1.7707740057674255,
-        z: -5.076231412998507
+        x: 3.4539531590076105,
+        y: 6.374730350658294,
+        z: 1.723565274004424
+      },
+      clusterOptions: {
+        levels: 7,
+        segments: 14,
+        circles: 7,
+        segmentsSpacing: 1,
+        levelsSpacing: 1,
+        ringSpacing: 0.96,
+        height: 10,
+        radius: 10
       }
     },
     '6i': {
