@@ -89,7 +89,7 @@ function KlusterAnimator() {
         clusterPos.camera.x = 2;
         clusterPos.camera.z = 0;
 
-        setPosFromPosMap('Windows');
+        setPosFromPosMap('Demo Start');
         // setPosFromPosMap('Rotor');
         // setPosFromPosMap('Startup One');
         // setPosFromPosMap('Ring Debugger');
@@ -643,7 +643,7 @@ function KlusterAnimator() {
         radius: 10
       }
     },
-    'Windows': {
+    'Demo Start': {
       clusterAxisPosition: {
         x: -5.324477492831647,
         y: 6.651247451081872,
@@ -660,18 +660,17 @@ function KlusterAnimator() {
         z: -3.4786507378435356
       },
       clusterOptions: {
-        levels: 4,
+        levels: 5,
         segments: 16,
         circles: 3,
-        segmentsSpacing: 9,
-        levelsSpacing: 1.1,
-        ringSpacing: 1.1,
+        segmentsSpacing: 1,
+        levelsSpacing: 1,
+        ringSpacing: 1,
         height: 10,
         radius: 10
       }
     },
     'Disks': {
-
       clusterAxisPosition: {
         x: -5.324477492831647,
         y: 10,
@@ -715,9 +714,9 @@ function KlusterAnimator() {
         z: 2.7964773912157024
       },
       clusterOptions: {
-        levels: 4,
-        segments: 5,
-        circles: 7,
+        levels: 1,
+        segments: 3,
+        circles: 3,
         segmentsSpacing: 1,
         levelsSpacing: 1,
         ringSpacing: 3,

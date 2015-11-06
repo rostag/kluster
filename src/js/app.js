@@ -21,7 +21,7 @@
 
   // Screensaver mode 
   app.autoPlayIsOn = false;
-  app.opacityAdd = 0.1;
+  app.opacityAdd = 0.2;
   app.isManualMode = true;
   app.changeStateOnMouseOver = false;
   app.isDebug = false;
@@ -42,7 +42,7 @@
   };
 
   app.cameraSettings = {
-    FOV: 95,
+    FOV: 75,
     antialias: !app.isDebug,
     position: {
       z: 28
@@ -89,6 +89,9 @@
   app.renderer = renderer;
   app.lights = lights;
 
+  app.textFactory = textFactory(app);
+  app.mouseControl = mouseControl(app);
+
   app.clusterFactory = new ClusterFactory(app);
 
   var clusterAxis = app.clusterFactory.createCluster(app.clusterOptions);
@@ -102,7 +105,7 @@
   scene.add(app.factories.cube.getCube(20, 0, 0, hcWidth, hcWidth, hcWidth, 0xff0000));
   scene.add(app.factories.cube.getCube(0, 20, 0, hcWidth, hcWidth, hcWidth, 0x00ff00));
   scene.add(app.factories.cube.getCube(0, 0, 20, hcWidth, hcWidth, hcWidth, 0x0000ff));
-  // textFactory(app);
+ 
 
   function initScene() {
     // scene
@@ -203,6 +206,8 @@
       scene.rotation.y += dY / 10000;
       scene.rotation.z -= dX / 20000;
     }
+
+    // app.mouseControl.onRender( [app.clusterAxis], false);
 
     renderer.render(scene, camera);
   }

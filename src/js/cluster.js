@@ -142,8 +142,8 @@ function ClusterFactory(app) {
         steps: 1,
         bevelEnabled: false,
         extrudePath: new THREE.CatmullRomCurve3([
-          new THREE.Vector3(xx, yy, levelMin), new THREE.Vector3(xx, yy, levelMax)
-          // new THREE.Vector3(0, 0, levelMin), new THREE.Vector3(0, 0, levelMax)
+          // new THREE.Vector3(xx, yy, levelMin), new THREE.Vector3(xx, yy, levelMax)
+          new THREE.Vector3(0, 0, levelMin), new THREE.Vector3(0, 0, levelMax)
         ])
       };
 
@@ -164,8 +164,12 @@ function ClusterFactory(app) {
       return mesh;
     }
 
+
     var mesh = getKlusterMesh();
     // var mesh = getCubicMesh();
+
+    // var textSprite = app.getSpriteForChunk( mesh, '' + level + ', ' + segment + ', ' + circle, null, mesh.position );
+     // clusterAxis, 'SOME TEXT', defaultTextParameters, defaultPosition);
 
     return mesh;
   }
@@ -232,6 +236,9 @@ function ClusterFactory(app) {
 
       // levelPointer.rotation.x = rotationX + speed;
       // levelPointer.rotation.y = rotationY + rand;
+
+      app.mouseControl.checkIntersection( chunks, false);
+
     };
 
     app.clusterAxis = clusterAxis;

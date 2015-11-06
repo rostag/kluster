@@ -39,7 +39,7 @@ function MaterialFactory(app) {
 			side: THREE.DoubleSide,
 			shading: THREE.FlatShading,
 			transparent: true,
-			opacity: 0.01 + parseFloat(app.opacityAdd)
+			opacity: 0.02 + parseFloat(app.opacityAdd)
 		});
 
 		app.cylCircleMid = new THREE.MeshPhongMaterial({
@@ -48,7 +48,7 @@ function MaterialFactory(app) {
 			side: THREE.DoubleSide,
 			shading: THREE.FlatShading,
 			transparent: true,
-			opacity: 0.07 + parseFloat(app.opacityAdd)
+			opacity: 0.04 + parseFloat(app.opacityAdd)
 		});
 
 		// console.log(' init --- opacityAdd', app.opacityAdd);

@@ -1,5 +1,10 @@
 /* globals console */
 
+/**
+ * UI for controlling the model.
+ * @todo Add 'No rebuild' checkbox bo prevent rebuilds when state changes.
+ */
+
 (function(rootScope) {
 
   'use strict';

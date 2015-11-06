@@ -15,7 +15,9 @@
 		var geometry = new THREE.BoxGeometry(w, h, d);
 
 		var mat = material || new THREE.MeshBasicMaterial({
-			color: clr || 0x62989cf
+			color: clr || 0x62989cf,
+			transparent: true,
+			opacity: 0.4
 		});
 
 		mesh = new THREE.Mesh(geometry, mat);
