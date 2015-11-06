@@ -771,8 +771,8 @@ function KlusterAnimator() {
     'Step-2': {
       clusterAxisPosition: {
         x: -5.324477492831647,
-        y: 6.651247451081872,
-        z: 4.412601953372359
+        y: 1.651247451081872,
+        z: 1.412601953372359
       },
       clusterAxisRotation: {
         _x: 1.0923053542624157,
@@ -846,6 +846,34 @@ function KlusterAnimator() {
         segmentsSpacing: 1,
         levelsSpacing: 1,
         ringSpacing: 1,
+        height: 10,
+        radius: 10
+      }
+    },
+
+    'Semi-Kluster': {
+      clusterAxisPosition: {
+        x: 0,
+        y: 0,
+        z: 0
+      },
+      clusterAxisRotation: {
+        _x: 0,
+        _y: 0,
+        _z: 0
+      },
+      cameraPosition: {
+        x: 2.643754331703072,
+        y: -0.48247358349057407,
+        z: 9.45864986354379
+      },
+      clusterOptions: {
+        levels: 3,
+        segments: 5,
+        circles: 7,
+        segmentsSpacing: 1,
+        levelsSpacing: 1,
+        ringSpacing: 0.96,
         height: 10,
         radius: 10
       }
