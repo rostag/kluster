@@ -25,6 +25,11 @@ function mouseControl(app) {
 	instance.checkIntersection = testIntersection;
 
 	function testIntersection(objects, recursiveFlag) {
+
+		if (!app.mouseSelectionIsOn) {
+			return;
+		}
+
 		raycaster.setFromCamera(mouse, camera);
 
 		var intersects = raycaster.intersectObjects(objects, recursiveFlag);
@@ -45,6 +50,7 @@ function mouseControl(app) {
 					INTERSECTED.material = INTERSECTED.currentMaterial;
 
 					INTERSECTED.scale.set(INTERSECTED.currentScaleX, INTERSECTED.currentScaleY, INTERSECTED.currentScaleZ);
+
 				}
 				// store reference to closest object as current intersection object
 				INTERSECTED = intersects[0].object;
@@ -87,6 +93,8 @@ function mouseControl(app) {
 				// INTERSECTED.material.color.setHex(0xffffff);
 				INTERSECTED.material = app.cylCircleHiliter;
 
+				app.updateChunkInfo(INTERSECTED);
+
 				// INTERSECTED.scale.set(1.1, 1.1, 1.1);
 
 			}
@@ -107,6 +115,10 @@ function mouseControl(app) {
 	}
 
 	function onDocumentMouseMove(event) {
+
+		if (!app.mouseSelectionIsOn) {
+			return;
+		}
 		mouse.x = (event.clientX / renderer.domElement.width) * 2 - 1;
 		mouse.y = -(event.clientY / renderer.domElement.height) * 2 + 1;
 	}

@@ -61,7 +61,7 @@
     iCircle.value = app.controls.circle.val;
   };
 
-  app.addControl('opacityAdd', 'Opacity', 0.1, 0.1, 1, 0.1);
+  // app.addControl('opacityAdd', 'Opacity', 0.1, 0.1, 1, 0.1);
 
   // setup state links
   for (var l = 0; l < stateSelector.length; l++) {

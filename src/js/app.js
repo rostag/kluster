@@ -24,6 +24,7 @@
   app.opacityAdd = 0.2;
   app.isManualMode = true;
   app.changeStateOnMouseOver = false;
+  app.mouseSelectionIsOn = false;
   app.isDebug = false;
 
   // Kluster Looks like this
@@ -109,6 +110,9 @@
   scene.add(app.factories.cube.getCube(0, 20, 0, hcWidth, hcWidth, hcWidth, 0x00ff00));
   scene.add(app.factories.cube.getCube(0, 0, 20, hcWidth, hcWidth, hcWidth, 0x0000ff));
  
+  app.updateChunkInfo = function ( chunk ) {
+    console.log( 'updateChunkInfo: ' + chunk.level, ', ' + chunk.segment + ',' + chunk.circle );
+  }
 
   function initScene() {
     // scene
@@ -205,9 +209,9 @@
       // it used to tweal slightly scenee rotation, may be still helpful
       var dX = ( mouseX - camera.position.x ) * 1;
       var dY = (-mouseY - 200 - camera.position.y) * 1;
-      scene.rotation.x += dX / 10000;
-      scene.rotation.y += dY / 10000;
-      scene.rotation.z -= dX / 20000;
+      scene.rotation.x += dX / 100000;
+      scene.rotation.y += dY / 100000;
+      scene.rotation.z -= dX / 200000;
     }
 
     // app.mouseControl.onRender( [app.clusterAxis], false);

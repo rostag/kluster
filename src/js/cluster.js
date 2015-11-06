@@ -161,6 +161,10 @@ function ClusterFactory(app) {
 
       // cosshape.rotation.y = Math.PI / 4;
 
+      mesh.level = level;
+      mesh.segment = segment;
+      mesh.circle = circle;
+
       return mesh;
     }
 
@@ -219,7 +223,7 @@ function ClusterFactory(app) {
     // ring is a level pointer
     // @todo @p1 include in animation setup
     levelPointer = ringFactory.createRing();
-    levelPointer.scale.set(0.5, 0.5, 0.5);
+    levelPointer.scale.set(1, 1, 1);
     clusterAxis.add(levelPointer);
 
     clusterAxis.onRender = function() {
