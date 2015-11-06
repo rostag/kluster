@@ -36,10 +36,6 @@ function RingFactory(app) {
 
 		ring.position.set(options.x, options.y, options.z);
 
-		ring.add(new THREE.LineSegments(
-			geometry, app.ringLineMaterial
-		));
-
 		return ring;
 	};
 }

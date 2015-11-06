@@ -76,8 +76,7 @@ function ClusterFactory(app) {
     // Segment
     var segmentLength = (Math.PI * 2) / self.options.segments;
     var thetaMin = segment * segmentLength;
-    var tLength = segmentLength * self.options.segmentsSpacing;
-    var thetaMax = thetaMin + tLength;
+    var thetaMax = thetaMin + segmentLength / self.options.segmentsSpacing;
 
     // Radius
     var ringWidth = self.options.radius / self.options.circles;
@@ -93,7 +92,7 @@ function ClusterFactory(app) {
     } else if (circle % 3) {
       cylMaterial = app.cylCircleOut;
     }
-    
+
     // if material is given, use it
     cylMaterial = givenMaterial || cylMaterial;
 
@@ -108,7 +107,9 @@ function ClusterFactory(app) {
     function traceChunk() {
       var td = '; ';
       var dec = 1;
-      var r = (num) => Math.round(num * 100) / 100;
+      var r = function(num) {
+        return Math.round(num * 100) / 100;
+      };
 
       console.log(
         'level=' + r(level, dec) +
@@ -137,25 +138,13 @@ function ClusterFactory(app) {
     // create exrude from spline and path
     function getKlusterMesh() {
 
-      var vec1 = new THREE.Vector3(xx, yy, levelMin);
-      var vec2 = new THREE.Vector3(xx, yy, levelMax);
-
-      var axis = new THREE.Vector3( 0, 1, 0 );
-      var angle = Math.PI / 2;
-
-      //Applies a rotation specified by an axis and an angle to this vector.
-      vec1.applyAxisAngle (axis, angle);
-      vec2.applyAxisAngle (axis, angle);
-
-
-      var closedSpline = new THREE.CatmullRomCurve3([
-        vec1, vec2
-      ]);
-
       var extrudeSettings = {
         steps: 1,
         bevelEnabled: false,
-        extrudePath: closedSpline
+        extrudePath: new THREE.CatmullRomCurve3([
+          new THREE.Vector3(xx, yy, levelMin), new THREE.Vector3(xx, yy, levelMax)
+          // new THREE.Vector3(0, 0, levelMin), new THREE.Vector3(0, 0, levelMax)
+        ])
       };
 
       // Draw by points
@@ -201,11 +190,8 @@ function ClusterFactory(app) {
   };
 
   this.createCluster = function(options) {
-    var geometry = new THREE.CylinderGeometry(0.0001, 0.0001, options.height, 8);
-
     // Reuse existing if possible
-    clusterAxis = clusterAxis || new THREE.Mesh(geometry);
-
+    clusterAxis = clusterAxis || app.factories.cube.getCube(0, 0, options.height, 0.1, 0.1, options.height, 0xffffff);
     ringFactory = new RingFactory(app);
 
     self.options = options;
@@ -232,8 +218,6 @@ function ClusterFactory(app) {
     levelPointer.scale.set(0.5, 0.5, 0.5);
     clusterAxis.add(levelPointer);
 
-    // clusterAxis.translateZ(-options.height);
-
     clusterAxis.onRender = function() {
       speed += 0.00001;
       var rand = Math.random() * 0.001;
@@ -243,11 +227,11 @@ function ClusterFactory(app) {
       // rotationZ += rotationSpeedZ + app.speedY * speed;
       // rotationZ += rotationSpeedZ + speed;
 
-      // clusterAxis.rotation.x += 0.0005;// + speed;
+      // clusterAxis.rotation.x += 0.0005 + speed;
       // clusterAxis.rotation.z = rotationZ;
 
-      levelPointer.rotation.x = rotationX + speed;
-      levelPointer.rotation.y = rotationY + rand;
+      // levelPointer.rotation.x = rotationX + speed;
+      // levelPointer.rotation.y = rotationY + rand;
     };
 
     app.clusterAxis = clusterAxis;

@@ -1,5 +1,5 @@
 (function(argument) {
   'use strict';
 
-  console.log('Cluster Data: ');
+  // console.log('Cluster Data: ');
 })();

@@ -21,7 +21,7 @@
 
   // Screensaver mode 
   app.autoPlayIsOn = false;
-  app.opacityAdd = 0.3;
+  app.opacityAdd = 0.1;
   app.isManualMode = true;
   app.changeStateOnMouseOver = false;
   app.isDebug = false;
@@ -31,9 +31,12 @@
     levels: 1,
     segments: 8,
     circles: 2,
-    segmentsSpacing: 0.96,
-    levelsSpacing: 1.3,
-    ringSpacing: 0.96,
+    segmentsSpacing: 1,
+    levelsSpacing: 1,
+    ringSpacing: 1,
+    // segmentsSpacing: 0.96,
+    // levelsSpacing: 1,
+    // ringSpacing: 0.96,
     height: 10,
     radius: 10
   };
@@ -94,7 +97,7 @@
   app.animator = new KlusterAnimator();
   app.animator.startAnimator();
 
-  var hcWidth = 0.33;
+  var hcWidth = app.isDebug ? 0.99 : 0.33;
   scene.add(app.factories.cube.getCube(0, 0, 0, hcWidth, hcWidth, hcWidth, 0xffffff));
   scene.add(app.factories.cube.getCube(20, 0, 0, hcWidth, hcWidth, hcWidth, 0xff0000));
   scene.add(app.factories.cube.getCube(0, 20, 0, hcWidth, hcWidth, hcWidth, 0x00ff00));
