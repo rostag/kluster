@@ -89,7 +89,8 @@ function KlusterAnimator() {
         clusterPos.camera.x = 2;
         clusterPos.camera.z = 0;
 
-        setPosFromPosMap('Windows');
+        setPosFromPosMap('Step-1');
+        // setPosFromPosMap('Demo Start');
         // setPosFromPosMap('Rotor');
         // setPosFromPosMap('Startup One');
         // setPosFromPosMap('Ring Debugger');
@@ -103,7 +104,8 @@ function KlusterAnimator() {
       name: 'State 2',
       handler: function() {
 
-        setPosFromPosMap('Disks');
+        // setPosFromPosMap('Disks');
+        setPosFromPosMap('Step-2');
 
         tweenCluster(clusterPos);
 
@@ -115,7 +117,9 @@ function KlusterAnimator() {
     '3': {
       handler: function() {
         // TWEAK it to get the best result
-        setPosFromPosMap('Initial Two');
+        // setPosFromPosMap('Initial Two');
+
+        setPosFromPosMap('Step-3');
 
         tweenCluster(clusterPos);
       }
@@ -124,15 +128,16 @@ function KlusterAnimator() {
       time: 1000,
       name: 'State 4',
       handler: function() {
-        setPosFromPosMap('4');
+
+        setPosFromPosMap('Step-4');
         tweenCluster(clusterPos);
 
-        app.clusterFactory.hiliteChunk({
-          level: 1,
-          segment: 3,
-          circle: 1,
-          removeOld: true
-        });
+        // app.clusterFactory.hiliteChunk({
+        //   level: 1,
+        //   segment: 3,
+        //   circle: 1,
+        //   removeOld: true
+        // });
 
       }
     },
@@ -173,9 +178,13 @@ function KlusterAnimator() {
     'STATE_HILITE': {
       // CHUNKS random array creation:
       handler: function() {
+        hiliteChunks();
+      }
+    },
+    'END_STATE': {
+      handler: function() {
         setPosFromPosMap('Overloaded');
         tweenCluster(clusterPos);
-        hiliteChunks();
       }
     },
     'STATE_STOP_ANIMATION': {
@@ -192,6 +201,13 @@ function KlusterAnimator() {
       handler: function() {
         app.autoPlayIsOn = !app.autoPlayIsOn;
         console.log('app.autoPlayIsOn =', app.autoPlayIsOn);
+        app.isManualMode = true;
+      }
+    },
+    'MOUSE_SWITCH': {
+      name: 'Enable / Disable Mouse',
+      handler: function() {
+        app.mouseSelectionIsOn = !app.mouseSelectionIsOn;
         app.isManualMode = true;
       }
     },
@@ -248,7 +264,7 @@ function KlusterAnimator() {
 
     // console.log('tween params:', tweenParams, op);
 
-    new TWEEN.Tween(op).to(tweenParams, 200).easing(easingFunc).start();
+    new TWEEN.Tween(op).to(tweenParams, 800).easing(easingFunc).start();
   }
 
   /**
@@ -321,6 +337,11 @@ function KlusterAnimator() {
   function setPosFromPosMap(posId) {
     var p = posMap[posId];
 
+    if (!p) {
+      console.log('Not found: ' + posId);
+      return;
+    }
+
     clusterPos.position.x = p.clusterAxisPosition.x;
     clusterPos.position.y = p.clusterAxisPosition.y;
     clusterPos.position.z = p.clusterAxisPosition.z;
@@ -368,21 +389,31 @@ function KlusterAnimator() {
         z: 2.9594092797053992
       }
     },
-    '5': {
+    'COLORFUL': {
       clusterAxisPosition: {
-        x: 6,
-        y: 0,
-        z: 6
+        x: -7.214533654041588,
+        y: -2.4396179197356105,
+        z: -6.001599505543709
       },
       clusterAxisRotation: {
-        _x: 1.5707963267948966,
-        _y: 0,
-        _z: 0
+        _x: -0.004470624985189575,
+        _y: 0.8727285247146759,
+        _z: 0.2941807983596372
       },
       cameraPosition: {
-        x: 5.924207462789089,
-        y: -1.7707740057674255,
-        z: -5.076231412998507
+        x: 3.4539531590076105,
+        y: 6.374730350658294,
+        z: 1.723565274004424
+      },
+      clusterOptions: {
+        levels: 7,
+        segments: 14,
+        circles: 7,
+        segmentsSpacing: 1,
+        levelsSpacing: 1,
+        ringSpacing: 0.96,
+        height: 10,
+        radius: 10
       }
     },
     '6i': {
@@ -643,7 +674,7 @@ function KlusterAnimator() {
         radius: 10
       }
     },
-    'Windows': {
+    'Demo Start': {
       clusterAxisPosition: {
         x: -5.324477492831647,
         y: 6.651247451081872,
@@ -660,18 +691,17 @@ function KlusterAnimator() {
         z: -3.4786507378435356
       },
       clusterOptions: {
-        levels: 4,
-        segments: 16,
-        circles: 3,
-        segmentsSpacing: 9,
-        levelsSpacing: 1.1,
-        ringSpacing: 1.1,
+        levels: app.klusterModel.levels.length || 5,
+        segments: app.klusterModel.segments.length || 16,
+        circles: app.klusterModel.circles.length || 3,
+        segmentsSpacing: 1,
+        levelsSpacing: 1,
+        ringSpacing: 1,
         height: 10,
         radius: 10
       }
     },
     'Disks': {
-
       clusterAxisPosition: {
         x: -5.324477492831647,
         y: 10,
@@ -715,15 +745,154 @@ function KlusterAnimator() {
         z: 2.7964773912157024
       },
       clusterOptions: {
-        levels: 4,
-        segments: 5,
-        circles: 7,
+        levels: 1,
+        segments: 3,
+        circles: 3,
         segmentsSpacing: 1,
         levelsSpacing: 1,
         ringSpacing: 3,
         height: 10,
         radius: 10
       }
+    },
+    'Step-1': {
+      clusterAxisPosition: {
+        x: -5.324477492831647,
+        y: 6.651247451081872,
+        z: 4.412601953372359
+      },
+      clusterAxisRotation: {
+        _x: 1.0923053542624157,
+        _y: 0.934758015554807,
+        _z: -1.4502125457792625
+      },
+      cameraPosition: {
+        x: 0.7738836049164036,
+        y: -3.3547227086556353,
+        z: 0.29789191939213083
+      },
+      clusterOptions: {
+        levels: 7,
+        segments: 12,
+        circles: 3,
+        segmentsSpacing: 1,
+        levelsSpacing: 1,
+        ringSpacing: 1,
+        height: 10,
+        radius: 10
+      }
+    },
+    'Step-2': {
+      clusterAxisPosition: {
+        x: -5.324477492831647,
+        y: 1.651247451081872,
+        z: 1.412601953372359
+      },
+      clusterAxisRotation: {
+        _x: 1.0923053542624157,
+        _y: 0.934758015554807,
+        _z: -1.4502125457792625
+      },
+      cameraPosition: {
+        x: 11.52916901138159,
+        y: -6.5168099316621,
+        z: 7.651627379189595
+      },
+      clusterOptions: {
+        levels: 7,
+        segments: 12,
+        circles: 3,
+        segmentsSpacing: 1,
+        levelsSpacing: 1,
+        ringSpacing: 1,
+        height: 10,
+        radius: 10
+      }
+    },
+    'Step-3': {
+      clusterAxisPosition: {
+        x: -5.324477492831647,
+        y: 6.651247451081872,
+        z: 4.412601953372359
+      },
+      clusterAxisRotation: {
+        _x: 0,
+        _y: 0.934758015554807,
+        _z: -1.4502125457792625
+      },
+      cameraPosition: {
+        x: 11.52916901138159,
+        y: -6.5168099316621,
+        z: 7.651627379189595
+      },
+      clusterOptions: {
+        levels: 7,
+        segments: 12,
+        circles: 3,
+        segmentsSpacing: 1,
+        levelsSpacing: 1,
+        ringSpacing: 1,
+        height: 10,
+        radius: 10
+      }
+    },
+
+    'Step-4': {
+      clusterAxisPosition: {
+        x: -5.324477492831647,
+        y: 6.651247451081872,
+        z: 4.412601953372359
+      },
+      clusterAxisRotation: {
+        _x: 1.0923053542624157,
+        _y: 0.934758015554807,
+        _z: -1.4502125457792625
+      },
+      cameraPosition: {
+        x: 7.92972933201254,
+        y: 16.82606243486852,
+        z: 2.5817912622696997
+      },
+      clusterOptions: {
+        levels: 7,
+        segments: 12,
+        circles: 3,
+        segmentsSpacing: 1,
+        levelsSpacing: 1,
+        ringSpacing: 1,
+        height: 10,
+        radius: 10
+      }
+    },
+
+    'Semi-Kluster': {
+      clusterAxisPosition: {
+        x: 0,
+        y: 0,
+        z: 0
+      },
+      clusterAxisRotation: {
+        _x: 0,
+        _y: 0,
+        _z: 0
+      },
+      cameraPosition: {
+        x: 2.643754331703072,
+        y: -0.48247358349057407,
+        z: 9.45864986354379
+      },
+      clusterOptions: {
+        levels: 3,
+        segments: 5,
+        circles: 7,
+        segmentsSpacing: 1,
+        levelsSpacing: 1,
+        ringSpacing: 0.96,
+        height: 10,
+        radius: 10
+      }
     }
+
+
   };
 }

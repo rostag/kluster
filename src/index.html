@@ -3,7 +3,7 @@
 
 <head>
     <meta charset=utf-8>
-    <title>Kluster Three</title>
+    <title>Cluster Structure Three</title>
     <link rel="stylesheet" type="text/css" href="css/sliders.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
@@ -12,6 +12,9 @@
     <div class="klapp-controls">
         <!-- some controls -->
         <form class="cluster-controls" id="cControls">
+            <p id="chunkInfo">
+              
+            </p>
             <p>
                 <input type="range" id="input-level" min="1" max="7" step="0.001" />
                 <label for="input-level">Level</label>
@@ -28,17 +31,18 @@
               <li><a href="#" data-state="1">State 1</a></li>
               <li><a href="#" data-state="2">State 2</a></li>
               <li><a href="#" data-state="3">State 3</a></li>
-              <li><a href="#" data-state="4">State 4</a></li>
+              <li><a href="#" data-state="4">Domains: Side View</a></li>
               <li><a href="#" data-state="5">State 5</a></li>
-              <li><a href="#" data-state="6">State 6</a></li>
-              <li><a href="#" data-state="RING_DEBUGGER">Ring Debugger</a></li>
+              <li><a href="#" data-state="6">General View</a></li>
+              <li><a href="#" data-state="RING_DEBUGGER">Circles: Top View</a></li>
               <li><a href="#" data-state="8">Center Close Up</a></li>
               <li><a href="#" data-state="RANDOMIZE">Randomize</a></li>
-              <li><a href="#" data-state="STATE_HILITE">State Hilite</a></li>
-              <li><a href="#" data-state="STATE_HILITE">State Hilite</a></li>
-              <li><a href="#" data-state="STATE_PREV">Prev</a> | <a href="#" data-state="STATE_NEXT">Next</a> </li>
-              <li><a href="#" data-state="STATE_STOP_ANIMATION">Stop Animation</a></li>
-              <li><a href="#" data-state="STATE_SCREEN_SAVE">Save Screen</a></li>
+              <li><a href="#" data-state="STATE_HILITE">Highlight Chunks</a></li>
+              <li><a href="#" data-state="END_STATE">End State</a></li>
+              <!-- <li><a href="#" data-state="STATE_PREV">Prev</a> | <a href="#" data-state="STATE_NEXT">Next</a> </li> -->
+              <li><a href="#" data-state="STATE_STOP_ANIMATION">Save State</a></li>
+              <li><a href="#" data-state="MOUSE_SWITCH">Enable Mouse Selection</a></li>
+              <li><a href="#" data-state="STATE_SCREEN_SAVE">Animate</a></li>
             </ol>
         </form>
     </div>
@@ -66,6 +70,7 @@
     <script src="js/cluster.js"></script>
     <script src="js/cube.js"></script>
     <script src="js/text.js"></script>
+    <script src="js/mousecontrol.js"></script>
     <script src="js/controls.js"></script>
     <script src="js/animator.js"></script>
     <script src="js/app.js"></script>

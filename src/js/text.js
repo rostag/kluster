@@ -1,523 +1,171 @@
 /* globals THREE */
 
+/**
+ * Renders Text Sprites
+ * Code is based on the nice example of view-source:http://stemkoski.github.io/Three.js/Sprite-Text-Labels.html
+ *
+ * @todo @fixme - Move to updated sprite usage accordng to http://stackoverflow.com/questions/20601102/three-spritealignment-showing-up-as-undefined: 
+ * 
+ * SpriteMaterial.alignment and SpriteMaterial.useScreenCoordinates have been removed from Threejs. See the release history: https://github.com/mrdoob/three.js/releases.
+ * Sprites are now rendered in the scene just like any other object.
+ * If you want to create a heads-up display (HUD), the work-around is to overlay a second scene of sprites, rendered with an orthographic camera.
+ * See http://threejs.org/examples/webgl_sprites.html for an example of how to do that. 
+ * three.js r.64
+ * 
+ * Additional reading: https://github.com/mrdoob/three.js/issues/1321
+ */
+
 function textFactory(app) {
 
 	'use strict';
 
 	var scene = app.scene;
-	var renderer = app.renderer;
 
-	var container, permalink, hex;
+	var clusterAxis = app.clusterAxis;
 
-	var camera, cameraTarget;
+	app.getSpriteForMesh = getSpriteForMesh;
 
-	var composer;
-
-	var group, textMesh1, textMesh2, textGeo, material;
-
-	var firstLetter = true;
-
-	var text = 't',
-
-		height = 20,
-		size = 70,
-		hover = 30,
-
-		curveSegments = 4,
-
-		bevelThickness = 2,
-		bevelSize = 1.5,
-		bevelSegments = 3,
-		bevelEnabled = true,
-
-		font = 'optimer', // helvetiker, optimer, gentilis, droid sans, droid serif
-		weight = 'bold', // normal bold
-		style = 'normal'; // normal italic
-
-	var mirror = true;
-
-	var fontMap = {
-
-		'helvetiker': 0,
-		'optimer': 1,
-		'gentilis': 2,
-		'droid sans': 3,
-		'droid serif': 4
-
+	var defaultPosition = {
+		x: 0,
+		y: -10,
+		z: -60
+	};
+	var defaultTextParameters = {
+		fontface: 'Arial',
+		fontsize: 32,
+		borderColor: {
+			r: 100,
+			g: 100,
+			b: 100,
+			a: 1.0
+		},
+		backgroundColor: {
+			r: 255,
+			g: 255,
+			b: 255,
+			a: 1
+		},
+		borderThickness: 1
 	};
 
-	var weightMap = {
+	app.chunkInfoSprite = getSpriteForMesh(app.scene, 'cluster', null, defaultPosition);
 
-		'normal': 0,
-		'bold': 1
+	/**
+	 * @param textParamaters Object like defaultTextParameters above
+	 */
+	function getSpriteForMesh(mesh, text, textParamaters, position) {
 
-	};
+		return null;
 
-	var reverseFontMap = {};
-	var reverseWeightMap = {};
-
-	for (var i in fontMap) reverseFontMap[fontMap[i]] = i;
-	for (i in weightMap) reverseWeightMap[weightMap[i]] = i;
-
-	var targetRotation = 0;
-	var targetRotationOnMouseDown = 0;
-
-	var mouseX = 0;
-	var mouseXOnMouseDown = 0;
-
-	var windowHalfX = window.innerWidth / 2;
-	var windowHalfY = window.innerHeight / 2;
-
-	var postprocessing = {
-		enabled: false
-	};
-	var glow = 0.9;
-
-	init();
-
-	animate();
-
-	function capitalize(txt) {
-		return txt.substring(0, 1).toUpperCase() + txt.substring(1);
+		var textParent = scene;
+		// var textParent = scene;
+		var spritey = makeTextSprite(text, textParamaters || defaultTextParameters);
+		var pos = position || defaultPosition;
+		spritey.position.set(pos.x, pos.y, pos.z);
+		textParent.add(spritey);
+		return spritey;
 	}
 
-	function decimalToHex(d) {
-		var hex = Number(d).toString(16);
-		hex = '000000'.substr(0, 6 - hex.length) + hex;
-		return hex.toUpperCase();
-	}
-
-	function init() {
-
-		// container = document.createElement('div');
-		// document.body.appendChild(container);
-
-		// permalink = document.getElementById('permalink');
-
-		// // CAMERA
-
-		// camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 1500);
-		// camera.position.set(0, 400, 700);
-
-		// cameraTarget = new THREE.Vector3(0, 150, 0);
-
-		// // SCENE
-
-		// scene = new THREE.Scene();
-		// scene.fog = new THREE.Fog(0x000000, 250, 1400);
-
-		// // LIGHTS
-
-		// var dirLight = new THREE.DirectionalLight(0xffffff, 0.125);
-		// dirLight.position.set(0, 0, 1).normalize();
-		// scene.add(dirLight);
-
-		// var pointLight = new THREE.PointLight(0xffffff, 1.5);
-		// pointLight.position.set(0, 100, 90);
-		// scene.add(pointLight);
-
-		// //text = capitalize( font ) + ' ' + capitalize( weight );
-		// //text = 'abcdefghijklmnopqrstuvwxyz0123456789';
-		// //text = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-
-		// // Get text from hash
-
-		// var hash = document.location.hash.substr(1);
-
-		// if (hash.length !== 0) {
-
-		// 	var colorhash = hash.substring(0, 6);
-		// 	var fonthash = hash.substring(6, 7);
-		// 	var weighthash = hash.substring(7, 8);
-		// 	var pphash = hash.substring(8, 9);
-		// 	var bevelhash = hash.substring(9, 10);
-		// 	var texthash = hash.substring(10);
-
-		// 	hex = colorhash;
-		// 	pointLight.color.setHex(parseInt(colorhash, 16));
-
-		// 	font = reverseFontMap[parseInt(fonthash)];
-		// 	weight = reverseWeightMap[parseInt(weighthash)];
-
-		// 	postprocessing.enabled = parseInt(pphash);
-		// 	bevelEnabled = parseInt(bevelhash);
-
-		// 	text = decodeURI(texthash);
-
-		// 	updatePermalink();
-
-		// } else {
-
-		// pointLight.color.setHSL(Math.random(), 1, 0.5);
-		// hex = decimalToHex(pointLight.color.getHex());
-
-		// }
-
-		material = new THREE.MeshFaceMaterial([
-			new THREE.MeshPhongMaterial({
-				color: 0xffffff,
-				shading: THREE.FlatShading
-			}), // front
-			new THREE.MeshPhongMaterial({
-				color: 0xffffff,
-				shading: THREE.SmoothShading
-			}) // side
-		]);
-
-		group = new THREE.Group();
-		group.position.y = 100;
-
-		scene.add(group);
-
-		createText();
-
-		var plane = new THREE.Mesh(
-			new THREE.PlaneBufferGeometry(10000, 10000),
-			new THREE.MeshBasicMaterial({
-				color: 0xffffff,
-				opacity: 0.5,
-				transparent: true
-			})
-		);
-		plane.position.y = 100;
-		plane.rotation.x = -Math.PI / 2;
-		scene.add(plane);
-
-		// EVENTS
-
-		document.addEventListener('mousedown', onDocumentMouseDown, false);
-		document.addEventListener('touchstart', onDocumentTouchStart, false);
-		document.addEventListener('touchmove', onDocumentTouchMove, false);
-		document.addEventListener('keypress', onDocumentKeyPress, false);
-		document.addEventListener('keydown', onDocumentKeyDown, false);
-
-		// document.getElementById('color').addEventListener('click', function() {
-
-		// 	pointLight.color.setHSL(Math.random(), 1, 0.5);
-		// 	hex = decimalToHex(pointLight.color.getHex());
-
-		// 	updatePermalink();
-
-		// }, false);
-
-		// document.getElementById('font').addEventListener('click', function() {
-
-		// 	if (font == 'helvetiker') {
-
-		// 		font = 'optimer';
-
-		// 	} else if (font == 'optimer') {
-
-		// 		font = 'gentilis';
-
-		// 	} else if (font == 'gentilis') {
-
-		// 		font = 'droid sans';
-
-		// 	} else if (font == 'droid sans') {
-
-		// 		font = 'droid serif';
-
-		// 	} else {
-
-		// 		font = 'helvetiker';
-
-		// 	}
-
-		// 	refreshText();
-
-		// }, false);
-
-		// document.getElementById('weight').addEventListener('click', function() {
-
-		// 	if (weight == 'bold') {
-
-		// 		weight = 'normal';
-
-		// 	} else {
-
-		// 		weight = 'bold';
-
-		// 	}
-
-		// 	refreshText();
-
-		// }, false);
-
-		// document.getElementById('bevel').addEventListener('click', function() {
-
-		// 	bevelEnabled = !bevelEnabled;
-
-		// 	refreshText();
-
-		// }, false);
-
-		// document.getElementById('postprocessing').addEventListener('click', function() {
-
-		// 	postprocessing.enabled = !postprocessing.enabled;
-		// 	updatePermalink();
-
-		// }, false);
-
-
-		// POSTPROCESSING
-
-		renderer.autoClear = false;
-
-	}
-
-	//
-
-	function boolToNum(b) {
-		return b ? 1 : 0;
-	}
-
-	function updatePermalink() {
-
-		var link = hex + fontMap[font] + weightMap[weight] + boolToNum(postprocessing.enabled) + boolToNum(bevelEnabled) + '#' + encodeURI(text);
-
-		permalink.href = '#' + link;
-		window.location.hash = link;
-	}
-
-	function onDocumentKeyDown(event) {
-
-		if (firstLetter) {
-
-			firstLetter = false;
-			text = '';
-
-		}
-
-		var keyCode = event.keyCode;
-
-		// backspace
-
-		if (keyCode == 8) {
-
-			event.preventDefault();
-
-			text = text.substring(0, text.length - 1);
-			refreshText();
-
-			return false;
-
-		}
-
-	}
-
-	function onDocumentKeyPress(event) {
-
-		var keyCode = event.which;
-
-		// backspace
-
-		if (keyCode == 8) {
-
-			event.preventDefault();
-
-		} else {
-
-			var ch = String.fromCharCode(keyCode);
-			text += ch;
-
-			refreshText();
-
-		}
-
-	}
-
-	function createText() {
-
-		textGeo = new THREE.TextGeometry(text, {
-
-			size: size,
-			height: height,
-			curveSegments: curveSegments,
-
-			font: font,
-			weight: weight,
-			style: style,
-
-			bevelThickness: bevelThickness,
-			bevelSize: bevelSize,
-			bevelEnabled: bevelEnabled,
-
-			material: 0,
-			extrudeMaterial: 1
-
+	function makeTextSprite(message, parameters) {
+		if (parameters === undefined) parameters = {};
+
+		var fontface = parameters.hasOwnProperty('fontface') ?
+			parameters.fontface : 'Arial';
+
+		var fontsize = parameters.hasOwnProperty('fontsize') ?
+			parameters.fontsize : 18;
+
+		var borderThickness = parameters.hasOwnProperty('borderThickness') ?
+			parameters.borderThickness : 4;
+
+		var borderColor = parameters.hasOwnProperty('borderColor') ?
+			parameters.borderColor : {
+				r: 0,
+				g: 0,
+				b: 0,
+				a: 1.0
+			};
+
+		var backgroundColor = parameters.hasOwnProperty('backgroundColor') ?
+			parameters.backgroundColor : {
+				r: 255,
+				g: 255,
+				b: 255,
+				a: 1.0
+			};
+
+		var canvas = document.createElement('canvas');
+		var context = canvas.getContext('2d');
+		context.font = 'Bold ' + fontsize + 'px ' + fontface;
+
+		// get size data (height depends only on font size)
+		var metrics = context.measureText(message);
+		var textWidth = metrics.width;
+
+		// background color
+		context.fillStyle = 'rgba(' + backgroundColor.r + ',' + backgroundColor.g + ',' + backgroundColor.b + ',' + backgroundColor.a + ')';
+		// border color
+		context.strokeStyle = 'rgba(' + borderColor.r + ',' + borderColor.g + ',' + borderColor.b + ',' + borderColor.a + ')';
+
+		context.lineWidth = borderThickness;
+		roundRect(context, borderThickness / 2, borderThickness / 2, textWidth + borderThickness, fontsize * 1.4 + borderThickness, 6);
+		// 1.4 is extra height factor for text below baseline: g,j,p,q.
+
+		// text color
+		context.fillStyle = 'rgba(0, 0, 0, 1.0)';
+
+		context.fillText(message, borderThickness, fontsize + borderThickness);
+
+		// canvas contents will be used for a texture
+		var texture = new THREE.Texture(canvas);
+		texture.needsUpdate = true;
+
+		var spriteMaterial = new THREE.SpriteMaterial({
+			map: texture
 		});
-
-		textGeo.computeBoundingBox();
-		textGeo.computeVertexNormals();
-
-		// 'fix' side normals by removing z-component of normals for side faces
-		// (this doesn't work well for beveled geometry as then we lose nice curvature around z-axis)
-
-		if (!bevelEnabled) {
-
-			var triangleAreaHeuristics = 0.1 * (height * size);
-
-			for (var i = 0; i < textGeo.faces.length; i++) {
-
-				var face = textGeo.faces[i];
-
-				if (face.materialIndex == 1) {
-
-					for (var j = 0; j < face.vertexNormals.length; j++) {
-
-						face.vertexNormals[j].z = 0;
-						face.vertexNormals[j].normalize();
-
-					}
-
-					var va = textGeo.vertices[face.a];
-					var vb = textGeo.vertices[face.b];
-					var vc = textGeo.vertices[face.c];
-
-					var s = THREE.GeometryUtils.triangleArea(va, vb, vc);
-
-					if (s > triangleAreaHeuristics) {
-
-						for (j = 0; j < face.vertexNormals.length; j++) {
-
-							face.vertexNormals[j].copy(face.normal);
-
-						}
-
-					}
-
-				}
-
-			}
-
-		}
-
-		var centerOffset = -0.5 * (textGeo.boundingBox.max.x - textGeo.boundingBox.min.x);
-
-		textMesh1 = new THREE.Mesh(textGeo, material);
-
-		textMesh1.position.x = centerOffset;
-		textMesh1.position.y = hover;
-		textMesh1.position.z = 0;
-
-		textMesh1.rotation.x = 0;
-		textMesh1.rotation.y = Math.PI * 2;
-
-		group.add(textMesh1);
-
-		if (mirror) {
-
-			textMesh2 = new THREE.Mesh(textGeo, material);
-
-			textMesh2.position.x = centerOffset;
-			textMesh2.position.y = -hover;
-			textMesh2.position.z = height;
-
-			textMesh2.rotation.x = Math.PI;
-			textMesh2.rotation.y = Math.PI * 2;
-
-			group.add(textMesh2);
-
-		}
-
+		var sprite = new THREE.Sprite(spriteMaterial);
+		sprite.scale.set(100, 50, 1);
+		return sprite;
 	}
 
-	function refreshText() {
+	app.updateChunkInfo = function ( chunk ) { 
+		// REMOVE OLD
+		var textParent = scene;
+		textParent.remove(app.chunkInfoSprite);
 
-		updatePermalink();
+		// GET NEW
+		var text =  'c: ' + chunk.level + ':' + chunk.segment + ':' + chunk.circle;
 
-		group.remove(textMesh1);
-		if (mirror) group.remove(textMesh2);
+		// app.chunkInfoSprite = getSpriteForMesh(app.scene, text, null, defaultPosition);
 
-		if (!text) return;
+		var i = app.klusterModel.getInfoByMetrics( {level: chunk.level, segment: chunk.segment, circle: chunk.circle });
 
-		createText();
+		text = '<h2>Domain:<br/>&nbsp;&nbsp;' + i.level.name + '</h2>' +
+		'<h2>Technology: <br/>&nbsp;&nbsp;' + i.segment.name + '</h2>' +
+		'<h2>Stage: <br/>&nbsp;&nbsp;' + i.circle.name + '</h2>';
 
+
+		app.chunkInfoDiv.innerHTML = text;
 	}
 
-	function onDocumentMouseDown(event) {
 
-		event.preventDefault();
-
-		document.addEventListener('mousemove', onDocumentMouseMove, false);
-		document.addEventListener('mouseup', onDocumentMouseUp, false);
-		document.addEventListener('mouseout', onDocumentMouseOut, false);
-
-		mouseXOnMouseDown = event.clientX - windowHalfX;
-		targetRotationOnMouseDown = targetRotation;
-
+	// function for drawing rounded rectangles
+	function roundRect(ctx, x, y, w, h, r) {
+		ctx.beginPath();
+		ctx.moveTo(x + r, y);
+		ctx.lineTo(x + w - r, y);
+		ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+		ctx.lineTo(x + w, y + h - r);
+		ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+		ctx.lineTo(x + r, y + h);
+		ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+		ctx.lineTo(x, y + r);
+		ctx.quadraticCurveTo(x, y, x + r, y);
+		ctx.closePath();
+		ctx.fill();
+		ctx.stroke();
 	}
 
-	function onDocumentMouseMove(event) {
+	return this;
 
-		mouseX = event.clientX - windowHalfX;
-
-		targetRotation = targetRotationOnMouseDown + (mouseX - mouseXOnMouseDown) * 0.02;
-
-	}
-
-	function onDocumentMouseUp(event) {
-
-		document.removeEventListener('mousemove', onDocumentMouseMove, false);
-		document.removeEventListener('mouseup', onDocumentMouseUp, false);
-		document.removeEventListener('mouseout', onDocumentMouseOut, false);
-
-	}
-
-	function onDocumentMouseOut(event) {
-
-		document.removeEventListener('mousemove', onDocumentMouseMove, false);
-		document.removeEventListener('mouseup', onDocumentMouseUp, false);
-		document.removeEventListener('mouseout', onDocumentMouseOut, false);
-
-	}
-
-	function onDocumentTouchStart(event) {
-
-		if (event.touches.length == 1) {
-
-			event.preventDefault();
-
-			mouseXOnMouseDown = event.touches[0].pageX - windowHalfX;
-			targetRotationOnMouseDown = targetRotation;
-
-		}
-
-	}
-
-	function onDocumentTouchMove(event) {
-
-		if (event.touches.length == 1) {
-
-			event.preventDefault();
-
-			mouseX = event.touches[0].pageX - windowHalfX;
-			targetRotation = targetRotationOnMouseDown + (mouseX - mouseXOnMouseDown) * 0.05;
-
-		}
-
-	}
-
-	//
-
-	function animate() {
-
-		requestAnimationFrame(animate);
-
-		render();
-
-	}
-
-	function render() {
-
-		group.rotation.y += (targetRotation - group.rotation.y) * 0.05;
-
-		// camera.lookAt(cameraTarget);
-
-		// renderer.clear();
-
-		// renderer.render(scene, camera);
-
-	}
 }

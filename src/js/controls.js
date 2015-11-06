@@ -1,5 +1,10 @@
 /* globals console */
 
+/**
+ * UI for controlling the model.
+ * @todo Add 'No rebuild' checkbox bo prevent rebuilds when state changes.
+ */
+
 (function(rootScope) {
 
   'use strict';
@@ -11,12 +16,16 @@
   var iCircle = document.getElementById('input-circle');
   var stateSelector = document.querySelectorAll('[data-state-selector] a');
 
+  var chunkInfo = document.getElementById('chunkInfo');
+
   app.speedX = 0;
   app.speedY = 0;
   app.curMouseX = 0;
   app.curMouseY = 0;
   app.prevMouseX = 0;
   app.prevMouseY = 0;
+
+  app.chunkInfoDiv = chunkInfo;
 
   function onStateChange(event) {
     var stateId = event && event.target && event.target.attributes && event.target.attributes['data-state'] && event.target.attributes['data-state'].value;
@@ -56,7 +65,7 @@
     iCircle.value = app.controls.circle.val;
   };
 
-  app.addControl('opacityAdd', 'Opacity', 0.1, 0.1, 1, 0.1);
+  // app.addControl('opacityAdd', 'Opacity', 0.1, 0.1, 1, 0.1);
 
   // setup state links
   for (var l = 0; l < stateSelector.length; l++) {
