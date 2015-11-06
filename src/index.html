@@ -27,23 +27,21 @@
                 <input type="range" id="input-circle" min="1" max="7" step="0.001" />
                 <label for="input-circle">Circle</label>
             </p>
-            <ol data-state-selector="controls">
-              <li><a href="#" data-state="1">State 1</a></li>
-              <li><a href="#" data-state="2">State 2</a></li>
-              <li><a href="#" data-state="3">State 3</a></li>
-              <li><a href="#" data-state="4">Domains: Side View</a></li>
-              <li><a href="#" data-state="5">State 5</a></li>
+            <ul data-state-selector="controls">
+              <li><a href="#" data-state="1">State 1</a> | <a href="#" data-state="2">2</a> | <a href="#" data-state="3">3</a></li>
               <li><a href="#" data-state="6">General View</a></li>
+              <li><a href="#" data-state="DOMAINS_VIEW">Domains: Side View</a></li>
               <li><a href="#" data-state="RING_DEBUGGER">Circles: Top View</a></li>
+              <li><a href="#" data-state="PERSPECTIVE">Perspective</a></li>
               <li><a href="#" data-state="8">Center Close Up</a></li>
-              <li><a href="#" data-state="RANDOMIZE">Randomize</a></li>
+              <li><a href="#" data-state="RANDOMIZE">Randomize</a> | <a href="#" data-state="IGNORE_REBUILDS">+rebuild</a></li>
               <li><a href="#" data-state="STATE_HILITE">Highlight Chunks</a></li>
               <li><a href="#" data-state="END_STATE">End State</a></li>
               <!-- <li><a href="#" data-state="STATE_PREV">Prev</a> | <a href="#" data-state="STATE_NEXT">Next</a> </li> -->
               <li><a href="#" data-state="STATE_STOP_ANIMATION">Save State</a></li>
               <li><a href="#" data-state="MOUSE_SWITCH">Enable Mouse Selection</a></li>
               <li><a href="#" data-state="STATE_SCREEN_SAVE">Animate</a></li>
-            </ol>
+            </ul>
         </form>
     </div>
     <script src="js/tween/tween.js"></script>

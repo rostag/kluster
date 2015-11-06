@@ -140,9 +140,17 @@ function textFactory(app) {
 
 		var i = app.klusterModel.getInfoByMetrics( {level: chunk.level, segment: chunk.segment, circle: chunk.circle });
 
-		text = '<h2>Domain:<br/>&nbsp;&nbsp;' + i.level.name + '</h2>' +
-		'<h2>Technology: <br/>&nbsp;&nbsp;' + i.segment.name + '</h2>' +
-		'<h2>Stage: <br/>&nbsp;&nbsp;' + i.circle.name + '</h2>';
+		if ( !i || !i.level ) {
+			return;
+		}
+
+		var l = i.level ? i.level.name : '';
+		var s = i.segment ? i.segment.name : '';
+		var c = i.circle ? i.circle.name : '';
+
+		text = '<h2>Domain:<br/>&nbsp;&nbsp;' + l + '</h2>' +
+		'<h2>Technology: <br/>&nbsp;&nbsp;' + s + '</h2>' +
+		'<h2>Stage: <br/>&nbsp;&nbsp;' + c + '</h2>';
 
 
 		app.chunkInfoDiv.innerHTML = text;

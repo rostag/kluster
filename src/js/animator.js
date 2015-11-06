@@ -15,6 +15,8 @@ function KlusterAnimator() {
 
   var app = KLU5TER;
 
+  app.stateRebuilds = false;
+
   // var camera = app.camera;
 
   var easingFunc = TWEEN.Easing.Elastic.Out;
@@ -89,7 +91,8 @@ function KlusterAnimator() {
         clusterPos.camera.x = 2;
         clusterPos.camera.z = 0;
 
-        setPosFromPosMap('Step-1');
+        setPosFromPosMap('Plasma');
+        // setPosFromPosMap('Step-1');
         // setPosFromPosMap('Demo Start');
         // setPosFromPosMap('Rotor');
         // setPosFromPosMap('Startup One');
@@ -124,9 +127,8 @@ function KlusterAnimator() {
         tweenCluster(clusterPos);
       }
     },
-    '4': {
-      time: 1000,
-      name: 'State 4',
+    'DOMAINS_VIEW': {
+      name: 'Domains View',
       handler: function() {
 
         setPosFromPosMap('Step-4');
@@ -141,11 +143,10 @@ function KlusterAnimator() {
 
       }
     },
-    '5': {
-      time: 1000,
-      name: 'State 5',
+    'PERSPECTIVE': {
+      name: 'Perspective',
       handler: function() {
-        setPosFromPosMap('5');
+        setPosFromPosMap('PERSPECTIVE');
         tweenCluster(clusterPos);
       }
     },
@@ -223,6 +224,12 @@ function KlusterAnimator() {
       handler: function() {
         app.isManualMode = true;
         getNextState();
+      }
+    },
+    'IGNORE_REBUILDS': {
+      name: 'Ignore Rebuilds',
+      handler: function() {
+        app.stateRebuilds = !app.stateRebuilds;
       }
     }
   };
@@ -362,7 +369,7 @@ function KlusterAnimator() {
     if (p.clusterOptions) {
       // console.log('rebuildIsNeeded : ', p.clusterOptions);
       for (var prop in p.clusterOptions) {
-        if (app.clusterOptions[prop] !== p.clusterOptions[prop]) {
+        if (app.stateRebuilds && app.clusterOptions[prop] !== p.clusterOptions[prop]) {
           app.clusterOptions[prop] = p.clusterOptions[prop];
           app.rebuildIsNeeded = true;
         }
@@ -389,7 +396,7 @@ function KlusterAnimator() {
         z: 2.9594092797053992
       }
     },
-    'COLORFUL': {
+    'PERSPECTIVE': {
       clusterAxisPosition: {
         x: -7.214533654041588,
         y: -2.4396179197356105,
@@ -786,7 +793,7 @@ function KlusterAnimator() {
       clusterAxisPosition: {
         x: -5.324477492831647,
         y: 1.651247451081872,
-        z: 1.412601953372359
+        z: 1.4126019533723593
       },
       clusterAxisRotation: {
         _x: 1.0923053542624157,
@@ -794,9 +801,9 @@ function KlusterAnimator() {
         _z: -1.4502125457792625
       },
       cameraPosition: {
-        x: 11.52916901138159,
-        y: -6.5168099316621,
-        z: 7.651627379189595
+        x: 1.0099593629449577,
+        y: -12.702418022763476,
+        z: 8.45969915473037
       },
       clusterOptions: {
         levels: 7,
@@ -884,6 +891,33 @@ function KlusterAnimator() {
       clusterOptions: {
         levels: 3,
         segments: 5,
+        circles: 7,
+        segmentsSpacing: 1,
+        levelsSpacing: 1,
+        ringSpacing: 0.96,
+        height: 10,
+        radius: 10
+      }
+    },
+    'Plasma': {
+      clusterAxisPosition: {
+        x: -7.214533654041588,
+        y: -2.4396179197356105,
+        z: -6.001599505543709
+      },
+      clusterAxisRotation: {
+        _x: -0.004470624985189575,
+        _y: 0.8727285247146759,
+        _z: 0.2941807983596372
+      },
+      cameraPosition: {
+        x: 3.4539531590076105,
+        y: 6.374730350658294,
+        z: 1.723565274004424
+      },
+      clusterOptions: {
+        levels: 7,
+        segments: 14,
         circles: 7,
         segmentsSpacing: 1,
         levelsSpacing: 1,
