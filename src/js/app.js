@@ -75,6 +75,9 @@
 
   var orbit;
 
+  var klusterModel = new app.KlusterModel();
+  app.klusterModel = klusterModel;  
+
   app.initializeControls();
 
   app.materialFactory = new MaterialFactory(app);

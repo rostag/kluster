@@ -660,9 +660,9 @@ function KlusterAnimator() {
         z: -3.4786507378435356
       },
       clusterOptions: {
-        levels: 5,
-        segments: 16,
-        circles: 3,
+        levels: app.klusterModel.levels.length || 5 ,
+        segments: app.klusterModel.segments.length || 16,
+        circles: app.klusterModel.circles.length || 3,
         segmentsSpacing: 1,
         levelsSpacing: 1,
         ringSpacing: 1,
