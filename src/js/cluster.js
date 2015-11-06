@@ -219,7 +219,7 @@ function ClusterFactory(app) {
     // ring is a level pointer
     // @todo @p1 include in animation setup
     levelPointer = ringFactory.createRing();
-    levelPointer.scale.set(1, 1, 1);
+    levelPointer.scale.set(1.1, 1.1, 1.1);
     clusterAxis.add(levelPointer);
 
     clusterAxis.onRender = function() {

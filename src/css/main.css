@@ -38,6 +38,7 @@ div.klapp-controls {
 	text-align: left;
 	background: #234;
 	padding: 0 0.5em 0.8em 0.5em;
+	max-width: 26em;
 	/*opacity: 0.5;*/
 }
 
