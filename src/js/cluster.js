@@ -1,5 +1,4 @@
 /* globals RingFactory, THREE, console */
-
 function ClusterFactory(app) {
 
   'use strict';
@@ -8,8 +7,8 @@ function ClusterFactory(app) {
 
   var clusterAxis;
 
-  var rotationX = 0.01;
-  var rotationY = 0.01;
+  // var rotationX = 0.01;
+  // var rotationY = 0.01;
   // var rotationZ = 0.01;
 
   // var rotationSpeedX = 0.0001;
@@ -102,9 +101,6 @@ function ClusterFactory(app) {
     var xx = Math.sin(thetaAvg) * radius; // + THREE.Math.random16() / 4;
     var yy = Math.cos(thetaAvg) * radius; // + THREE.Math.random16() / 4;
 
-    var xxx = 0;
-    var yyy = 0;
-
     var e = expandFactor || 0;
 
     function traceChunk() {
@@ -145,7 +141,8 @@ function ClusterFactory(app) {
         steps: 1,
         bevelEnabled: false,
         extrudePath: new THREE.CatmullRomCurve3([
-          new THREE.Vector3(xxx, yyy, levelMin), new THREE.Vector3(xxx, yyy, levelMax)
+          new THREE.Vector3(self.options.extrudePathBiasX, self.options.extrudePathBiasY, levelMin),
+          new THREE.Vector3(self.options.extrudePathBiasX, self.options.extrudePathBiasY, levelMax)
           // new THREE.Vector3(0, 0, levelMin), new THREE.Vector3(0, 0, levelMax)
         ])
       };
@@ -222,12 +219,12 @@ function ClusterFactory(app) {
     // ring is a level pointer
     // @todo @p1 include in animation setup
     levelPointer = ringFactory.createRing();
-    levelPointer.scale.set(1.1, 1.1, 1.1);
+    levelPointer.scale.set(1, 1, 1);
     clusterAxis.add(levelPointer);
 
     clusterAxis.onRender = function() {
       speed += 0.00001;
-      var rand = Math.random() * 0.001;
+      // var rand = Math.random() * 0.001;
 
       // rotationX += rotationSpeedX + app.speedX * speed;
       // rotationY += rotationSpeedY + rand;
@@ -237,11 +234,7 @@ function ClusterFactory(app) {
       // clusterAxis.rotation.x += 0.0005 + speed;
       // clusterAxis.rotation.z = rotationZ;
 
-      // levelPointer.rotation.x = rotationX + speed;
-      // levelPointer.rotation.y = rotationY + rand;
-
-      app.mouseControl.checkIntersection( chunks, false);
-
+      app.mouseControl.checkIntersection(chunks, false);
     };
 
     app.clusterAxis = clusterAxis;

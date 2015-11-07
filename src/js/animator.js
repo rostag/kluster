@@ -6,7 +6,6 @@
  * @todo: implement rings, sectors and levels animation
  * @todo Implement timeSpeedFunction
  */
-
 function KlusterAnimator() {
 
   'use strict';
@@ -165,7 +164,7 @@ function KlusterAnimator() {
     },
     '8': {
       handler: function() {
-        setPosFromPosMap('Center Close Up');
+        setPosFromPosMap('Deep Go');
         tweenCluster(clusterPos);
       }
     },
@@ -186,6 +185,9 @@ function KlusterAnimator() {
       handler: function() {
         setPosFromPosMap('Overloaded');
         tweenCluster(clusterPos);
+        var rChunk = getRandomChunk();
+        rChunk.removeOld = true;
+        app.clusterFactory.hiliteChunk(rChunk);
       }
     },
     'STATE_STOP_ANIMATION': {
@@ -924,6 +926,35 @@ function KlusterAnimator() {
         ringSpacing: 0.96,
         height: 10,
         radius: 10
+      }
+    },
+    'Deep Go': {
+      clusterAxisPosition: {
+        x: 3.000586056150496,
+        y: 8.68623988237232,
+        z: 2.3817217955365777
+      },
+      clusterAxisRotation: {
+        _x: 0.2931119333571194,
+        _y: -0.6366476787941227,
+        _z: -1.2389387872077564
+      },
+      cameraPosition: {
+        x: 2.4811509435530748,
+        y: 12.725914855953306,
+        z: 6.682752438355237
+      },
+      clusterOptions: {
+        levels: 7,
+        segments: 16,
+        circles: 3,
+        segmentsSpacing: 0.98,
+        levelsSpacing: 1.03,
+        ringSpacing: 0.98,
+        height: 10,
+        radius: 10,
+        extrudePathBiasX: 0,
+        extrudePathBiasY: 0
       }
     }
 

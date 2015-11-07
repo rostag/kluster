@@ -152,10 +152,8 @@ function textFactory(app) {
 		'<h2>Technology: <br/>&nbsp;&nbsp;' + s + '</h2>' +
 		'<h2>Stage: <br/>&nbsp;&nbsp;' + c + '</h2>';
 
-
 		app.chunkInfoDiv.innerHTML = text;
 	}
-
 
 	// function for drawing rounded rectangles
 	function roundRect(ctx, x, y, w, h, r) {

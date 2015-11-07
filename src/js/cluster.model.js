@@ -20,7 +20,6 @@
 	// UI / UX / Frontend
 	// Usability
 
-
 	var app = rootScope.getKLU5TER();
 
 	app.KlusterModel = KlusterModel;

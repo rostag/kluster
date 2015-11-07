@@ -29,17 +29,19 @@
 
   // Kluster Looks like this
   app.clusterOptions = {
-    levels: 1,
-    segments: 8,
-    circles: 2,
-    segmentsSpacing: 1,
-    levelsSpacing: 1,
-    ringSpacing: 1,
+    levels: 7,
+    segments: 16,
+    circles: 3,
+    segmentsSpacing: 0.98,
+    levelsSpacing: 1.03,
+    ringSpacing: 0.98,
     // segmentsSpacing: 0.96,
     // levelsSpacing: 1,
     // ringSpacing: 0.96,
     height: 10,
-    radius: 10
+    radius: 10,
+    extrudePathBiasX: 0,
+    extrudePathBiasY: 0
   };
 
   app.cameraSettings = {
