@@ -20,7 +20,6 @@
 	// UI / UX / Frontend
 	// Usability
 
-
 	var app = rootScope.getKLU5TER();
 
 	app.KlusterModel = KlusterModel;
@@ -29,32 +28,29 @@
 
 		var self = this;
 
-		self.levels = [new Level('Industrial'), new Level('Internet of Things'), new Level('Big Data Analytics'), new Level('Retail'), new Level('PR'), new Level('UI/UX'), new Level('Product Development')];
-		self.segments = [new Segment('.Net'), new Segment('Java'), new Segment('C/C++'), new Segment('NetDuino'), new Segment('Front-End'), new Segment('Usability'), new Segment('JavaScript'), new Segment('3D Print'),
-			new Segment('Automation'), new Segment('Embedded'), new Segment('HTML'), new Segment('CSS')
-		];
-		self.circles = [new Circle('Core'), new Circle('Mid-Term'), new Circle('Far Goals')];
+		self.levels = getCollection(Chunk, ['Industrial', 'Internet of Things', 'Big Data Analytics', 'Retail', 'PR', 'UI/UX', 'Product Development']);
+		self.segments = getCollection(Chunk, ['.Net', 'Java', 'C/C++', 'NetDuino', 'Front-End', 'Usability', 'JavaScript', '3D Print', 'Automation', 'Embedded', 'HTML', 'CSS']);
+		self.circles = getCollection(Chunk, ['Core', 'Mid-Term', 'Far Goals']);
 
-		console.log('Cluster Model: ', self.levels, self.segments, self.circles);
+		// console.log('Cluster Model: ', self.levels, self.segments, self.circles);
 
-		self.getInfoByMetrics = function( o) {
+		self.getInfoByMetrics = function(o) {
 			return {
 				level: self.levels[o.level],
 				segment: self.segments[o.segment],
 				circle: self.circles[o.circle]
 			}
+		};
+	}
+
+	function getCollection(modelConstructor, valuesArray) {
+		for (var i = 0; i < valuesArray.length; i++) {
+			valuesArray[i] = new Chunk(valuesArray[i]);
 		}
+		return valuesArray;
 	}
 
-	function Level(name) {
-		this.name = name;
-	}
-
-	function Circle(name) {
-		this.name = name;
-	}
-
-	function Segment(name) {
+	function Chunk(name) {
 		this.name = name;
 	}
 
