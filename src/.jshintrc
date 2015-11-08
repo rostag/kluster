@@ -9,7 +9,7 @@
   // Documentation: http://www.jshint.com/docs/options/
   "browser": true,
   "esnext": true,
-  "globals": { THREE, TWEEN, KlusterFactory },
+  // "globals": { THREE, TWEEN, KlusterFactory, textFactory },
   "globalstrict": true,
   "quotmark": true,
   "undef": true,

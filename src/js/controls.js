@@ -27,36 +27,33 @@
 
   app.chunkInfoDiv = chunkInfo;
 
-  function onStateChange(event) {
+  function onStateLinkClick(event) {
     var stateId = event && event.target && event.target.attributes && event.target.attributes['data-state'] && event.target.attributes['data-state'].value;
-    // console.log('state id:', stateId);
     app.animator.setState(stateId);
   }
 
-  app.addControl = function(path, label, initialValue, min, max, step) {
+  /**
+   * Creates new Range Input with given parameters and links it to any handler
+   */
+  app.addControl = function(label, initialValue, min, max, step, path, handler) {
     // app.controls.path.val = initialValue;
     app[path] = initialValue;
-    var cc = document.getElementById('cControls');
+    var cc = document.getElementById('dynControls');
     var inputRange = document.createElement('input');
     var inputLabel = document.createElement('label');
     inputRange.setAttribute('type', 'range');
     inputRange.setAttribute('min', min || 0);
     inputRange.setAttribute('max', max || 10);
     inputRange.setAttribute('step', step || 0.0001);
-    inputRange.addEventListener('input', function(event) {
+    inputRange.addEventListener('input', handler || function(event) {
       var val = event.target.value;
       app[path] = val;
-
-      // console.log(val	);
       app.clusterFactory.rebuildCluster();
     });
     inputLabel.setAttribute('for', path);
     inputLabel.innerHTML = label;
-    // <p><input type="range" id="input-circle" min="1" max="10" step="0.0001" />
-    // <label for="input-circle">Circle</label></p>
     cc.appendChild(inputRange);
     cc.appendChild(inputLabel);
-    // console.log('add control:', path, initialValue, inputRange, label );
   };
 
   app.initializeControls = function() {
@@ -65,14 +62,18 @@
     iCircle.value = app.controls.circle.val;
   };
 
-  // app.addControl('opacityAdd', 'Opacity', 0.1, 0.1, 1, 0.1);
+  // app.addControl('Opacity', 0.1, 0.1, 1, 0.1, 'opacityAdd');
+  app.addControl('Extrude Bias', 0, 0, 5, 0.01, 'extrudePathBiasX', function(event) {
+    app.clusterOptions.extrudePathBiasX = app.clusterOptions.extrudePathBiasY = event.target.value;
+    app.clusterFactory.rebuildCluster();
+  });
 
   // setup state links
   for (var l = 0; l < stateSelector.length; l++) {
     var link = stateSelector[l];
-    link.addEventListener('click', onStateChange);
-    if ( app.changeStateOnMouseOver ) {
-      link.addEventListener('mouseover', onStateChange);
+    link.addEventListener('click', onStateLinkClick);
+    if (app.changeStateOnMouseOver) {
+      link.addEventListener('mouseover', onStateLinkClick);
     }
   }
 

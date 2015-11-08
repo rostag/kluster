@@ -22,7 +22,7 @@
   // Screensaver mode 
   app.autoPlayIsOn = false;
   app.opacityAdd = 0.2;
-  app.isManualMode = true;
+  app.isManualMode = false;
   app.changeStateOnMouseOver = false;
   app.mouseSelectionIsOn = false;
   app.isDebug = false;
@@ -38,10 +38,10 @@
     // segmentsSpacing: 0.96,
     // levelsSpacing: 1,
     // ringSpacing: 0.96,
-    height: 10,
-    radius: 10,
-    extrudePathBiasX: 0,
-    extrudePathBiasY: 0
+    height: 30,
+    radius: 30,
+    extrudePathBiasX: 1,
+    extrudePathBiasY: 1
   };
 
   app.cameraSettings = {
@@ -68,7 +68,6 @@
   var camera;
   var renderer;
   var lights;
-  var time;
 
   var mouseX = 0;
   var mouseY = 0;

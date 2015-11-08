@@ -141,8 +141,8 @@ function ClusterFactory(app) {
         steps: 1,
         bevelEnabled: false,
         extrudePath: new THREE.CatmullRomCurve3([
-          new THREE.Vector3(self.options.extrudePathBiasX, self.options.extrudePathBiasY, levelMin),
-          new THREE.Vector3(self.options.extrudePathBiasX, self.options.extrudePathBiasY, levelMax)
+          new THREE.Vector3(xx * self.options.extrudePathBiasX, yy * self.options.extrudePathBiasY, levelMin),
+          new THREE.Vector3(xx * self.options.extrudePathBiasX, yy * self.options.extrudePathBiasY, levelMax)
           // new THREE.Vector3(0, 0, levelMin), new THREE.Vector3(0, 0, levelMax)
         ])
       };
