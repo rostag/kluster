@@ -14,7 +14,9 @@ function KlusterAnimator() {
 
   var app = KLU5TER;
 
-  app.stateRebuilds = false;
+  app.stateRebuilds = true;
+
+  var stateChangeDuration = 3000;
 
   // var camera = app.camera;
 
@@ -43,7 +45,7 @@ function KlusterAnimator() {
   };
 
   // This is the sequence of state id's for animated mode:
-  var animationSequence = ['1', '2', '3', '4', '6', 'STATE_STOP_ANIMATION'];
+  var animationSequence = ['1', 'Sun Side', '2', '3', '6', '8', 'Scene 2 - Look 1', 'Scene 2 - Look 2', 'Scene 3 - Look 1'];
 
   function getRandomChunk() {
     var mr = THREE.Math.randInt;
@@ -90,8 +92,8 @@ function KlusterAnimator() {
         clusterPos.camera.x = 2;
         clusterPos.camera.z = 0;
 
-        setPosFromPosMap('Plasma');
-        // setPosFromPosMap('Step-1');
+        //setPosFromPosMap('Plasma');
+        setPosFromPosMap('Step-1');
         // setPosFromPosMap('Demo Start');
         // setPosFromPosMap('Rotor');
         // setPosFromPosMap('Startup One');
@@ -114,6 +116,13 @@ function KlusterAnimator() {
         var rChunk = getRandomChunk();
         rChunk.removeOld = true;
         app.clusterFactory.hiliteChunk(rChunk);
+      }
+    },
+    'Rumb': {
+      name: 'Rumb',
+      handler: function() {
+        setPosFromPosMap('Rumb');
+        tweenCluster(clusterPos);
       }
     },
     '3': {
@@ -155,6 +164,24 @@ function KlusterAnimator() {
         tweenCluster(clusterPos);
       }
     },
+    'Scene 2 - Look 1': {
+      handler: function() {
+        setPosFromPosMap('Scene 2 - Look 1');
+        tweenCluster(clusterPos);
+      }
+    },
+    'Scene 2 - Look 2': {
+      handler: function() {
+        setPosFromPosMap('Scene 2 - Look 2');
+        tweenCluster(clusterPos);
+      }
+    },
+    'Scene 3 - Look 1': {
+      handler: function() {
+        setPosFromPosMap('Scene 3 - Look 1');
+        tweenCluster(clusterPos);
+      }
+    },
     'RING_DEBUGGER': {
       // CHUNKS random array creation:
       handler: function() {
@@ -165,6 +192,12 @@ function KlusterAnimator() {
     '8': {
       handler: function() {
         setPosFromPosMap('Deep Go');
+        tweenCluster(clusterPos);
+      }
+    },
+    'Sun Side': {
+      handler: function() {
+        setPosFromPosMap('Sun Side');
         tweenCluster(clusterPos);
       }
     },
@@ -190,13 +223,17 @@ function KlusterAnimator() {
         app.clusterFactory.hiliteChunk(rChunk);
       }
     },
-    'STATE_STOP_ANIMATION': {
-      id: 4,
-      time: 1000,
-      name: 'State 5 - Stop Animation',
+    'SAVE_POSITION': {
+      name: 'Save Position',
       handler: function() {
         app.isManualMode = true;
         app.tracePos();
+      }
+    },
+    'STOP_START_STATE_SEQUENCE': {
+      name: 'Play Sequence',
+      handler: function() {
+        app.isManualMode = !app.isManualMode;
       }
     },
     'STATE_SCREEN_SAVE': {
@@ -204,7 +241,6 @@ function KlusterAnimator() {
       handler: function() {
         app.autoPlayIsOn = !app.autoPlayIsOn;
         console.log('app.autoPlayIsOn =', app.autoPlayIsOn);
-        app.isManualMode = true;
       }
     },
     'MOUSE_SWITCH': {
@@ -273,7 +309,7 @@ function KlusterAnimator() {
 
     // console.log('tween params:', tweenParams, op);
 
-    new TWEEN.Tween(op).to(tweenParams, 800).easing(easingFunc).start();
+    new TWEEN.Tween(op).to(tweenParams, stateChangeDuration).easing(easingFunc).start();
   }
 
   /**
@@ -310,17 +346,18 @@ function KlusterAnimator() {
     self.setState(stateId);
 
     function nextState() {
-      if (app.isManualMode) {
-        return;
-      }
 
       setTimeout(function() {
-        stateId = animationSequence[s];
-        self.getStateById(stateId);
-        self.setState(stateId);
-        s = s >= states.length ? 0 : ++s;
+        if (!app.isManualMode) {
+          stateId = animationSequence[s];
+          self.getStateById(stateId);
+          self.setState(stateId);
+          s = s < animationSequence.length - 1 ? ++s : 0;
+          console.log( 'seq: ' + s + ', stateId: ' + stateId );
+          // return;
+        }
         nextState();
-      }, state.time);
+      }, stateChangeDuration);
     }
     nextState();
   };
@@ -332,7 +369,7 @@ function KlusterAnimator() {
     var stateId = animationSequence[step];
     self.getStateById(stateId);
     self.setState(stateId);
-    step = step >= states.length ? 0 : step;
+    step = step > 0 ? step : animationSequence.length - 1;
   }
 
   function getNextState() {
@@ -340,16 +377,18 @@ function KlusterAnimator() {
     var stateId = animationSequence[step];
     self.getStateById(stateId);
     self.setState(stateId);
-    step = step < 1 ? states.length : step;
+    step = step < animationSequence.length - 1 ? step : 0;
   }
 
   function setPosFromPosMap(posId) {
     var p = posMap[posId];
 
     if (!p) {
-      console.log('Not found: ' + posId);
+      console.log('position not found: ' + posId);
       return;
     }
+
+    // console.log('position: ' + posId)
 
     clusterPos.position.x = p.clusterAxisPosition.x;
     clusterPos.position.y = p.clusterAxisPosition.y;
@@ -943,8 +982,9 @@ function KlusterAnimator() {
         x: 2.4811509435530748,
         y: 12.725914855953306,
         z: 6.682752438355237
-      },
-      clusterOptions: {
+      }
+      /* , 
+        clusterOptions: {
         levels: 7,
         segments: 16,
         circles: 3,
@@ -955,9 +995,158 @@ function KlusterAnimator() {
         radius: 10,
         extrudePathBiasX: 0,
         extrudePathBiasY: 0
+      }*/
+    },
+    'Rumb': {
+      clusterAxisPosition: {
+        x: 2.675469731912017,
+        y: -1.3926358567550778,
+        z: -0.1531926728785038
+      },
+      clusterAxisRotation: {
+        _x: -0.33895709638646354,
+        _y: 1.1449295472769976,
+        _z: 0.7135726666172066
+      },
+      cameraPosition: {
+        x: -8.049487664329009,
+        y: -3.0409176517612693,
+        z: -4.774609108369259
+      },
+      clusterOptions: {
+        levels: 4,
+        segments: 4,
+        circles: 4,
+        segmentsSpacing: 0.98,
+        levelsSpacing: 1.03,
+        ringSpacing: 0.98,
+        height: 20,
+        radius: 10,
+        extrudePathBiasX: 0,
+        extrudePathBiasY: 0
+      }
+    },
+    'Sun Side': {
+      clusterAxisPosition: {
+        x: -7.214533654041588,
+        y: -2.4396179197356105,
+        z: -6.001599505543709
+      },
+      clusterAxisRotation: {
+        _x: -0.004470624985189575,
+        _y: 0.8727285247146759,
+        _z: 0.2941807983596372
+      },
+      cameraPosition: {
+        x: -5.409922856725515,
+        y: -17.82969511590605,
+        z: 6.546602568189618
+      },
+      clusterOptions: {
+        levels: 7,
+        segments: 14,
+        circles: 3,
+        segmentsSpacing: 0.98,
+        levelsSpacing: 1.03,
+        ringSpacing: 0.98,
+        height: 10,
+        radius: 10,
+        extrudePathBiasX: 1,
+        extrudePathBiasY: 1
+      }
+    },
+
+    // 
+    // 
+    // 
+
+    'Scene 2 - Look 1': {
+      clusterAxisPosition: {
+        x: -7.214533654041588,
+        y: -2.4396179197356105,
+        z: -6.001599505543709
+      },
+      clusterAxisRotation: {
+        _x: -0.004470624985189575,
+        _y: 0.8727285247146759,
+        _z: 0.2941807983596372
+      },
+      cameraPosition: {
+        x: 3.4539531590076105,
+        y: 6.374730350658294,
+        z: 1.723565274004424
+      },
+      clusterOptions: {
+        levels: 7,
+        segments: 16,
+        circles: 3,
+        segmentsSpacing: 0.98,
+        levelsSpacing: 1.03,
+        ringSpacing: 0.98,
+        height: 30,
+        radius: 30,
+        extrudePathBiasX: 1.98,
+        extrudePathBiasY: 1.98
+      }
+    },
+    'Scene 2 - Look 2': {
+      clusterAxisPosition: {
+        x: -2.214533654041588,
+        y: -7.4396179197356105,
+        z: -1.001599505543709
+      },
+      clusterAxisRotation: {
+        _x: -0.004470624985189575,
+        _y: 0.8727285247146759,
+        _z: 0.2941807983596372
+      },
+      cameraPosition: {
+        x: 3.4539531590076105,
+        y: 6.374730350658294,
+        z: 1.723565274004424
+      },
+      clusterOptions: {
+        levels: 7,
+        segments: 16,
+        circles: 3,
+        segmentsSpacing: 0.98,
+        levelsSpacing: 1.03,
+        ringSpacing: 0.98,
+        height: 30,
+        radius: 30,
+        extrudePathBiasX: 5,
+        extrudePathBiasY: 5
+      }
+    },
+    'Scene 3 - Look 1': {
+      clusterAxisPosition: {
+        x: 10,
+        y: 10,
+        z: 10
+      },
+      clusterAxisRotation: {
+        _x: 0,
+        _y: 1.57,
+        _z: 0
+      },
+      cameraPosition: {
+        x: 2.911960344837725,
+        y: -12.003705378205993,
+        z: -2.5481203970385082
+      },
+      clusterOptions: {
+        levels: 1,
+        segments: 14,
+        circles: 3,
+        segmentsSpacing: 0.98,
+        levelsSpacing: 1.03,
+        ringSpacing: 0.2,
+        height: 10,
+        radius: 10,
+        extrudePathBiasX: 2.77,
+        extrudePathBiasY: 2.77
       }
     }
-
 
   };
 }
