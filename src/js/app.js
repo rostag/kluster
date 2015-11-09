@@ -77,8 +77,7 @@
 
   var orbit;
 
-  var klusterModel = new app.KlusterModel();
-  app.klusterModel = klusterModel;  
+  app.klusterModel = new app.KlusterModel();  
 
   app.initializeControls();
 

@@ -38,17 +38,19 @@
 
 		// console.log('Cluster Model: ', self.l, self.s, self.c);
 
-		// getHTML();
-		var s =
-			['<ul><li>', [
-					self.levels.join('</li><li class="levels-list">'),
-					self.segments.join('</li><li class="segments-list">'),
-					self.circles.join('</li><li class="circles-list">')
-				].join('</li></ul>\n<ul><li>'),
-				'</li></ul>'
-			].join('\n');
+		self.getHTML = function() {
+			var s =
+				['<ul><li>', [
+						self.levels.join('</li><li class="levels-list">'),
+						self.segments.join('</li><li class="segments-list">'),
+						self.circles.join('</li><li class="circles-list">')
+					].join('</li></ul>\n<ul><li>'),
+					'</li></ul>'
+				].join('\n');
 
-		console.log('getHTML: ' + s);
+			console.log('getHTML: ' + s);
+			return s;
+		};
 
 		self.getInfoByMetrics = function(o) {
 			return {
@@ -69,16 +71,5 @@
 	function Chunk(name) {
 		this.name = name;
 	}
-
-	// function getHTML () {
-	// 	var s = [
-	// 	'<ul><li>',
-	// 	self.l.join('</li><li>'),
-	// 	'</li></ul>'
-	// 	]
-	// 	console.log('getHTML: ', + s);
-	// 	return s;
-
-	// }
 
 })(this);
