@@ -22,24 +22,26 @@
   // Screensaver mode 
   app.autoPlayIsOn = false;
   app.opacityAdd = 0.2;
-  app.isManualMode = true;
+  app.isManualMode = false;
   app.changeStateOnMouseOver = false;
   app.mouseSelectionIsOn = false;
   app.isDebug = false;
 
   // Kluster Looks like this
   app.clusterOptions = {
-    levels: 1,
-    segments: 8,
-    circles: 2,
-    segmentsSpacing: 1,
-    levelsSpacing: 1,
-    ringSpacing: 1,
+    levels: 7,
+    segments: 16,
+    circles: 3,
+    segmentsSpacing: 0.98,
+    levelsSpacing: 1.03,
+    ringSpacing: 0.98,
     // segmentsSpacing: 0.96,
     // levelsSpacing: 1,
     // ringSpacing: 0.96,
-    height: 10,
-    radius: 10
+    height: 30,
+    radius: 30,
+    extrudePathBiasX: 1,
+    extrudePathBiasY: 1
   };
 
   app.cameraSettings = {
@@ -66,7 +68,6 @@
   var camera;
   var renderer;
   var lights;
-  var time;
 
   var mouseX = 0;
   var mouseY = 0;

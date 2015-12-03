@@ -55,6 +55,8 @@ function textFactory(app) {
 	 */
 	function getSpriteForMesh(mesh, text, textParamaters, position) {
 
+		return null;
+
 		var textParent = scene;
 		// var textParent = scene;
 		var spritey = makeTextSprite(text, textParamaters || defaultTextParameters);
@@ -138,14 +140,20 @@ function textFactory(app) {
 
 		var i = app.klusterModel.getInfoByMetrics( {level: chunk.level, segment: chunk.segment, circle: chunk.circle });
 
-		text = '<h2>Domain: ' + i.level.name + '</h2>' +
-		'<h2>Technology: ' + i.segment.name + '</h2>' +
-		'<h2>Stage: ' + i.circle.name + '</h2>';
+		if ( !i || !i.level ) {
+			return;
+		}
 
+		var l = i.level ? i.level.name : '';
+		var s = i.segment ? i.segment.name : '';
+		var c = i.circle ? i.circle.name : '';
+
+		text = '<h2>Domain:<br/>&nbsp;&nbsp;' + l + '</h2>' +
+		'<h2>Technology: <br/>&nbsp;&nbsp;' + s + '</h2>' +
+		'<h2>Stage: <br/>&nbsp;&nbsp;' + c + '</h2>';
 
 		app.chunkInfoDiv.innerHTML = text;
 	}
-
 
 	// function for drawing rounded rectangles
 	function roundRect(ctx, x, y, w, h, r) {

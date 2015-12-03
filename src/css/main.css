@@ -33,12 +33,15 @@ canvas { width: 100%; height: 100%; }
 
 div.klapp-controls {
 	position: absolute;
-	right: 2em;
-	top: 2em;
+	right: 1em;
+	/*top: 2em;*/
 	text-align: left;
 	background: #234;
-	padding: 0 0.5em 0.8em 0.5em;
-	/*opacity: 0.5;*/
+	padding: 0 0.5em 0.8em 1em;
+	min-width: 18em;
+	bottom: 1em;
+	opacity: 0.8;
+	border-radius: 1em;
 }
 
 div.klapp-controls label {
@@ -58,6 +61,22 @@ div.klapp-controls a:hover {
 	color: #eee;
 }
 
+div.klapp-controls ul#statesLists {
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+}
+div.klapp-controls ul li {
+	margin-top: 0.5em;
+	font-size: 0.8em
+}
+
+div.klapp-controls ul li a {
+	text-decoration: none;
+}
+div.klapp-controls ul li a:hover {
+	text-decoration: underline;
+}
 body * {
 	color: #ccc;
 	font-family: Arial, sans-serif;

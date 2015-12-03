@@ -1,5 +1,4 @@
 /* globals RingFactory, THREE, console */
-
 function ClusterFactory(app) {
 
   'use strict';
@@ -8,8 +7,8 @@ function ClusterFactory(app) {
 
   var clusterAxis;
 
-  var rotationX = 0.01;
-  var rotationY = 0.01;
+  // var rotationX = 0.01;
+  // var rotationY = 0.01;
   // var rotationZ = 0.01;
 
   // var rotationSpeedX = 0.0001;
@@ -142,8 +141,9 @@ function ClusterFactory(app) {
         steps: 1,
         bevelEnabled: false,
         extrudePath: new THREE.CatmullRomCurve3([
-          // new THREE.Vector3(xx, yy, levelMin), new THREE.Vector3(xx, yy, levelMax)
-          new THREE.Vector3(0, 0, levelMin), new THREE.Vector3(0, 0, levelMax)
+          new THREE.Vector3(xx * self.options.extrudePathBiasX, yy * self.options.extrudePathBiasY, levelMin),
+          new THREE.Vector3(xx * self.options.extrudePathBiasX, yy * self.options.extrudePathBiasY, levelMax)
+          // new THREE.Vector3(0, 0, levelMin), new THREE.Vector3(0, 0, levelMax)
         ])
       };
 
@@ -224,7 +224,7 @@ function ClusterFactory(app) {
 
     clusterAxis.onRender = function() {
       speed += 0.00001;
-      var rand = Math.random() * 0.001;
+      // var rand = Math.random() * 0.001;
 
       // rotationX += rotationSpeedX + app.speedX * speed;
       // rotationY += rotationSpeedY + rand;
@@ -234,11 +234,7 @@ function ClusterFactory(app) {
       // clusterAxis.rotation.x += 0.0005 + speed;
       // clusterAxis.rotation.z = rotationZ;
 
-      // levelPointer.rotation.x = rotationX + speed;
-      // levelPointer.rotation.y = rotationY + rand;
-
-      app.mouseControl.checkIntersection( chunks, false);
-
+      app.mouseControl.checkIntersection(chunks, false);
     };
 
     app.clusterAxis = clusterAxis;
