@@ -1,0 +1,26 @@
+{
+  "name": "cluster",
+  "description": "data visualisation app",
+  "main": "src/js/main.js",
+  "moduleType": [],
+  "keywords": [
+    "data",
+    "visualisation"
+  ],
+  "authors": [
+    "Rostyslav Siryk"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/rostag/kluster",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4"
+  }
+}
