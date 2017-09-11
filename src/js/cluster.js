@@ -57,6 +57,8 @@ function ClusterFactory(app) {
     hiliters.push(hilitedChunk);
   };
 
+  // self.hili
+
   /**
    * Generates one chunk of the kluster based on its level, segment, circle, and given material properties.
    *

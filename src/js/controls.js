@@ -14,6 +14,7 @@
   var iLevel = document.getElementById('input-level');
   var iSegment = document.getElementById('input-segment');
   var iCircle = document.getElementById('input-circle');
+  var metricSelector = document.getElementById('metricSelector');
   var stateSelector = document.querySelectorAll('[data-state-selector] a');
 
   var chunkInfo = document.getElementById('chunkInfo');
@@ -67,6 +68,8 @@
     app.clusterOptions.extrudePathBiasX = app.clusterOptions.extrudePathBiasY = event.target.value;
     app.clusterFactory.rebuildCluster();
   });
+
+  metricSelector.innerHTML = app.klusterModel.getHTML();
 
   // setup state links
   for (var l = 0; l < stateSelector.length; l++) {
