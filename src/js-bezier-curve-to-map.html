@@ -330,11 +330,11 @@
                 }
             }
 
-            mx(u) {
+            mapX(u) {
                 return this.x(this.mapParameter(u));
             }
 
-            my(u) {
+            mapY(u) {
                 return this.y(this.mapParameter(u));
             }
 
@@ -469,8 +469,8 @@
 
             getElementPointByMappedParameter(bz, t) {
                 return {
-                    x: bz.mx(t),
-                    y: bz.my(t)
+                    x: bz.mapX(t),
+                    y: bz.mapY(t)
                 }
             }
 
