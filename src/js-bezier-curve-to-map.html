@@ -1,7 +1,9 @@
-<!--
-    Version 2
-    Bezier implementation using d3js. 
-    Check parametrized visualization built on Away3D: http://rostag.github.io/kluster
+<!-- 
+    This bezier excercise implementation is pure JS, no libs. 
+    Refer it online:  https://syncfiddle.net/fiddle/-Lynyt5WqmdtkpiLQX-8
+    Previous version: https://syncfiddle.net/fiddle/-LyFO_lby4f7jddesoYJ
+
+    Check another parametrized visualization here (Away3S lib was used): http://rostag.github.io/kluster
 -->
 <html>
 
@@ -25,24 +27,6 @@
             -webkit-box-shadow: 0px 1px 4px 0px rgba(128, 128, 128, .5);
             -moz-box-shadow: 0px 1px 4px 0px rgba(128, 128, 128, .5);
             box-shadow: 0px 1px 4px 0px rgba(128, 128, 128, .5);
-            /* display: none; */
-        }
-
-        .wrapper {
-            position: absolute;
-            top: 20px;
-            right: 210px;
-            left: 20px;
-            bottom: 40px;
-            border: 1px solid #ccc;
-            background: #fafafa;
-            /* position: absolute;
-                top: 10px;
-                left: 10px;
-                border-radius: 10px;
-                -webkit-box-shadow: 0px 1px 4px 0px rgba(128,128,128,.5);
-                -moz-box-shadow: 0px 1px 4px 0px rgba(128,128,128,.5);
-                box-shadow: 0px 1px 4px 0px rgba(128,128,128,.5);                 */
         }
 
         .controls {
@@ -253,11 +237,6 @@
         <a href="mailto:rostyslav.siryk@gmail.com">Contact @Rosty</a>
     </div>
 
-    <!-- script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.15.0/d3.js"></script -->
-
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
-
     <script>
         const maxCurves = 100000;
 
@@ -270,22 +249,6 @@
             k: 1000,
             elementSize: 3
         };
-
-        const dataValues = [
-            {
-                'point': 0,
-                'value': 0
-            }, {
-                'point': 1,
-                'value': 2
-            }, {
-                'point': 2,
-                'value': 1
-            }, {
-                'point': 3,
-                'value': 3
-            }
-        ];
 
         const presets = {
             'Triway': {
@@ -384,7 +347,7 @@
                 // Generate coordinates
                 const curCoordinates = [...bzConfig.coordinates];
                 bzConfig.coordinates = [];
-                for (let i = 0; i < maxCurves; i++) {
+                for (var i = 0; i < maxCurves; i++) {
                     bzConfig.coordinates.push({
                         start: getStartPoint(),
                         cp1: keepControlPoints ? curCoordinates[i].cp1 : getControlPoint(),
@@ -394,7 +357,7 @@
                 }
             }
 
-            function getPoint(start, cp1, cp2, end, t) {
+            function getElementPoint(start, cp1, cp2, end, t) {
                 // TODO Optimize Math below - reduced version of De Casteljau's algorithm is used
                 const bx1 = cp1.x;
                 const by1 = cp1.y;
@@ -410,11 +373,83 @@
                 const xd = qxb * u1 + qxd * t;
                 const yd = qyb * u1 + qyd * t;
 
+                const bz = new Bezier(start, cp1, cp2, end);
+
                 return {
-                    x: xd,
-                    y: yd
+                    x: bz.mx(t),
+                    y: bz.my(t)
                 }
             }
+
+            function Bezier(a, b, c, d) {
+                this.a = a;
+                this.b = b;
+                this.c = c;
+                this.d = d;
+
+                this.len = 100;
+                this.arcLengths = new Array(this.len + 1);
+                this.arcLengths[0] = 0;
+
+                var ox = this.x(0), oy = this.y(0), clen = 0;
+                for (var i = 1; i <= this.len; i += 1) {
+                    var x = this.x(i * 0.05), y = this.y(i * 0.05);
+                    var dx = ox - x, dy = oy - y;
+                    clen += Math.sqrt(dx * dx + dy * dy);
+                    this.arcLengths[i] = clen;
+                    ox = x, oy = y;
+                }
+                this.length = clen;
+            }
+
+            Bezier.prototype = {
+                map: function (u) {
+                    var targetLength = u * this.arcLengths[this.len];
+                    var low = 0, high = this.len, index = 0;
+                    while (low < high) {
+                        index = low + (((high - low) / 2) | 0);
+                        if (this.arcLengths[index] < targetLength) {
+                            low = index + 1;
+
+                        } else {
+                            high = index;
+                        }
+                    }
+                    if (this.arcLengths[index] > targetLength) {
+                        index--;
+                    }
+
+                    var lengthBefore = this.arcLengths[index];
+                    if (lengthBefore === targetLength) {
+                        return index / this.len;
+
+                    } else {
+                        return (index + (targetLength - lengthBefore) / (this.arcLengths[index + 1] - lengthBefore)) / this.len;
+                    }
+                },
+
+                mx: function (u) {
+                    return this.x(this.map(u));
+                },
+
+                my: function (u) {
+                    return this.y(this.map(u));
+                },
+
+                x: function (t) {
+                    return ((1 - t) * (1 - t) * (1 - t)) * this.a.x
+                        + 3 * ((1 - t) * (1 - t)) * t * this.b.x
+                        + 3 * (1 - t) * (t * t) * this.c.x
+                        + (t * t * t) * this.d.x;
+                },
+
+                y: function (t) {
+                    return ((1 - t) * (1 - t) * (1 - t)) * this.a.y
+                        + 3 * ((1 - t) * (1 - t)) * t * this.b.y
+                        + 3 * (1 - t) * (t * t) * this.c.y
+                        + (t * t * t) * this.d.y;
+                }
+            };
 
             function getStartPoint() {
                 return {
@@ -455,66 +490,13 @@
                 // Draw Elements
                 const elCount = parseInt(bzConfig.elements, 10) + 1;
                 for (let el = 1; el < elCount; el++) {
-                    const elmt = getPoint(start, cp1, cp2, end, el / elCount);
+                    const elmt = getElementPoint(start, cp1, cp2, end, el / elCount);
                     ctx.fillStyle = '#ffffff';
                     ctx.strokeStyle = '#111111';
                     ctx.beginPath();
                     ctx.arc(elmt.x, elmt.y, bzConfig.elementSize, 0, 2 * Math.PI);
                     ctx.fill();
                     ctx.stroke();
-                }
-            }
-
-            function drawCurve() {
-
-                const curveTypes = [
-                    {name: 'curveLinear', curve: d3.curveLinear, active: true, lineString: '', clear: false, info: 'Interpolates the points using linear segments.'},
-                    {name: 'curveBasis', curve: d3.curveBasis, active: true, lineString: '', clear: true, info: 'Interpolates the start and end points and approximates the inner points using a B-spline.'},
-                    {name: 'curveBasisClosed', curve: d3.curveBasisClosed, active: false, lineString: '', clear: false, info: 'Uses a closed B-Spline to approximate the points.'},
-                    {name: 'curveBundle (ß=0)', curve: d3.curveBundle.beta(0), active: false, lineString: '', clear: true, info: 'Same as curveBasis with the addition of a paramter ß which determines how close to a straight line the curve is. If ß=0 the curve is straight.'},
-                    {name: 'curveBundle (ß=0.5)', curve: d3.curveBundle.beta(0.5), active: false, lineString: '', clear: false, info: 'Same as curveBasis with the addition of a paramter ß which determines how close to a straight line the curve is.'},
-                    {name: 'curveBundle (ß=1)', curve: d3.curveBundle.beta(1), active: false, lineString: '', clear: false, info: 'Same as curveBasis with the addition of a paramter ß which determines how close to a straight line the curve is. If ß=1 the curve is the same as curveBasis.'},
-                    {name: 'curveCardinal (tension=0)', curve: d3.curveCardinal.tension(0), active: false, lineString: '', clear: true, info: "Interpolates the points using a cubic B-spline. A tension parameter determines how 'taut' the curve is. As tension approaches 1 the segments become linear."},
-                    {name: 'curveCardinal (tension=0.5)', curve: d3.curveCardinal.tension(0.5), active: false, lineString: '', clear: false, info: "Interpolates the points using a cubic B-spline. A tension parameter determines how 'taut' the curve is. As tension approaches 1 the segments become linear."},
-                    {name: 'curveCardinal (tension=1)', curve: d3.curveCardinal.tension(1), active: false, lineString: '', clear: false, info: "Interpolates the points using a cubic B-spline. A tension parameter determines how 'taut' the curve is. As tension approaches 1 the segments become linear."},
-                    {name: 'curveCatmullRom (α=0)', curve: d3.curveCatmullRom.alpha(0), active: false, lineString: '', clear: true, info: 'Similar to curveCardinal (tension=0) but with a parameter α that determines the parameterisation used to interpolate the points. If α=0 the parameterisation is uniform.'},
-                    {name: 'curveCatmullRom (α=0.5)', curve: d3.curveCatmullRom.alpha(0.5), active: false, lineString: '', clear: false, info: 'Similar to curveCardinal (tension=0) but with a parameter α that determines the parameterisation used to interpolate the points. If α=0.5 the parameterisation is centripetal and self intersecting loops are avoided.'},
-                    {name: 'curveCatmullRom (α=1)', curve: d3.curveCatmullRom.alpha(1), active: false, lineString: '', clear: false, info: 'Similar to curveCardinal (tension=0) but with a parameter α that determines the parameterisation used to interpolate the points. If α=1 the parameterisation is chordal.'},
-                    {name: 'curveMonotoneX', curve: d3.curveMonotoneX, active: false, lineString: '', clear: true, info: 'Interpolates the points with a cubic spline which are monotonic (i.e. always increasing or always decreasing) in y.'},
-                    {name: 'curveMonotoneY', curve: d3.curveMonotoneY, active: false, lineString: '', clear: false, info: 'Interpolates the points with a cubic spline which are monotonic (i.e. always increasing or always decreasing) in x.'},
-                    {name: 'curveNatural', curve: d3.curveNatural, active: false, lineString: '', clear: true, info: 'Interpolates the points with a cubic spline with zero 2nd derivatives at the endpoints.'},
-                    {name: 'curveStep', curve: d3.curveStep, active: false, lineString: '', clear: true, info: 'Interpolates the points with alternating horizontal and vertical linear segments. The vertical segments lie midway between points.'},
-                    {name: 'curveStepAfter', curve: d3.curveStepAfter, active: false, lineString: '', clear: false, info: 'Interpolates the points with alternating horizontal and vertical linear segments. The y value changes after the x value.'},
-                    {name: 'curveStepBefore', curve: d3.curveStepBefore, active: false, lineString: '', clear: false, info: 'Interpolates the points with alternating horizontal and vertical linear segments. The y value changes before the x value.'}
-                ];
-
-                const baseWidth = 600;
-                const baseHeight = 600;
-                const scaleRatio = 130;
-
-                drawValues(dataValues);
-
-                function drawValues(valuesToDraw) {
-
-                    const bezierCurve = d3.line()
-                        .x(function (d) { return d.point * scaleRatio })
-                        .y(function (d) { return d.value * scaleRatio })
-                        .curve(curveTypes[6].curve);
-
-                    const svgBase = d3.select('body')
-                        .append('div')
-                        .attr('class', 'wrapper')
-                        .append('svg')
-                        .attr('width', baseWidth)
-                        .attr('height', baseHeight);
-
-                    const svgPath = svgBase.append('path')
-                        .attrs({
-                            d: bezierCurve(valuesToDraw),
-                            'stroke': '#664455',
-                            'stroke-width': 1,
-                            'fill': 'none'
-                        })
                 }
             }
 
@@ -534,7 +516,7 @@
 
                 resetCanvas(ctx);
 
-                for (let i = 0; i < bzConfig.curves; i++) {
+                for (var i = 0; i < bzConfig.curves; i++) {
                     const c = bzConfig.coordinates[i];
                     drawBezier(
                         {
@@ -548,8 +530,6 @@
                 }
 
                 updateLabels();
-
-                drawCurve();
             }
             render();
 
@@ -596,8 +576,9 @@
             document.getElementById('elementSize').value = bzConfig.elementSize;
         }
 
-        // document.querySelector('body').onresize = app.resize;
-        // updateLabels();
+        document.querySelector('body').onresize = app.resize;
+
+        updateLabels();
 
     </script>
 </body>

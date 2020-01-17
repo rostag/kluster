@@ -345,7 +345,7 @@
                     }                   
                 }
 
-                function getPoint(start, cp1, cp2, end, t) {
+                function getElementPoint(start, cp1, cp2, end, t) {
                     // TODO Optimize Math below - reduced version of De Casteljau's algorithm is used
                     const bx1 = cp1.x;
                     const by1 = cp1.y;
@@ -406,7 +406,7 @@
                     // Draw Elements
                     const elCount = parseInt(bzConfig.elements, 10) + 1;
                     for (let el = 1; el < elCount; el++ ) {
-                        const elmt = getPoint(start, cp1, cp2, end, el / elCount);
+                        const elmt = getElementPoint(start, cp1, cp2, end, el / elCount);
                         ctx.fillStyle = '#ffffff';
                         ctx.strokeStyle = '#111111';
                         ctx.beginPath();
