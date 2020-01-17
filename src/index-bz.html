@@ -33,9 +33,9 @@
             top: 20px;
             right: 210px;
             left: 20px;
-            bottom: 20px;
+            bottom: 40px;
             border: 1px solid #ccc;
-            background: #eeeeee;
+            background: #fafafa;
             /* position: absolute;
                 top: 10px;
                 left: 10px;
@@ -451,62 +451,60 @@
 
             function drawCurve() {
 
-                var w = 900;
-                var height = 600;
-                var padding = 2;
-                var border = 2
+                var baseWidth = 300;
+                var baseHeight = 300;
 
                 var values = [
                     {
-                        'month': 1,
+                        'point': 1,
                         'value': 10
                     }, {
-                        'month': 4,
+                        'point': 4,
                         'value': 12
                     }, {
-                        'month': 8,
+                        'point': 8,
                         'value': 16
                     }, {
-                        'month': 12,
+                        'point': 12,
                         'value': 20
                     }, {
-                        'month': 14,
+                        'point': 14,
                         'value': 22
                     }
                 ];
 
                 draw(values);
 
-                function draw(drawValues) {
+                function draw(valuesToDraw) {
 
-                    var lineFun = d3.line()
-                        .x(function (d) { return d.month * 50 })
-                        .y(function (d) { return height - (10 * d.value) })
+                    var bezierCurve = d3.line()
+                        .x(function (d) { return d.point })
+                        .y(function (d) { return d.value })
                         .curve(d3.curveBasis);
 
-                    var svgLine = d3.select('body')
+                    var svgBase = d3.select('body')
                         .append('div')
                         .attr('class', 'wrapper')
                         .append('svg')
-                        .attr('width', w)
-                        .attr('height', height);
+                        .attr('width', baseWidth)
+                        .attr('height', baseHeight);
 
-                    var svgPath = svgLine.append('path')
+                    var svgPath = svgBase.append('path')
                         .attrs({
-                            d: lineFun(drawValues),
+                            d: bezierCurve(valuesToDraw),
                             'stroke': '#664455',
                             'stroke-width': 2,
                             'fill': 'none'
                         })
 
-                    // svgLine.selectAll('text')
+                    // svgBase.selectAll('text')
                     //     .data(values)
                     //     .enter()
                     //     .append('text')
                     //     .text(function(d) { return '0' })
                     //     .attrs({
-                    //         x : function(d) { return d.month * 50 - 10 },
-                    //         y : function(d) { return height - (10 * d.value) + 10 },
+                    //         x : function(d) { return d.point * 50 - 10 },
+                    //         y : function(d) { return baseHeight - (10 * d.value) + 10 },
                     //         'font-size': '12px',
                     //         'fill' : '#666666',
                     //         'font-family': 'sans-serif',
