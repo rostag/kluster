@@ -3,9 +3,10 @@
     Bezier implementation. 
 
     Refer it online:
-        https://syncfiddle.net/fiddle/-LyoO_5TgRbZqcG3xMzF
+        https://syncfiddle.net/fiddle/-Lyon-ZecG4Lp7qOvf_Y
 
     Previous versions:
+        https://syncfiddle.net/fiddle/-LyoO_5TgRbZqcG3xMzF
         https://syncfiddle.net/fiddle/-Lynyt5WqmdtkpiLQX-8
         https://syncfiddle.net/fiddle/-LyFO_lby4f7jddesoYJ            
 
@@ -74,6 +75,12 @@
             font-weight: 500;
             margin-bottom: 20px;
             padding-left: 2px;
+        }
+
+        .contact {
+            position: fixed;
+            right: 10px;
+            bottom: 10px;
         }
 
         /* Select List Styling */
@@ -221,48 +228,38 @@
     </style>
 
     <canvas id="canvas"></canvas>
+
     <div class="controls">
         <div class="controls-bg"></div>
         <h3>Parameters</h3>
         <input type="checkbox" checked id="mapToParameter" name="mapToParameter"
-            oninput="updateDistribution(this.checked)">
+            oninput="bzApp.updateDistribution(this.checked)">
         <label for="mapToParameter" id="mapToParameterValue">Distribute Elements equally</label>
-        </input>
 
-        <input type="range" id="curves" name="curves" min="1" max="100" value="1" oninput="bzApp.updateCurves(this.value)">
+        <input type="range" id="curves" name="curves" min="1" max="100" value="1"
+            oninput="bzApp.updateCurves(this.value)">
         <label class="value" for="curves" id="curvesValue">[Curves]</label>
 
-        <input type="range" id="elements" name="elements" min="1" max="100" value="1" oninput="bzApp.updateElements(this.value)">
+        <input type="range" id="elements" name="elements" min="1" max="100" value="1"
+            oninput="bzApp.updateElements(this.value)">
         <label class="value" for="elements" id="elementsValue">[Elements]</label>
 
-        <input type="range" id="kratio" name="kratio" min="1" max="50" value="50" oninput="bzApp.updateKRatio(this.value)">
+        <input type="range" id="kratio" name="kratio" min="1" max="50" value="50"
+            oninput="bzApp.updateKRatio(this.value)">
         <label class="value" for="kratio" id="kratioValue">[Precision]</label>
 
-        <input type="range" id="elementSize" name="elementSize" min="0" max="200" value="1" oninput="bzApp.updateElementSize(this.value)">
+        <input type="range" id="elementSize" name="elementSize" min="0" max="200" value="1"
+            oninput="bzApp.updateElementSize(this.value)">
         <label class="value" for="elementSize" id="elementSizeValue">[Element Size]</label>
 
-        <h3>Presets</h3>
         <select id="presets" class="select-css" onchange="bzApp.applyPreset()">
             <option>Select preset</option>
         </select>
-
-        <br />
-        <a href="mailto:rostyslav.siryk@gmail.com">Contact @Rosty</a>
     </div>
 
-    <script>
-        bzConfig = {
-            width: 100,
-            height: 100,
-            coordinates: [],
-            curves: 1,
-            elements: 3,
-            k: 1000,
-            elementSize: 3,
-            mapToParameter: true,
-            maxCurves: 10000
-        };
+    <a href="mailto:rostyslav.siryk@gmail.com" class="contact">Contact Rosty</a>
 
+    <script>
         class Bezier {
             constructor(start, cp1, cp2, end) {
                 this.start = start;
@@ -417,8 +414,8 @@
                 this.ctx = canvas.getContext('2d');
 
                 const presetsEl = document.getElementById('presets');
-                for (let preset in presets) {
-                    presetsEl.options[presetsEl.options.length] = new Option(preset, preset, presets[preset]);
+                for (let preset in this.presets) {
+                    presetsEl.options[presetsEl.options.length] = new Option(preset, preset, this.presets[preset]);
                 }
                 this.resetCanvas(this.ctx);
                 this.seed();
@@ -427,17 +424,14 @@
             }
 
             applyPreset() {
-                this.lyPreset(document.getElementById('presets').value);
-                this.resize();
-            };
-
-            lyPreset(preset) {
-                const value = { ...presets[preset] };
+                const preset = document.getElementById('presets').value;
+                const value = { ...this.presets[preset] };
                 bzConfig = { ...bzConfig, ...value };
                 this.updateControls();
                 this.updateLabels();
                 this.resize();
-            }
+                this.resize();
+            };
 
             seed(keepControlPoints) {
                 const curCoordinates = [...bzConfig.coordinates];
@@ -470,13 +464,13 @@
                 const u2 = u * u;
                 const t2 = t * t;
                 const tu2 = 2 * t * u;
-                const qxb = bz.cp1.x * tu2 + bz.cp2.x * t2 + bz.start.x * u2;
-                const qxd = bz.cp2.x * tu2 + bz.end.x * t2 + bz.cp1.x * u2;
-                const qyb = bz.cp1.y * tu2 + bz.cp2.y * t2 + bz.start.y * u2;
-                const qyd = bz.cp2.y * tu2 + bz.end.y * t2 + bz.cp1.y * u2;
+                const cp12x = bz.cp1.x * tu2 + bz.cp2.x * t2 + bz.start.x * u2;
+                const cp21x = bz.cp2.x * tu2 + bz.end.x * t2 + bz.cp1.x * u2;
+                const cp12y = bz.cp1.y * tu2 + bz.cp2.y * t2 + bz.start.y * u2;
+                const cp21y = bz.cp2.y * tu2 + bz.end.y * t2 + bz.cp1.y * u2;
                 return {
-                    x: qxb * u + qxd * t,
-                    y: qyb * u + qyd * t
+                    x: cp12x * u + cp21x * t,
+                    y: cp12y * u + cp21y * t
                 }
             }
 
@@ -591,11 +585,23 @@
 
         let bzApp;
 
+        let bzConfig = {
+            width: 100,
+            height: 100,
+            coordinates: [],
+            curves: 1,
+            elements: 3,
+            k: 1000,
+            elementSize: 3,
+            mapToParameter: true,
+            maxCurves: 10000
+        };
+
         const body = document.querySelector('body');
 
         body.onload = () => { bzApp = new App() };
-
         body.onresize = () => { bzApp.resize() };
+
     </script>
 </body>
 
