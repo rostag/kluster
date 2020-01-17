@@ -1,5 +1,6 @@
-<!-- Version 2
-    Bezier excercise implementation adds d3js to pure JS. 
+<!--
+    Version 2
+    Bezier implementation using d3js. 
     Check parametrized visualization built on Away3D: http://rostag.github.io/kluster
     Examples: https://stackoverflow.com/questions/40198378/interpolate-is-not-a-function
 -->
@@ -493,32 +494,9 @@
                         .attrs({
                             d: bezierCurve(valuesToDraw),
                             'stroke': '#664455',
-                            'stroke-width': 2,
+                            'stroke-width': 1,
                             'fill': 'none'
                         })
-
-                    // svgBase.selectAll('text')
-                    //     .data(values)
-                    //     .enter()
-                    //     .append('text')
-                    //     .text(function(d) { return '0' })
-                    //     .attrs({
-                    //         x : function(d) { return d.point * 50 - 10 },
-                    //         y : function(d) { return baseHeight - (10 * d.value) + 10 },
-                    //         'font-size': '12px',
-                    //         'fill' : '#666666',
-                    //         'font-family': 'sans-serif',
-                    //         'dx': '.35em',
-                    //         'text-anchor': 'start',
-                    //         'font-weight': function(d, i) {
-                    //             if (i==0 || i == values.length-1) {
-                    //                 return 'bold'
-                    //             }
-                    //             else {
-                    //                 return 'normal'
-                    //             }
-                    //         }
-                    //     })
                 }
             }
 
@@ -600,9 +578,8 @@
             document.getElementById('elementSize').value = bzConfig.elementSize;
         }
 
-            // document.querySelector('body').onresize = app.resize;
-
-            // updateLabels();
+        // document.querySelector('body').onresize = app.resize;
+        // updateLabels();
 
     </script>
 </body>
