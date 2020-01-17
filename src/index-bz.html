@@ -4,441 +4,452 @@
     Examples: https://stackoverflow.com/questions/40198378/interpolate-is-not-a-function
 -->
 <html>
-    <body>
-        <style>
-            html, body {
-                width:  100%;
-                height: 100%;
-                margin: 0;
-                font-family: "Helvetica Neue", Helvetica, sans-serif;
-                font-size: smaller;
-            }
 
-            #canvas {
-                background: #eeeeee;
-                position: absolute;
-                top: 10px;
-                left: 10px;
-                border-radius: 10px;
-                -webkit-box-shadow: 0px 1px 4px 0px rgba(128,128,128,.5);
-                -moz-box-shadow: 0px 1px 4px 0px rgba(128,128,128,.5);
-                box-shadow: 0px 1px 4px 0px rgba(128,128,128,.5);
-                /* display: none; */
-            }
+<body>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            font-family: "Helvetica Neue", Helvetica, sans-serif;
+            font-size: smaller;
+        }
 
-            .wrapper {
-                position: absolute;
-                top: 20px;
-                right: 210px;
-                left: 20px;
-                bottom: 20px;
-                border: 1px solid #ccc;
-                background: #eeeeee;
-                /* position: absolute;
+        #canvas {
+            background: #eeeeee;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            border-radius: 10px;
+            -webkit-box-shadow: 0px 1px 4px 0px rgba(128, 128, 128, .5);
+            -moz-box-shadow: 0px 1px 4px 0px rgba(128, 128, 128, .5);
+            box-shadow: 0px 1px 4px 0px rgba(128, 128, 128, .5);
+            /* display: none; */
+        }
+
+        .wrapper {
+            position: absolute;
+            top: 20px;
+            right: 210px;
+            left: 20px;
+            bottom: 20px;
+            border: 1px solid #ccc;
+            background: #eeeeee;
+            /* position: absolute;
                 top: 10px;
                 left: 10px;
                 border-radius: 10px;
                 -webkit-box-shadow: 0px 1px 4px 0px rgba(128,128,128,.5);
                 -moz-box-shadow: 0px 1px 4px 0px rgba(128,128,128,.5);
                 box-shadow: 0px 1px 4px 0px rgba(128,128,128,.5);                 */
-            }
+        }
 
-            .controls {
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 0 20px 20px;
-                border-radius: 1px;
-            }
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 0 20px 20px;
+            border-radius: 1px;
+        }
 
-            .controls-bg {
-                position: absolute;
-                z-index: -1;
-                top: 0px;
-                right: 0px;
-                bottom: 0;
-                left: 0;
-                opacity: .8;
-                background-color: #fff;
-                border-radius: 4px;
-                -webkit-box-shadow: 0px 2px 2px 0px rgba(128,128,128,.5);
-                -moz-box-shadow: 0px 2px 2px 0px rgba(128,128,128,.5);
-                box-shadow: 0px 2px 2px 0px rgba(128,128,128,.5);
-            }
+        .controls-bg {
+            position: absolute;
+            z-index: -1;
+            top: 0px;
+            right: 0px;
+            bottom: 0;
+            left: 0;
+            opacity: .8;
+            background-color: #fff;
+            border-radius: 4px;
+            -webkit-box-shadow: 0px 2px 2px 0px rgba(128, 128, 128, .5);
+            -moz-box-shadow: 0px 2px 2px 0px rgba(128, 128, 128, .5);
+            box-shadow: 0px 2px 2px 0px rgba(128, 128, 128, .5);
+        }
 
-            input[type='range'] {
-                display: block;
-                margin-bottom: 10px;
-                opacity: .7;
-            }
+        input[type='range'] {
+            display: block;
+            margin-bottom: 10px;
+            opacity: .7;
+        }
 
-            .value {
-                display: block;
-                color: #999;
-                font-weight: 500;
-                margin-bottom: 20px;
-                padding-left: 2px;
-            }
-						
-          	/* Select List Styling */
-            .select-css {
-                display: block;
-                font-size: 12px;
-                font-family: sans-serif;
-                font-weight: 700;
-                color: #444;
-                line-height: 1.3;
-                padding: 5px 16px 3px 5px;
-                width: 100%;
-                max-width: 100%; 
-                box-sizing: border-box;
-                margin: 0;
-                border: 1px solid #aaa;
-                box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
-                border-radius: 3px;
-                -moz-appearance: none;
-                -webkit-appearance: none;
-                appearance: none;
-                background-color: #fff;
-                background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
-                linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%);
-                background-repeat: no-repeat, repeat;
-                background-position: right .7em top 50%, 0 0;
-                background-size: .65em auto, 100%;
-            }
-            .select-css::-ms-expand {
-                display: none;
-            }
-            .select-css:hover {
-                border-color: #888;
-            }
-            .select-css:focus {
-                border-color: #aaa;
-                box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
-                box-shadow: 0 0 0 3px -moz-mac-focusring;
-                color: #222; 
-                outline: none;
-            }
-            .select-css option {
-                font-weight:normal;
-            }
+        .value {
+            display: block;
+            color: #999;
+            font-weight: 500;
+            margin-bottom: 20px;
+            padding-left: 2px;
+        }
 
-          	/* Range Styling */
-            input[type=range] {
-                -webkit-appearance: none;
-                width: 100%;
-                background: transparent;
-            }
+        /* Select List Styling */
+        .select-css {
+            display: block;
+            font-size: 12px;
+            font-family: sans-serif;
+            font-weight: 700;
+            color: #444;
+            line-height: 1.3;
+            padding: 5px 16px 3px 5px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            margin: 0;
+            border: 1px solid #aaa;
+            box-shadow: 0 1px 0 1px rgba(0, 0, 0, .04);
+            border-radius: 3px;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            appearance: none;
+            background-color: #fff;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
+                linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
+            background-repeat: no-repeat, repeat;
+            background-position: right .7em top 50%, 0 0;
+            background-size: .65em auto, 100%;
+        }
 
-            input[type=range]::-webkit-slider-thumb {
-                -webkit-appearance: none;
-            }
+        .select-css::-ms-expand {
+            display: none;
+        }
 
-            input[type=range]:focus {
-                outline: none;
-            }
+        .select-css:hover {
+            border-color: #888;
+        }
 
-            input[type=range]::-ms-track {
-                width: 100%;
-                cursor: pointer;
-                background: transparent; 
-                border-color: transparent;
-                color: transparent;
-            }
+        .select-css:focus {
+            border-color: #aaa;
+            box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
+            box-shadow: 0 0 0 3px -moz-mac-focusring;
+            color: #222;
+            outline: none;
+        }
 
-            input[type=range]::-webkit-slider-runnable-track {
-                width: 100%;
-                height: 1px;
-                cursor: pointer;
-                border-radius: 1.3px;
-                border: 0.2px solid #010101;
-            }
+        .select-css option {
+            font-weight: normal;
+        }
 
-            input[type=range]:focus::-webkit-slider-runnable-track {
-                background: #eee;
-            }
+        /* Range Styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
 
-            input[type=range]::-moz-range-track {
-                width: 100%;
-                height: 0px;
-                cursor: pointer;
-                border-radius: 1.3px;
-                border: 0.2px solid #010101;
-            }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+        }
 
-            input[type=range]::-ms-track {
-                width: 100%;
-                height: 0px;
-                cursor: pointer;
-                background: transparent;
-                border-color: transparent;
-                border-width: 16px 0;
-                color: transparent;
-            }
-            input[type=range]::-ms-fill-lower {
-                border: 0.2px solid #010101;
-                border-radius: 2.6px;
-            }
-            input[type=range]::-ms-fill-upper {
-                border: 0.2px solid #010101;
-                border-radius: 2.6px;
-            }
-            input[type=range]:focus::-ms-fill-upper {
-                background: #367ebd;
-            }            
+        input[type=range]:focus {
+            outline: none;
+        }
 
-            input[type=range]::-webkit-slider-thumb {
-                -webkit-appearance: none;
-                border: 1px solid #000000;
-                height: 16px;
-                width: 16px;
-                border-radius: 2px;
-                background: #ffffff;
-                cursor: pointer;
-                margin-top: -7px;
-            }
+        input[type=range]::-ms-track {
+            width: 100%;
+            cursor: pointer;
+            background: transparent;
+            border-color: transparent;
+            color: transparent;
+        }
 
-            input[type=range]::-moz-range-thumb {
-                border: 1px solid #000000;
-                height: 16px;
-                width: 16px;
-                border-radius: 2px;
-                background: #ffffff;
-                cursor: pointer;
-            }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 1px;
+            cursor: pointer;
+            border-radius: 1.3px;
+            border: 0.2px solid #010101;
+        }
 
-            input[type=range]::-ms-thumb {
-                border: 1px solid #000000;
-                height: 16px;
-                width: 16px;
-                border-radius: 3px;
-                background: #ffffff;
-                cursor: pointer;
-            }
-        </style>
+        input[type=range]:focus::-webkit-slider-runnable-track {
+            background: #eee;
+        }
 
-        <canvas id="canvas"></canvas>
-        <div class="controls">
-            <div class="controls-bg"></div>
-            <h3>Parameters</h3>
-            <input type="range" id="curves" name="curves" min="1" max="100" value="1" oninput="updateCurves(this.value)">
-            <label class="value" for="curves" id="curvesValue">[Curves]</label>
+        input[type=range]::-moz-range-track {
+            width: 100%;
+            height: 0px;
+            cursor: pointer;
+            border-radius: 1.3px;
+            border: 0.2px solid #010101;
+        }
 
-            <input type="range" id="elements" name="elements" min="1" max="100" value="1" oninput="updateElements(this.value)">
-            <label class="value" for="elements" id="elementsValue">[Elements]</label>
+        input[type=range]::-ms-track {
+            width: 100%;
+            height: 0px;
+            cursor: pointer;
+            background: transparent;
+            border-color: transparent;
+            border-width: 16px 0;
+            color: transparent;
+        }
 
-            <input type="range" id="kratio" name="kratio" min="1" max="50" value="50" oninput="updateKRatio(this.value)">
-            <label class="value" for="kratio" id="kratioValue">[Precision]</label>
+        input[type=range]::-ms-fill-lower {
+            border: 0.2px solid #010101;
+            border-radius: 2.6px;
+        }
 
-            <input type="range" id="elementSize" name="elementSize" min="0" max="200" value="1" oninput="updateElementSize(this.value)">
-            <label class="value" for="elementSize" id="elementSizeValue">[Element Size]</label>
+        input[type=range]::-ms-fill-upper {
+            border: 0.2px solid #010101;
+            border-radius: 2.6px;
+        }
 
-            <h3>Presets</h3>
-            <select id="presets" class="select-css" onchange="applyPreset()">
-                <option>Select preset</option>
-            </select>
-          
-          	<br />
-          	<a href="mailto:rostyslav.siryk@gmail.com">Contact @Rosty</a>
-        </div>
+        input[type=range]:focus::-ms-fill-upper {
+            background: #367ebd;
+        }
 
-      	<!-- script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.15.0/d3.js"></script -->
-      
-      <script src="https://d3js.org/d3.v4.min.js"></script>
-			<script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
-      
-        <script>
-            const maxCurves = 100000;
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            border: 1px solid #000000;
+            height: 16px;
+            width: 16px;
+            border-radius: 2px;
+            background: #ffffff;
+            cursor: pointer;
+            margin-top: -7px;
+        }
 
-            let bzConfig = {
-                width: 100,
-                height: 100,
-                coordinates: [],
-                curves: 1,
+        input[type=range]::-moz-range-thumb {
+            border: 1px solid #000000;
+            height: 16px;
+            width: 16px;
+            border-radius: 2px;
+            background: #ffffff;
+            cursor: pointer;
+        }
+
+        input[type=range]::-ms-thumb {
+            border: 1px solid #000000;
+            height: 16px;
+            width: 16px;
+            border-radius: 3px;
+            background: #ffffff;
+            cursor: pointer;
+        }
+    </style>
+
+    <canvas id="canvas"></canvas>
+    <div class="controls">
+        <div class="controls-bg"></div>
+        <h3>Parameters</h3>
+        <input type="range" id="curves" name="curves" min="1" max="100" value="1" oninput="updateCurves(this.value)">
+        <label class="value" for="curves" id="curvesValue">[Curves]</label>
+
+        <input type="range" id="elements" name="elements" min="1" max="100" value="1"
+            oninput="updateElements(this.value)">
+        <label class="value" for="elements" id="elementsValue">[Elements]</label>
+
+        <input type="range" id="kratio" name="kratio" min="1" max="50" value="50" oninput="updateKRatio(this.value)">
+        <label class="value" for="kratio" id="kratioValue">[Precision]</label>
+
+        <input type="range" id="elementSize" name="elementSize" min="0" max="200" value="1"
+            oninput="updateElementSize(this.value)">
+        <label class="value" for="elementSize" id="elementSizeValue">[Element Size]</label>
+
+        <h3>Presets</h3>
+        <select id="presets" class="select-css" onchange="applyPreset()">
+            <option>Select preset</option>
+        </select>
+
+        <br />
+        <a href="mailto:rostyslav.siryk@gmail.com">Contact @Rosty</a>
+    </div>
+
+    <!-- script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.15.0/d3.js"></script -->
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
+
+    <script>
+        const maxCurves = 100000;
+
+        let bzConfig = {
+            width: 100,
+            height: 100,
+            coordinates: [],
+            curves: 1,
+            elements: 3,
+            k: 1000,
+            elementSize: 3
+        };
+
+        const presets = {
+            'Triway': {
+                curves: 3,
+                elements: 150,
+                k: 10000,
+                elementSize: 1
+            }, 'Snakes and chains': {
+                curves: 100,
+                elements: 100,
+                k: 2,
+                elementSize: 2
+            }, '3-60-1-2': {
+                curves: 3,
+                elements: 60,
+                k: 1,
+                elementSize: 2
+            }, '9-1-1-5': {
+                curves: 9,
+                elements: 1,
+                k: 1,
+                elementSize: 5
+            }, '26-17-1-1': {
+                curves: 26,
+                elements: 17,
+                k: 1,
+                elementSize: 1
+            }, '61-1-50-140': {
+                curves: 61,
+                elements: 1,
+                k: 50,
+                elementSize: 140
+            }, '66-1-1-54': {
+                curves: 66,
+                elements: 1,
+                k: 1,
+                elementSize: 54
+            }, '100-100-1-1': {
+                curves: 100,
+                elements: 100,
+                k: 1,
+                elementSize: 1
+            }, '100-100-10-1': {
+                curves: 100,
+                elements: 100,
+                k: 10,
+                elementSize: 1
+            }, '100-100-1-33': {
+                curves: 100,
+                elements: 100,
+                k: 1,
+                elementSize: 33
+            }, '10000-3-1000 6': {
+                curves: 10000,
                 elements: 3,
                 k: 1000,
-                elementSize: 3
-            };
+                elementSize: 6
+            }, 'Chaos of Lines': {
+                curves: 10000,
+                elements: 0,
+                k: 1,
+                elementSize: 0
+            }, 'Teleport': {
+                curves: 5000,
+                elements: 9,
+                k: 2,
+                elementSize: 2
+            }
+        };
 
-            const presets = {
-                'Triway': {
-                    curves: 3,
-                    elements: 150,
-                    k: 10000,
-                    elementSize: 1
-                }, 'Snakes and chains': {
-                    curves: 100,
-                    elements: 100,
-                    k: 2,
-                    elementSize: 2
-                }, '3-60-1-2': {
-                    curves: 3,
-                    elements: 60,
-                    k: 1,
-                    elementSize: 2
-                }, '9-1-1-5': {
-                    curves: 9,
-                    elements: 1,
-                    k: 1,
-                    elementSize: 5
-                }, '26-17-1-1': {
-                    curves: 26,
-                    elements: 17,
-                    k: 1,
-                    elementSize: 1
-                }, '61-1-50-140': {
-                    curves: 61,
-                    elements: 1,
-                    k: 50,
-                    elementSize: 140
-                }, '66-1-1-54': {
-                    curves: 66,
-                    elements: 1,
-                    k: 1,
-                    elementSize: 54
-                }, '100-100-1-1': {
-                    curves: 100,
-                    elements: 100,
-                    k: 1,
-                    elementSize: 1
-                }, '100-100-10-1': {
-                    curves: 100,
-                    elements: 100,
-                    k: 10,
-                    elementSize: 1
-                }, '100-100-1-33': {
-                    curves: 100,
-                    elements: 100,
-                    k: 1,
-                    elementSize: 33
-                }, '10000-3-1000 6': {
-                    curves: 10000,
-                    elements: 3,
-                    k: 1000,
-                    elementSize: 6
-                }, 'Chaos of Lines': {
-                    curves: 10000,
-                    elements: 0,
-                    k: 1,
-                    elementSize: 0
-                }, 'Teleport': {
-                    curves: 5000,
-                    elements: 9,
-                    k: 2,
-                    elementSize: 2
+        function applyPreset() {
+            app.lyPreset(document.getElementById('presets').value);
+            app.resize();
+        };
+
+        const app = (function () {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            const presetsEl = document.getElementById('presets');
+            for (let preset in presets) {
+                presetsEl.options[presetsEl.options.length] = new Option(preset, preset, presets[preset]);
+            }
+
+            resetCanvas(ctx);
+            seed();
+
+            function lyPreset(preset) {
+                const value = { ...presets[preset] };
+                bzConfig = { ...bzConfig, ...value };
+                updateControls();
+                updateLabels();
+                resize();
+            }
+
+            function seed(keepControlPoints) {
+                // Generate coordinates
+                const curCoordinates = [...bzConfig.coordinates];
+                bzConfig.coordinates = [];
+                for (var i = 0; i < maxCurves; i++) {
+                    bzConfig.coordinates.push({
+                        start: getStartPoint(),
+                        cp1: keepControlPoints ? curCoordinates[i].cp1 : getControlPoint(),
+                        cp2: keepControlPoints ? curCoordinates[i].cp2 : getControlPoint(),
+                        end: getEndPoint(keepControlPoints),
+                    });
                 }
-            };
+            }
 
-            function applyPreset(){
-                app.lyPreset(document.getElementById('presets').value);
-                app.resize();
-            };
+            function getPoint(start, cp1, cp2, end, t) {
+                // TODO Optimize Math below - reduced version of De Casteljau's algorithm is used
+                const bx1 = cp1.x;
+                const by1 = cp1.y;
+                const bx2 = cp2.x;
+                const by2 = cp2.y;
+                const u1 = 1 - t;
 
-            const app = (function () {
-                const canvas = document.getElementById('canvas');
-                const ctx = canvas.getContext('2d');
-                const presetsEl = document.getElementById('presets');
-                for ( let preset in presets ) {
-                    presetsEl.options[presetsEl.options.length] = new Option(preset, preset, presets[preset]);
+                const qxb = start.x * u1 * u1 + bx1 * 2 * t * u1 + bx2 * t * t;
+                const qxd = bx1 * u1 * u1 + bx2 * 2 * t * u1 + end.x * t * t;
+                const qyb = start.y * u1 * u1 + by1 * 2 * t * u1 + by2 * t * t;
+                const qyd = by1 * u1 * u1 + by2 * 2 * t * u1 + end.y * t * t;
+
+                const xd = qxb * u1 + qxd * t;
+                const yd = qyb * u1 + qyd * t;
+
+                return {
+                    x: xd,
+                    y: yd
                 }
+            }
 
-                resetCanvas(ctx);
-                seed();
-
-                function lyPreset(preset) {
-                    const value = {...presets[preset]};
-                    bzConfig = { ...bzConfig, ...value };
-                    updateControls();
-                    updateLabels();
-                    resize();
+            function getStartPoint() {
+                return {
+                    x: Math.round(Math.random() * bzConfig.width / bzConfig.k) + 10,
+                    y: Math.round(Math.random() * bzConfig.height / bzConfig.k) + 10
                 }
+            }
 
-                function seed(keepControlPoints) {
-                    // Generate coordinates
-                    const curCoordinates = [...bzConfig.coordinates];
-                    bzConfig.coordinates = [];
-                    for (var i = 0; i < maxCurves; i++ ) {
-                        bzConfig.coordinates.push({
-                            start: getStartPoint(),
-                            cp1: keepControlPoints ? curCoordinates[i].cp1 : getControlPoint(),
-                            cp2: keepControlPoints ? curCoordinates[i].cp2 : getControlPoint(),
-                            end: getEndPoint(keepControlPoints),
-                        });
-                    }                   
+            function getEndPoint() {
+                return {
+                    x: Math.round(Math.random() * (bzConfig.width / bzConfig.k) + bzConfig.width - bzConfig.width / bzConfig.k) - 10,
+                    y: Math.round(Math.random() * (bzConfig.height / bzConfig.k) + bzConfig.height - bzConfig.height / bzConfig.k) - 10
                 }
+            }
 
-                function getPoint(start, cp1, cp2, end, t) {
-                    // TODO Optimize Math below - reduced version of De Casteljau's algorithm is used
-                    const bx1 = cp1.x;
-                    const by1 = cp1.y;
-                    const bx2 = cp2.x;
-                    const by2 = cp2.y;
-                    const u1 = 1 - t;
-
-                    const qxb = start.x * u1 * u1 + bx1 * 2 * t * u1 + bx2 * t * t;
-                    const qxd = bx1 * u1 * u1 + bx2 * 2 * t * u1 + end.x * t * t;
-                    const qyb = start.y * u1 * u1 + by1 * 2 * t * u1 + by2 * t * t;
-                    const qyd = by1 * u1 * u1 + by2 * 2 * t * u1 + end.y * t * t;
-
-                    const xd = qxb * u1 + qxd * t;
-                    const yd = qyb * u1 + qyd * t;
-
-                    return {
-                        x: xd,
-                        y: yd
-                    }
+            function getControlPoint() {
+                return {
+                    x: Math.round(Math.random() * bzConfig.width / 2 + bzConfig.width / 4),
+                    y: Math.round(Math.random() * bzConfig.height / 2 + bzConfig.height / 4)
                 }
+            }
 
-                function getStartPoint() {
-                    return {
-                        x: Math.round(Math.random() * bzConfig.width / bzConfig.k) + 10,
-                        y: Math.round(Math.random() * bzConfig.height / bzConfig.k) + 10
-                    }
-                }
+            function drawBezier({ ctx, start, cp1, cp2, end }) {
+                // Draw Bezier
+                ctx.strokeStyle = '#999999';
+                ctx.beginPath();
+                ctx.moveTo(start.x, start.y);
+                ctx.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, end.x, end.y);
+                ctx.stroke();
 
-                function getEndPoint() {
-                    return {
-                        x: Math.round(Math.random() * (bzConfig.width / bzConfig.k) + bzConfig.width - bzConfig.width / bzConfig.k) - 10,
-                        y: Math.round(Math.random() * (bzConfig.height / bzConfig.k) + bzConfig.height - bzConfig.height / bzConfig.k) - 10
-                    }
-                }
+                // Draw endpoints
+                ctx.fillStyle = '#333333';
+                ctx.beginPath();
+                ctx.arc(start.x, start.y, 2, 0, 2 * Math.PI);
+                ctx.arc(end.x, end.y, 3, 0, 2 * Math.PI);
+                ctx.fill();
 
-                function getControlPoint() {
-                    return {
-                        x: Math.round(Math.random() * bzConfig.width / 2 + bzConfig.width / 4),
-                        y: Math.round(Math.random() * bzConfig.height / 2 + bzConfig.height / 4)
-                    }
-                }
-
-                function drawBezier({ ctx, start, cp1, cp2, end }) {
-                    // Draw Bezier
-                    ctx.strokeStyle = '#999999';
+                // Draw Elements
+                const elCount = parseInt(bzConfig.elements, 10) + 1;
+                for (let el = 1; el < elCount; el++) {
+                    const elmt = getPoint(start, cp1, cp2, end, el / elCount);
+                    ctx.fillStyle = '#ffffff';
+                    ctx.strokeStyle = '#111111';
                     ctx.beginPath();
-                    ctx.moveTo(start.x, start.y);
-                    ctx.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, end.x, end.y);
-                    ctx.stroke();
-                    
-                    // Draw endpoints
-                    ctx.fillStyle = '#333333';
-                    ctx.beginPath();
-                    ctx.arc(start.x, start.y, 2, 0, 2 * Math.PI);
-                    ctx.arc(end.x, end.y, 3, 0, 2 * Math.PI);
+                    ctx.arc(elmt.x, elmt.y, bzConfig.elementSize, 0, 2 * Math.PI);
                     ctx.fill();
-                    
-                    // Draw Elements
-                    const elCount = parseInt(bzConfig.elements, 10) + 1;
-                    for (let el = 1; el < elCount; el++ ) {
-                        const elmt = getPoint(start, cp1, cp2, end, el / elCount);
-                        ctx.fillStyle = '#ffffff';
-                        ctx.strokeStyle = '#111111';
-                        ctx.beginPath();
-                        ctx.arc(elmt.x, elmt.y, bzConfig.elementSize, 0, 2 * Math.PI);
-                        ctx.fill();
-                        ctx.stroke();
-                    }
+                    ctx.stroke();
                 }
+            }
 
-                function drawCurve() {
+            function drawCurve() {
 
                 var w = 900;
                 var height = 600;
@@ -466,11 +477,11 @@
 
                 draw(values);
 
-                function draw(drawValues    ){
+                function draw(drawValues) {
 
                     var lineFun = d3.line()
-                        .x( function(d){ return d.month * 50 })
-                        .y( function(d){ return height - ( 10 * d.value )})
+                        .x(function (d) { return d.month * 50 })
+                        .y(function (d) { return height - (10 * d.value) })
                         .curve(d3.curveBasis);
 
                     var svgLine = d3.select('body')
@@ -484,8 +495,8 @@
                         .attrs({
                             d: lineFun(drawValues),
                             'stroke': '#664455',
-                            'stroke-width':2,
-                            'fill' :'none'
+                            'stroke-width': 2,
+                            'fill': 'none'
                         })
 
                     // svgLine.selectAll('text')
@@ -510,91 +521,92 @@
                     //             }
                     //         }
                     //     })
-                    }
                 }
+            }
 
-                function resetCanvas(ctx) {
-                    bzConfig.width = ctx.canvas.width = window.innerWidth - 20;
-                    bzConfig.height = ctx.canvas.height = window.innerHeight - 40;
-                    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-                }
+            function resetCanvas(ctx) {
+                bzConfig.width = ctx.canvas.width = window.innerWidth - 20;
+                bzConfig.height = ctx.canvas.height = window.innerHeight - 40;
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            }
 
-                function resize() {
-                    seed(true);
-                    render();
-                }
-
-                function render(){
-                    const seed = 1;
-
-                    resetCanvas(ctx);
-
-                    for (var i=0; i<bzConfig.curves; i++) {
-                        const c = bzConfig.coordinates[i];
-                        drawBezier(
-                            {
-                                ctx: ctx,
-                                start: c.start,
-                                cp1: c.cp1,
-                                cp2: c.cp2,
-                                end: c.end
-                            }
-                        )
-                    }
-
-                    updateLabels();
-
-                    drawCurve();
-                }
+            function resize() {
+                seed(true);
                 render();
+            }
 
-                return {
-                    resetCanvas: resetCanvas,
-                    lyPreset: lyPreset,
-                    render: render,
-                    resize: resize,
-                    seed: seed
+            function render() {
+                const seed = 1;
+
+                resetCanvas(ctx);
+
+                for (var i = 0; i < bzConfig.curves; i++) {
+                    const c = bzConfig.coordinates[i];
+                    drawBezier(
+                        {
+                            ctx: ctx,
+                            start: c.start,
+                            cp1: c.cp1,
+                            cp2: c.cp2,
+                            end: c.end
+                        }
+                    )
                 }
-            })();
 
-            function updateCurves(value) {
-                bzConfig.curves = value;
-                app.render();
-            }
+                updateLabels();
 
-            function updateElements(value) {
-                bzConfig.elements = value;
-                app.render();
+                drawCurve();
             }
+            render();
 
-            function updateKRatio(value) {
-                bzConfig.k = value;
-                app.resize();
+            return {
+                resetCanvas: resetCanvas,
+                lyPreset: lyPreset,
+                render: render,
+                resize: resize,
+                seed: seed
             }
+        })();
 
-            function updateElementSize(value) {
-                bzConfig.elementSize = value;
-                app.resize();
-            }
+        function updateCurves(value) {
+            bzConfig.curves = value;
+            app.render();
+        }
 
-            function updateLabels() {
-                document.getElementById('curvesValue').innerHTML = 'Curves: ' + bzConfig.curves;
-                document.getElementById('elementsValue').innerHTML = 'Elements: ' + bzConfig.elements;
-                document.getElementById('kratioValue').innerHTML = 'Stick to corners: ' + bzConfig.k;
-                document.getElementById('elementSizeValue').innerHTML = 'Element size: ' + bzConfig.elementSize;
-            }
-            
-            function updateControls() {
-                document.getElementById('curves').value = bzConfig.curves;
-                document.getElementById('elements').value = bzConfig.elements;
-                document.getElementById('kratio').value = bzConfig.k;
-                document.getElementById('elementSize').value = bzConfig.elementSize;
-            }
+        function updateElements(value) {
+            bzConfig.elements = value;
+            app.render();
+        }
+
+        function updateKRatio(value) {
+            bzConfig.k = value;
+            app.resize();
+        }
+
+        function updateElementSize(value) {
+            bzConfig.elementSize = value;
+            app.resize();
+        }
+
+        function updateLabels() {
+            document.getElementById('curvesValue').innerHTML = 'Curves: ' + bzConfig.curves;
+            document.getElementById('elementsValue').innerHTML = 'Elements: ' + bzConfig.elements;
+            document.getElementById('kratioValue').innerHTML = 'Stick to corners: ' + bzConfig.k;
+            document.getElementById('elementSizeValue').innerHTML = 'Element size: ' + bzConfig.elementSize;
+        }
+
+        function updateControls() {
+            document.getElementById('curves').value = bzConfig.curves;
+            document.getElementById('elements').value = bzConfig.elements;
+            document.getElementById('kratio').value = bzConfig.k;
+            document.getElementById('elementSize').value = bzConfig.elementSize;
+        }
 
             // document.querySelector('body').onresize = app.resize;
 
             // updateLabels();
 
-        </script>
-    </body>
+    </script>
+</body>
+
 </html>
