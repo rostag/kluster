@@ -31,9 +31,6 @@
             top: 10px;
             left: 10px;
             border-radius: 10px;
-            -webkit-box-shadow: 0px 1px 4px 0px rgba(128, 128, 128, .5);
-            -moz-box-shadow: 0px 1px 4px 0px rgba(128, 128, 128, .5);
-            box-shadow: 0px 1px 4px 0px rgba(128, 128, 128, .5);
         }
 
         .controls {
@@ -81,9 +78,11 @@
             position: fixed;
             right: 10px;
             bottom: 10px;
+            text-decoration: none;
+            color: #367ebd;
         }
 
-        /* Select List Styling */
+        /* Select List */
         .select-css {
             display: block;
             font-size: 12px;
@@ -130,7 +129,7 @@
             font-weight: normal;
         }
 
-        /* Range Styling */
+        /* Range */
         input[type=range] {
             -webkit-appearance: none;
             width: 100%;
@@ -252,7 +251,7 @@
             oninput="bzApp.updateElementSize(this.value)">
         <label class="value" for="elementSize" id="elementSizeValue">[Element Size]</label>
 
-        <select id="presets" class="select-css" onchange="bzApp.applyPreset()">
+        <select id="curvePresets" class="select-css" onchange="bzApp.applyPreset()">
             <option>Select preset</option>
         </select>
     </div>
@@ -260,6 +259,23 @@
     <a href="mailto:rostyslav.siryk@gmail.com" class="contact">Contact Rosty</a>
 
     <script>
+
+        'use strict';
+
+        let bzApp;
+
+        let bzConfig = {
+            width: 100,
+            height: 100,
+            coordinates: [],
+            curves: 1,
+            elements: 3,
+            k: 1000,
+            elementSize: 3,
+            mapToParameter: true,
+            maxCurves: 10000
+        };
+
         class Bezier {
             constructor(start, cp1, cp2, end) {
                 this.start = start;
@@ -340,82 +356,81 @@
         }
 
         class App {
-            presets = {
-                'Triway': {
-                    curves: 3,
-                    elements: 150,
-                    k: 10000,
-                    elementSize: 1
-                }, 'Snakes and chains': {
-                    curves: 100,
-                    elements: 100,
-                    k: 2,
-                    elementSize: 2
-                }, '3-60-1-2': {
-                    curves: 3,
-                    elements: 60,
-                    k: 1,
-                    elementSize: 2
-                }, '9-1-1-5': {
-                    curves: 9,
-                    elements: 1,
-                    k: 1,
-                    elementSize: 5
-                }, '26-17-1-1': {
-                    curves: 26,
-                    elements: 17,
-                    k: 1,
-                    elementSize: 1
-                }, '61-1-50-140': {
-                    curves: 61,
-                    elements: 1,
-                    k: 50,
-                    elementSize: 140
-                }, '66-1-1-54': {
-                    curves: 66,
-                    elements: 1,
-                    k: 1,
-                    elementSize: 54
-                }, '100-100-1-1': {
-                    curves: 100,
-                    elements: 100,
-                    k: 1,
-                    elementSize: 1
-                }, '100-100-10-1': {
-                    curves: 100,
-                    elements: 100,
-                    k: 10,
-                    elementSize: 1
-                }, '100-100-1-33': {
-                    curves: 100,
-                    elements: 100,
-                    k: 1,
-                    elementSize: 33
-                }, '10000-3-1000 6': {
-                    curves: 10000,
-                    elements: 3,
-                    k: 1000,
-                    elementSize: 6
-                }, 'Chaos of Lines': {
-                    curves: 10000,
-                    elements: 0,
-                    k: 1,
-                    elementSize: 0
-                }, 'Teleport': {
-                    curves: 5000,
-                    elements: 9,
-                    k: 2,
-                    elementSize: 2
-                }
-            };
-
             constructor() {
+                this.curvePresets = {
+                    'Triway': {
+                        curves: 3,
+                        elements: 150,
+                        k: 10000,
+                        elementSize: 1
+                    }, 'Snakes and chains': {
+                        curves: 100,
+                        elements: 100,
+                        k: 2,
+                        elementSize: 2
+                    }, '3-60-1-2': {
+                        curves: 3,
+                        elements: 60,
+                        k: 1,
+                        elementSize: 2
+                    }, '9-1-1-5': {
+                        curves: 9,
+                        elements: 1,
+                        k: 1,
+                        elementSize: 5
+                    }, '26-17-1-1': {
+                        curves: 26,
+                        elements: 17,
+                        k: 1,
+                        elementSize: 1
+                    }, '61-1-50-140': {
+                        curves: 61,
+                        elements: 1,
+                        k: 50,
+                        elementSize: 140
+                    }, '66-1-1-54': {
+                        curves: 66,
+                        elements: 1,
+                        k: 1,
+                        elementSize: 54
+                    }, '100-100-1-1': {
+                        curves: 100,
+                        elements: 100,
+                        k: 1,
+                        elementSize: 1
+                    }, '100-100-10-1': {
+                        curves: 100,
+                        elements: 100,
+                        k: 10,
+                        elementSize: 1
+                    }, '100-100-1-33': {
+                        curves: 100,
+                        elements: 100,
+                        k: 1,
+                        elementSize: 33
+                    }, '10000-3-1000 6': {
+                        curves: 10000,
+                        elements: 3,
+                        k: 1000,
+                        elementSize: 6
+                    }, 'Chaos of Lines': {
+                        curves: 10000,
+                        elements: 0,
+                        k: 1,
+                        elementSize: 0
+                    }, 'Teleport': {
+                        curves: 5000,
+                        elements: 9,
+                        k: 2,
+                        elementSize: 2
+                    }
+                };
                 this.canvas = document.getElementById('canvas');
                 this.ctx = canvas.getContext('2d');
 
-                const presetsEl = document.getElementById('presets');
-                for (let preset in this.presets) {
-                    presetsEl.options[presetsEl.options.length] = new Option(preset, preset, this.presets[preset]);
+                const presetsEl = document.getElementById('curvePresets');
+                for (let preset in this.curvePresets) {
+                    presetsEl.options[presetsEl.options.length] = new Option(preset, preset, this.curvePresets[preset]);
                 }
                 this.resetCanvas(this.ctx);
                 this.seed();
@@ -424,8 +439,8 @@
             }
 
             applyPreset() {
-                const preset = document.getElementById('presets').value;
-                const value = { ...this.presets[preset] };
+                const preset = document.getElementById('curvePresets').value;
+                const value = { ...this.curvePresets[preset] };
                 bzConfig = { ...bzConfig, ...value };
                 this.updateControls();
                 this.updateLabels();
@@ -582,20 +597,6 @@
                 bzApp.resize();
             }
         }
-
-        let bzApp;
-
-        let bzConfig = {
-            width: 100,
-            height: 100,
-            coordinates: [],
-            curves: 1,
-            elements: 3,
-            k: 1000,
-            elementSize: 3,
-            mapToParameter: true,
-            maxCurves: 10000
-        };
 
         const body = document.querySelector('body');
 
