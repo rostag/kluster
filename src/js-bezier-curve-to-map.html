@@ -229,22 +229,20 @@
         <label for="mapToParameter" id="mapToParameterValue">Distribute Elements equally</label>
         </input>
 
-        <input type="range" id="curves" name="curves" min="1" max="100" value="1" oninput="updateCurves(this.value)">
+        <input type="range" id="curves" name="curves" min="1" max="100" value="1" oninput="bzApp.updateCurves(this.value)">
         <label class="value" for="curves" id="curvesValue">[Curves]</label>
 
-        <input type="range" id="elements" name="elements" min="1" max="100" value="1"
-            oninput="updateElements(this.value)">
+        <input type="range" id="elements" name="elements" min="1" max="100" value="1" oninput="bzApp.updateElements(this.value)">
         <label class="value" for="elements" id="elementsValue">[Elements]</label>
 
-        <input type="range" id="kratio" name="kratio" min="1" max="50" value="50" oninput="updateKRatio(this.value)">
+        <input type="range" id="kratio" name="kratio" min="1" max="50" value="50" oninput="bzApp.updateKRatio(this.value)">
         <label class="value" for="kratio" id="kratioValue">[Precision]</label>
 
-        <input type="range" id="elementSize" name="elementSize" min="0" max="200" value="1"
-            oninput="updateElementSize(this.value)">
+        <input type="range" id="elementSize" name="elementSize" min="0" max="200" value="1" oninput="bzApp.updateElementSize(this.value)">
         <label class="value" for="elementSize" id="elementSizeValue">[Element Size]</label>
 
         <h3>Presets</h3>
-        <select id="presets" class="select-css" onchange="applyPreset()">
+        <select id="presets" class="select-css" onchange="bzApp.applyPreset()">
             <option>Select preset</option>
         </select>
 
@@ -253,9 +251,7 @@
     </div>
 
     <script>
-        const maxCurves = 100000;
-
-        let bzConfig = {
+        bzConfig = {
             width: 100,
             height: 100,
             coordinates: [],
@@ -263,129 +259,213 @@
             elements: 3,
             k: 1000,
             elementSize: 3,
-            mapToParameter: true
+            mapToParameter: true,
+            maxCurves: 10000
         };
 
-        const presets = {
-            'Triway': {
-                curves: 3,
-                elements: 150,
-                k: 10000,
-                elementSize: 1
-            }, 'Snakes and chains': {
-                curves: 100,
-                elements: 100,
-                k: 2,
-                elementSize: 2
-            }, '3-60-1-2': {
-                curves: 3,
-                elements: 60,
-                k: 1,
-                elementSize: 2
-            }, '9-1-1-5': {
-                curves: 9,
-                elements: 1,
-                k: 1,
-                elementSize: 5
-            }, '26-17-1-1': {
-                curves: 26,
-                elements: 17,
-                k: 1,
-                elementSize: 1
-            }, '61-1-50-140': {
-                curves: 61,
-                elements: 1,
-                k: 50,
-                elementSize: 140
-            }, '66-1-1-54': {
-                curves: 66,
-                elements: 1,
-                k: 1,
-                elementSize: 54
-            }, '100-100-1-1': {
-                curves: 100,
-                elements: 100,
-                k: 1,
-                elementSize: 1
-            }, '100-100-10-1': {
-                curves: 100,
-                elements: 100,
-                k: 10,
-                elementSize: 1
-            }, '100-100-1-33': {
-                curves: 100,
-                elements: 100,
-                k: 1,
-                elementSize: 33
-            }, '10000-3-1000 6': {
-                curves: 10000,
-                elements: 3,
-                k: 1000,
-                elementSize: 6
-            }, 'Chaos of Lines': {
-                curves: 10000,
-                elements: 0,
-                k: 1,
-                elementSize: 0
-            }, 'Teleport': {
-                curves: 5000,
-                elements: 9,
-                k: 2,
-                elementSize: 2
-            }
-        };
+        class Bezier {
+            constructor(start, cp1, cp2, end) {
+                this.start = start;
+                this.cp1 = cp1;
+                this.cp2 = cp2;
+                this.end = end;
 
-        function applyPreset() {
-            app.lyPreset(document.getElementById('presets').value);
-            app.resize();
-        };
+                this.len = 100;
+                this.arcLengths = new Array(this.len + 1);
+                this.arcLengths[0] = 0;
 
-        const app = (function () {
-            const canvas = document.getElementById('canvas');
-            const ctx = canvas.getContext('2d');
-            const presetsEl = document.getElementById('presets');
-            for (let preset in presets) {
-                presetsEl.options[presetsEl.options.length] = new Option(preset, preset, presets[preset]);
+                let ox = this.x(0);
+                let oy = this.y(0);
+                let dist = 0;
+                for (let i = 1; i <= this.len; i++) {
+                    let x = this.x(i * 0.01);
+                    let y = this.y(i * 0.01);
+                    let dx = ox - x;
+                    let dy = oy - y;
+                    dist += Math.sqrt(dx * dx + dy * dy);
+                    this.arcLengths[i] = dist;
+                    ox = x;
+                    oy = y;
+                }
+                this.length = dist;
             }
 
-            resetCanvas(ctx);
-            seed();
+            mapParameter(u) {
+                const targetLength = u * this.arcLengths[this.len];
+                let low = 0;
+                let high = this.len;
+                let index = 0;
+                while (low < high) {
+                    index = low + (((high - low) / 2) | 0);
+                    if (this.arcLengths[index] < targetLength) {
+                        low = index + 1;
 
-            function lyPreset(preset) {
+                    } else {
+                        high = index;
+                    }
+                }
+                if (this.arcLengths[index] > targetLength) {
+                    index--;
+                }
+
+                var lengthBefore = this.arcLengths[index];
+                if (lengthBefore === targetLength) {
+                    return index / this.len;
+
+                } else {
+                    return (index + (targetLength - lengthBefore) / (this.arcLengths[index + 1] - lengthBefore)) / this.len;
+                }
+            }
+
+            mx(u) {
+                return this.x(this.mapParameter(u));
+            }
+
+            my(u) {
+                return this.y(this.mapParameter(u));
+            }
+
+            x(t) {
+                const u = 1 - t;
+                return (u * u * u) * this.start.x
+                    + 3 * (u * u) * t * this.cp1.x
+                    + 3 * u * (t * t) * this.cp2.x
+                    + (t * t * t) * this.end.x;
+            }
+
+            y(t) {
+                const u = 1 - t;
+                return (u * u * u) * this.start.y
+                    + 3 * (u * u) * t * this.cp1.y
+                    + 3 * u * (t * t) * this.cp2.y
+                    + (t * t * t) * this.end.y;
+            }
+        }
+
+        class App {
+            presets = {
+                'Triway': {
+                    curves: 3,
+                    elements: 150,
+                    k: 10000,
+                    elementSize: 1
+                }, 'Snakes and chains': {
+                    curves: 100,
+                    elements: 100,
+                    k: 2,
+                    elementSize: 2
+                }, '3-60-1-2': {
+                    curves: 3,
+                    elements: 60,
+                    k: 1,
+                    elementSize: 2
+                }, '9-1-1-5': {
+                    curves: 9,
+                    elements: 1,
+                    k: 1,
+                    elementSize: 5
+                }, '26-17-1-1': {
+                    curves: 26,
+                    elements: 17,
+                    k: 1,
+                    elementSize: 1
+                }, '61-1-50-140': {
+                    curves: 61,
+                    elements: 1,
+                    k: 50,
+                    elementSize: 140
+                }, '66-1-1-54': {
+                    curves: 66,
+                    elements: 1,
+                    k: 1,
+                    elementSize: 54
+                }, '100-100-1-1': {
+                    curves: 100,
+                    elements: 100,
+                    k: 1,
+                    elementSize: 1
+                }, '100-100-10-1': {
+                    curves: 100,
+                    elements: 100,
+                    k: 10,
+                    elementSize: 1
+                }, '100-100-1-33': {
+                    curves: 100,
+                    elements: 100,
+                    k: 1,
+                    elementSize: 33
+                }, '10000-3-1000 6': {
+                    curves: 10000,
+                    elements: 3,
+                    k: 1000,
+                    elementSize: 6
+                }, 'Chaos of Lines': {
+                    curves: 10000,
+                    elements: 0,
+                    k: 1,
+                    elementSize: 0
+                }, 'Teleport': {
+                    curves: 5000,
+                    elements: 9,
+                    k: 2,
+                    elementSize: 2
+                }
+            };
+
+            constructor() {
+                this.canvas = document.getElementById('canvas');
+                this.ctx = canvas.getContext('2d');
+
+                const presetsEl = document.getElementById('presets');
+                for (let preset in presets) {
+                    presetsEl.options[presetsEl.options.length] = new Option(preset, preset, presets[preset]);
+                }
+                this.resetCanvas(this.ctx);
+                this.seed();
+                this.render();
+                this.updateLabels();
+            }
+
+            applyPreset() {
+                this.lyPreset(document.getElementById('presets').value);
+                this.resize();
+            };
+
+            lyPreset(preset) {
                 const value = { ...presets[preset] };
                 bzConfig = { ...bzConfig, ...value };
-                updateControls();
-                updateLabels();
-                resize();
+                this.updateControls();
+                this.updateLabels();
+                this.resize();
             }
 
-            function seed(keepControlPoints) {
+            seed(keepControlPoints) {
                 const curCoordinates = [...bzConfig.coordinates];
                 bzConfig.coordinates = [];
-                for (var i = 0; i < maxCurves; i++) {
+                for (var i = 0; i < bzConfig.maxCurves; i++) {
                     bzConfig.coordinates.push({
-                        start: getStartPoint(),
-                        cp1: keepControlPoints ? curCoordinates[i].cp1 : getControlPoint(),
-                        cp2: keepControlPoints ? curCoordinates[i].cp2 : getControlPoint(),
-                        end: getEndPoint(keepControlPoints),
+                        start: this.getStartPoint(),
+                        cp1: keepControlPoints ? curCoordinates[i].cp1 : this.getControlPoint(),
+                        cp2: keepControlPoints ? curCoordinates[i].cp2 : this.getControlPoint(),
+                        end: this.getEndPoint(keepControlPoints),
                     });
                 }
             }
 
-            function getElementPoint(bz, t) {
+            getElementPoint(bz, t) {
                 return bzConfig.mapToParameter
-                    ? getElementPointByMappedParameter(bz, t)
-                    : getElementPointByParameter(bz, t);
+                    ? this.getElementPointByMappedParameter(bz, t)
+                    : this.getElementPointByParameter(bz, t);
             }
 
-            function getElementPointByMappedParameter(bz, t) {
+            getElementPointByMappedParameter(bz, t) {
                 return {
                     x: bz.mx(t),
                     y: bz.my(t)
                 }
             }
 
-            function getElementPointByParameter(bz, t) {
+            getElementPointByParameter(bz, t) {
                 const u = 1 - t;
                 const u2 = u * u;
                 const t2 = t * t;
@@ -400,208 +480,122 @@
                 }
             }
 
-            class Bezier {
-                constructor(start, cp1, cp2, end) {
-                    this.start = start;
-                    this.cp1 = cp1;
-                    this.cp2 = cp2;
-                    this.end = end;
-
-                    this.len = 100;
-                    this.arcLengths = new Array(this.len + 1);
-                    this.arcLengths[0] = 0;
-
-                    let ox = this.x(0);
-                    let oy = this.y(0);
-                    let dist = 0;
-                    for (let i = 1; i <= this.len; i++) {
-                        let x = this.x(i * 0.01);
-                        let y = this.y(i * 0.01);
-                        let dx = ox - x;
-                        let dy = oy - y;
-                        dist += Math.sqrt(dx * dx + dy * dy);
-                        this.arcLengths[i] = dist;
-                        ox = x;
-                        oy = y;
-                    }
-                    this.length = dist;
-                }
-
-                mapParameter(u) {
-                    const targetLength = u * this.arcLengths[this.len];
-                    let low = 0;
-                    let high = this.len;
-                    let index = 0;
-                    while (low < high) {
-                        index = low + (((high - low) / 2) | 0);
-                        if (this.arcLengths[index] < targetLength) {
-                            low = index + 1;
-
-                        } else {
-                            high = index;
-                        }
-                    }
-                    if (this.arcLengths[index] > targetLength) {
-                        index--;
-                    }
-
-                    var lengthBefore = this.arcLengths[index];
-                    if (lengthBefore === targetLength) {
-                        return index / this.len;
-
-                    } else {
-                        return (index + (targetLength - lengthBefore) / (this.arcLengths[index + 1] - lengthBefore)) / this.len;
-                    }
-                }
-
-                mx(u) {
-                    return this.x(this.mapParameter(u));
-                }
-
-                my(u) {
-                    return this.y(this.mapParameter(u));
-                }
-
-                x(t) {
-                    const u = 1 - t; 
-                    return (u * u * u) * this.start.x
-                        + 3 * (u * u) * t * this.cp1.x
-                        + 3 * u * (t * t) * this.cp2.x
-                        + (t * t * t) * this.end.x;
-                }
-
-                y(t) {
-                    const u = 1 - t;
-                    return (u * u * u) * this.start.y
-                        + 3 * (u * u) * t * this.cp1.y
-                        + 3 * u * (t * t) * this.cp2.y
-                        + (t * t * t) * this.end.y;
-                }
-            };
-
-            function getStartPoint() {
+            getStartPoint() {
                 return {
                     x: Math.round(Math.random() * bzConfig.width / bzConfig.k) + 10,
                     y: Math.round(Math.random() * bzConfig.height / bzConfig.k) + 10
                 }
             }
 
-            function getEndPoint() {
+            getEndPoint() {
                 return {
                     x: Math.round(Math.random() * (bzConfig.width / bzConfig.k) + bzConfig.width - bzConfig.width / bzConfig.k) - 10,
                     y: Math.round(Math.random() * (bzConfig.height / bzConfig.k) + bzConfig.height - bzConfig.height / bzConfig.k) - 10
                 }
             }
 
-            function getControlPoint() {
+            getControlPoint() {
                 return {
                     x: Math.round(Math.random() * bzConfig.width / 2 + bzConfig.width / 4),
                     y: Math.round(Math.random() * bzConfig.height / 2 + bzConfig.height / 4)
                 }
             }
 
-            function drawBezier(ctx, coordinates) {
+            drawBezier(ctx, coordinates) {
                 const bz = new Bezier(coordinates.start, coordinates.cp1, coordinates.cp2, coordinates.end);
                 // Draw Bezier
-                ctx.strokeStyle = '#999999';
-                ctx.beginPath();
-                ctx.moveTo(bz.start.x, bz.start.y);
-                ctx.bezierCurveTo(bz.cp1.x, bz.cp1.y, bz.cp2.x, bz.cp2.y, bz.end.x, bz.end.y);
-                ctx.stroke();
+                this.ctx.strokeStyle = '#999999';
+                this.ctx.beginPath();
+                this.ctx.moveTo(bz.start.x, bz.start.y);
+                this.ctx.bezierCurveTo(bz.cp1.x, bz.cp1.y, bz.cp2.x, bz.cp2.y, bz.end.x, bz.end.y);
+                this.ctx.stroke();
 
                 // Draw Endpoints
-                ctx.fillStyle = '#333333';
-                ctx.beginPath();
-                ctx.arc(bz.start.x, bz.start.y, 2, 0, 2 * Math.PI);
-                ctx.arc(bz.end.x, bz.end.y, 3, 0, 2 * Math.PI);
-                ctx.fill();
+                this.ctx.fillStyle = '#333333';
+                this.ctx.beginPath();
+                this.ctx.arc(bz.start.x, bz.start.y, 2, 0, 2 * Math.PI);
+                this.ctx.arc(bz.end.x, bz.end.y, 3, 0, 2 * Math.PI);
+                this.ctx.fill();
 
                 // Draw Elements
                 const elCount = parseInt(bzConfig.elements, 10) + 1;
                 for (let el = 1; el < elCount; el++) {
-                    const elmt = getElementPoint(bz, el / elCount);
-                    ctx.fillStyle = '#ffffff';
-                    ctx.strokeStyle = '#111111';
-                    ctx.beginPath();
-                    ctx.arc(elmt.x, elmt.y, bzConfig.elementSize, 0, 2 * Math.PI);
-                    ctx.fill();
-                    ctx.stroke();
+                    const elmt = this.getElementPoint(bz, el / elCount);
+                    this.ctx.fillStyle = '#ffffff';
+                    this.ctx.strokeStyle = '#111111';
+                    this.ctx.beginPath();
+                    this.ctx.arc(elmt.x, elmt.y, bzConfig.elementSize, 0, 2 * Math.PI);
+                    this.ctx.fill();
+                    this.ctx.stroke();
                 }
             }
 
-            function resetCanvas(ctx) {
-                bzConfig.width = ctx.canvas.width = window.innerWidth - 20;
-                bzConfig.height = ctx.canvas.height = window.innerHeight - 40;
-                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            resetCanvas(ctx) {
+                bzConfig.width = this.ctx.canvas.width = window.innerWidth - 20;
+                bzConfig.height = this.ctx.canvas.height = window.innerHeight - 40;
+                this.ctx.clearRect(0, 0, this.ctx.canvas.width, ctx.canvas.height);
             }
 
-            function resize() {
-                seed(true);
-                render();
+            resize() {
+                this.seed(true);
+                this.render();
             }
 
-            function render() {
-                resetCanvas(ctx);
+            render() {
+                this.resetCanvas(this.ctx);
                 for (var i = 0; i < bzConfig.curves; i++) {
-                    drawBezier(ctx, bzConfig.coordinates[i]);
+                    this.drawBezier(this.ctx, bzConfig.coordinates[i]);
                 }
-                updateLabels();
+                this.updateLabels();
             }
 
-            render();
-
-            return {
-                resetCanvas: resetCanvas,
-                lyPreset: lyPreset,
-                render: render,
-                resize: resize,
-                seed: seed
+            updateLabels() {
+                document.getElementById('curvesValue').innerHTML = 'Curves: ' + bzConfig.curves;
+                document.getElementById('elementsValue').innerHTML = 'Elements: ' + bzConfig.elements;
+                document.getElementById('kratioValue').innerHTML = 'Stick to corners: ' + bzConfig.k;
+                document.getElementById('elementSizeValue').innerHTML = 'Element size: ' + bzConfig.elementSize;
             }
-        })();
 
-        function updateCurves(value) {
-            bzConfig.curves = value;
-            app.render();
+            updateControls() {
+                document.getElementById('curves').value = bzConfig.curves;
+                document.getElementById('elements').value = bzConfig.elements;
+                document.getElementById('kratio').value = bzConfig.k;
+                document.getElementById('elementSize').value = bzConfig.elementSize;
+            }
+
+            updateCurves(value) {
+                bzConfig.curves = value;
+                bzApp.render();
+            }
+
+            updateElements(value) {
+                bzConfig.elements = value;
+                bzApp.render();
+            }
+
+            updateKRatio(value) {
+                bzConfig.k = value;
+                bzApp.resize();
+            }
+
+            updateDistribution(value) {
+                bzConfig.mapToParameter = value;
+                bzApp.render();
+            }
+
+            updateElementSize(value) {
+                bzConfig.elementSize = value;
+                bzApp.resize();
+            }
         }
 
-        function updateElements(value) {
-            bzConfig.elements = value;
-            app.render();
-        }
+        let bzApp;
 
-        function updateKRatio(value) {
-            bzConfig.k = value;
-            app.resize();
-        }
+        const body = document.querySelector('body');
 
-        function updateDistribution(value) {
-            bzConfig.mapToParameter = value;
-            app.render();
-        }
+        body.onload = () => { bzApp = new App() };
 
-        function updateElementSize(value) {
-            bzConfig.elementSize = value;
-            app.resize();
-        }
-
-        function updateLabels() {
-            document.getElementById('curvesValue').innerHTML = 'Curves: ' + bzConfig.curves;
-            document.getElementById('elementsValue').innerHTML = 'Elements: ' + bzConfig.elements;
-            document.getElementById('kratioValue').innerHTML = 'Stick to corners: ' + bzConfig.k;
-            document.getElementById('elementSizeValue').innerHTML = 'Element size: ' + bzConfig.elementSize;
-        }
-
-        function updateControls() {
-            document.getElementById('curves').value = bzConfig.curves;
-            document.getElementById('elements').value = bzConfig.elements;
-            document.getElementById('kratio').value = bzConfig.k;
-            document.getElementById('elementSize').value = bzConfig.elementSize;
-        }
-
-        document.querySelector('body').onresize = app.resize;
-
-        updateLabels();
-
+        body.onresize = () => { bzApp.resize() };
     </script>
 </body>
 
