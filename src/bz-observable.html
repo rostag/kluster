@@ -17,6 +17,15 @@
             font-size: smaller;
         }
 
+        .ctrlPt, .endPt {
+            cursor: pointer;
+            opacity: .8;
+        }
+
+        .ctrlPt:hover, .ctrlEnd:hover {
+            opacity: 1.0;
+        }
+
         #canvas {
             background: #eeeeee;
             position: absolute;
@@ -228,7 +237,6 @@
             cursor: pointer;
         }
     </style>
-
     <canvas id="canvas"></canvas>
     <div class="controls">
         <div class="controls-bg"></div>
@@ -260,13 +268,10 @@
         <svg viewBox="0,0,420,420" width="420" height="420"><g transform="translate(10 10)"><line x1="0" y1="0" x2="0" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="0" x2="400" y2="0" stroke="#555" stroke-width="0.25"></line><line x1="20" y1="0" x2="20" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="20" x2="400" y2="20" stroke="#555" stroke-width="0.25"></line><line x1="40" y1="0" x2="40" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="40" x2="400" y2="40" stroke="#555" stroke-width="0.25"></line><line x1="60" y1="0" x2="60" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="60" x2="400" y2="60" stroke="#555" stroke-width="0.25"></line><line x1="80" y1="0" x2="80" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="80" x2="400" y2="80" stroke="#555" stroke-width="0.25"></line><line x1="100" y1="0" x2="100" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="100" x2="400" y2="100" stroke="#555" stroke-width="0.25"></line><line x1="120" y1="0" x2="120" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="120" x2="400" y2="120" stroke="#555" stroke-width="0.25"></line><line x1="140" y1="0" x2="140" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="140" x2="400" y2="140" stroke="#555" stroke-width="0.25"></line><line x1="160" y1="0" x2="160" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="160" x2="400" y2="160" stroke="#555" stroke-width="0.25"></line><line x1="180" y1="0" x2="180" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="180" x2="400" y2="180" stroke="#555" stroke-width="0.25"></line><line x1="200" y1="0" x2="200" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="200" x2="400" y2="200" stroke="#555" stroke-width="0.25"></line><line x1="220.00000000000003" y1="0" x2="220.00000000000003" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="220.00000000000003" x2="400" y2="220.00000000000003" stroke="#555" stroke-width="0.25"></line><line x1="240" y1="0" x2="240" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="240" x2="400" y2="240" stroke="#555" stroke-width="0.25"></line><line x1="260" y1="0" x2="260" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="260" x2="400" y2="260" stroke="#555" stroke-width="0.25"></line><line x1="280" y1="0" x2="280" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="280" x2="400" y2="280" stroke="#555" stroke-width="0.25"></line><line x1="300" y1="0" x2="300" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="300" x2="400" y2="300" stroke="#555" stroke-width="0.25"></line><line x1="320" y1="0" x2="320" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="320" x2="400" y2="320" stroke="#555" stroke-width="0.25"></line><line x1="340" y1="0" x2="340" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="340" x2="400" y2="340" stroke="#555" stroke-width="0.25"></line><line x1="360" y1="0" x2="360" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="360" x2="400" y2="360" stroke="#555" stroke-width="0.25"></line><line x1="380" y1="0" x2="380" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="380" x2="400" y2="380" stroke="#555" stroke-width="0.25"></line><line x1="400" y1="0" x2="400" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="400" x2="400" y2="400" stroke="#555" stroke-width="0.25"></line></g><g transform="translate(10 10)"><path fill="none" stroke="#333" class="path" d="M 20 200 Q 200 20 380 200"></path><path fill="none" stroke="#333" class="control1" d="M 20 200 200 20"></path><path fill="none" stroke="#333" class="control2" d="M 380 200 200 20"></path></g><g transform="translate(10 10)"><circle cx="200" cy="20" r="6" stroke="none" fill="#f00" class="ctrlPt"></circle><circle cx="20" cy="200" r="6" class="endPt" fill="#333" stroke="none"></circle><circle cx="380" cy="200" r="6" class="endPt" fill="#333" stroke="none"></circle></g></svg>
     </div> -->
 
-    <!-- script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.15.0/d3.js"></script -->
-
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
 
     <script>
-
         const width = 400;
         const height = 400;
         const radius = 6;
