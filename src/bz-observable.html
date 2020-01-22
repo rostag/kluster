@@ -17,12 +17,14 @@
             font-size: smaller;
         }
 
-        .ctrlPt, .endPt {
+        .ctrlPt,
+        .endPt {
             cursor: pointer;
             opacity: .8;
         }
 
-        .ctrlPt:hover, .ctrlEnd:hover {
+        .ctrlPt:hover,
+        .ctrlEnd:hover {
             opacity: 1.0;
         }
 
@@ -264,10 +266,6 @@
         <a href="mailto:rostyslav.siryk@gmail.com">Contact @Rosty</a>
     </div>
 
-    <!-- <div>
-        <svg viewBox="0,0,420,420" width="420" height="420"><g transform="translate(10 10)"><line x1="0" y1="0" x2="0" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="0" x2="400" y2="0" stroke="#555" stroke-width="0.25"></line><line x1="20" y1="0" x2="20" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="20" x2="400" y2="20" stroke="#555" stroke-width="0.25"></line><line x1="40" y1="0" x2="40" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="40" x2="400" y2="40" stroke="#555" stroke-width="0.25"></line><line x1="60" y1="0" x2="60" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="60" x2="400" y2="60" stroke="#555" stroke-width="0.25"></line><line x1="80" y1="0" x2="80" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="80" x2="400" y2="80" stroke="#555" stroke-width="0.25"></line><line x1="100" y1="0" x2="100" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="100" x2="400" y2="100" stroke="#555" stroke-width="0.25"></line><line x1="120" y1="0" x2="120" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="120" x2="400" y2="120" stroke="#555" stroke-width="0.25"></line><line x1="140" y1="0" x2="140" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="140" x2="400" y2="140" stroke="#555" stroke-width="0.25"></line><line x1="160" y1="0" x2="160" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="160" x2="400" y2="160" stroke="#555" stroke-width="0.25"></line><line x1="180" y1="0" x2="180" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="180" x2="400" y2="180" stroke="#555" stroke-width="0.25"></line><line x1="200" y1="0" x2="200" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="200" x2="400" y2="200" stroke="#555" stroke-width="0.25"></line><line x1="220.00000000000003" y1="0" x2="220.00000000000003" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="220.00000000000003" x2="400" y2="220.00000000000003" stroke="#555" stroke-width="0.25"></line><line x1="240" y1="0" x2="240" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="240" x2="400" y2="240" stroke="#555" stroke-width="0.25"></line><line x1="260" y1="0" x2="260" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="260" x2="400" y2="260" stroke="#555" stroke-width="0.25"></line><line x1="280" y1="0" x2="280" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="280" x2="400" y2="280" stroke="#555" stroke-width="0.25"></line><line x1="300" y1="0" x2="300" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="300" x2="400" y2="300" stroke="#555" stroke-width="0.25"></line><line x1="320" y1="0" x2="320" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="320" x2="400" y2="320" stroke="#555" stroke-width="0.25"></line><line x1="340" y1="0" x2="340" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="340" x2="400" y2="340" stroke="#555" stroke-width="0.25"></line><line x1="360" y1="0" x2="360" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="360" x2="400" y2="360" stroke="#555" stroke-width="0.25"></line><line x1="380" y1="0" x2="380" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="380" x2="400" y2="380" stroke="#555" stroke-width="0.25"></line><line x1="400" y1="0" x2="400" y2="400" stroke="#555" stroke-width="0.25"></line><line x1="0" y1="400" x2="400" y2="400" stroke="#555" stroke-width="0.25"></line></g><g transform="translate(10 10)"><path fill="none" stroke="#333" class="path" d="M 20 200 Q 200 20 380 200"></path><path fill="none" stroke="#333" class="control1" d="M 20 200 200 20"></path><path fill="none" stroke="#333" class="control2" d="M 380 200 200 20"></path></g><g transform="translate(10 10)"><circle cx="200" cy="20" r="6" stroke="none" fill="#f00" class="ctrlPt"></circle><circle cx="20" cy="200" r="6" class="endPt" fill="#333" stroke="none"></circle><circle cx="380" cy="200" r="6" class="endPt" fill="#333" stroke="none"></circle></g></svg>
-    </div> -->
-
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
 
@@ -276,104 +274,185 @@
         const height = 400;
         const radius = 6;
         const gridlines = 20;
-        const svg = d3.select('body')
-            .append('div')
-            .attr('class', 'wrapper')
-            .append('svg')
-            .attr('class', 'svgCanvas')
-            .attr('width', width)
-            .attr('height', height);
-        const pathClasses = ['path', 'control1', 'control2']
+
+        let bzConfig = {
+            width: 300,
+            height: 200,
+            coordinates: [],
+            curves: 1,
+            elements: 3,
+            k: 1,
+            elementSize: 3,
+            mapToParameter: true,
+            maxCurves: 10000
+        };
 
         const ctrlPoints = [
             { x: width / 2, y: 20 }
         ]
-        const endPoints = [
-            { x: 20, y: (height / 2) },
-            { x: width - 20, y: height / 2 }
-        ]
 
-        const bgGroup = d3.select('.svgCanvas')
-            .append('g')
-            .attr('transform', 'translate(10 10)')
-
-        const xScale = d3.scaleLinear()
-            .range([0, width])
-            .domain([0, gridlines])
-
-        const yScale = d3.scaleLinear()
-            .range([0, height])
-            .domain([0, gridlines])
-
-        for (let i = 0; i <= gridlines; i++) {
-            bgGroup.append('line')
-                .attr('x1', xScale(i))
-                .attr('y1', 0)
-                .attr('x2', xScale(i))
-                .attr('y2', height)
-                .attr('stroke', '#555')
-                .attr('stroke-width', 0.25)
-
-            bgGroup.append('line')
-                .attr('x1', 0)
-                .attr('y1', yScale(i))
-                .attr('x2', width)
-                .attr('y2', yScale(i))
-                .attr('stroke', '#555')
-                .attr('stroke-width', 0.25)
+        function getEndPointsDefaults() {
+            return endPointsDefaults;
         }
 
-        const pathGroup = d3.select('.svgCanvas')
-            .append('g')
-            .attr('transform', 'translate(10 10)')
+        function getStartPoint() {
+            return {
+                x: Math.round(Math.random() * bzConfig.width / bzConfig.k) + 10,
+                y: Math.round(Math.random() * bzConfig.height / bzConfig.k) + 10
+            }
+        }
 
-        pathGroup.selectAll('path')
-            .data(pathClasses)
-            .enter()
-            .append('path')
-            .attr('fill', 'none')
-            .attr('stroke', '#333')
-            .attr('class', d => d)
+        function getEndPoint() {
+            return {
+                x: Math.round(Math.random() * (bzConfig.width / bzConfig.k) + bzConfig.width - bzConfig.width / bzConfig.k) - 10,
+                y: Math.round(Math.random() * (bzConfig.height / bzConfig.k) + bzConfig.height - bzConfig.height / bzConfig.k) - 10
+            }
+        }
 
-        const cpGroup = d3.select('.svgCanvas')
-            .append('g')
-            .attr('transform', 'translate(10 10)')
+        function getControlPoint() {
+            return {
+                x: Math.round(Math.random() * bzConfig.width / 2 + bzConfig.width / 4),
+                y: Math.round(Math.random() * bzConfig.height / 2 + bzConfig.height / 4)
+            }
+        }
 
-        cpGroup.selectAll('.ctrlPt')
-            .data(ctrlPoints)
-            .enter()
-            .append('circle')
-            .attr('cx', d => d.x)
-            .attr('cy', d => d.y)
-            .attr('r', 6)
-            .attr('stroke', 'none')
-            .attr('fill', '#f00')
-            .attr('class', 'ctrlPt')
-            .call(d3.drag()
-                .on('start drag', dragged))
+        let endPointsDefaults = [
+            getStartPoint(),
+            getEndPoint()
+        ];
 
-        cpGroup.selectAll('.endPt')
-            .data(endPoints)
-            .enter()
-            .append('circle')
-            .attr('cx', d => d.x)
-            .attr('cy', d => d.y)
-            .attr('r', 6)
-            .attr('class', 'endPt')
-            .attr('fill', '#333')
-            .attr('stroke', 'none')
-            .call(d3.drag()
-                .on('start drag', dragged))
+        function generateEndPoints(n) {
+            let endPoints = [];
+            for (let i = 0; i <= n; i++) {
+                endPoints.push(getStartPoint(), getEndPoint());
+                console.log('gen ep def', i, n, endPoints.length);
+            }
+            return endPoints;
+        }
 
-        // updateDrawing()
+        const endPoints = endPointsDefaults;
+
+        function getCoordinates() {
+            return [
+                { x: 20, y: (height / 2) },
+                { x: width - 20, y: height / 2 },
+                { x: width / 2, y: 20 }
+            ]
+        }
+
+        function drawBg() {
+            const bgGroup = d3.select('.svgCanvas')
+                .append('g')
+                .attr('transform', 'translate(10 10)')
+
+            const xScale = d3.scaleLinear()
+                .range([0, width])
+                .domain([0, gridlines])
+
+            const yScale = d3.scaleLinear()
+                .range([0, height])
+                .domain([0, gridlines])
+
+            // Gridlines
+            for (let i = 0; i <= gridlines; i++) {
+                bgGroup.append('line')
+                    .attr('x1', xScale(i))
+                    .attr('y1', 0)
+                    .attr('x2', xScale(i))
+                    .attr('y2', height)
+                    .attr('stroke', '#555')
+                    .attr('stroke-width', 0.25)
+
+                bgGroup.append('line')
+                    .attr('x1', 0)
+                    .attr('y1', yScale(i))
+                    .attr('x2', width)
+                    .attr('y2', yScale(i))
+                    .attr('stroke', '#555')
+                    .attr('stroke-width', 0.25)
+            }
+        }
+
+        let svg, pathClasses, pathGroup, cpGroup;
+
+        function initDrawing() {
+            svg = d3.select('body')
+                .append('div')
+                .attr('class', 'wrapper')
+                .append('svg')
+                .attr('class', 'svgCanvas')
+                .attr('width', width)
+                .attr('height', height);
+
+            pathClasses = ['path', 'control1', 'control2']
+
+            pathGroup = d3.select('.svgCanvas')
+                .append('g')
+                .attr('transform', 'translate(10 10)')
+
+            pathGroup.selectAll('path')
+                .data(pathClasses)
+                .enter()
+                .append('path')
+                .attr('fill', 'none')
+                .attr('stroke', '#333')
+                .attr('class', d => d)
+
+            cpGroup = d3.select('.svgCanvas')
+                .append('g')
+                .attr('transform', 'translate(10 10)')
+
+            cpGroup.selectAll('.ctrlPt')
+                .data(ctrlPoints)
+                .enter()
+                .append('circle')
+                .attr('cx', d => d.x)
+                .attr('cy', d => d.y)
+                .attr('r', 6)
+                .attr('stroke', 'none')
+                .attr('fill', '#06c')
+                .attr('class', 'ctrlPt')
+                .call(d3.drag()
+                    .on('start drag', dragged))
+
+            cpGroup.selectAll('.endPt')
+                .data(getEndPointsDefaults())
+                .enter()
+                .append('circle')
+                .attr('cx', d => d.x)
+                .attr('cy', d => d.y)
+                .attr('r', 6)
+                .attr('class', 'endPt')
+                .attr('fill', '#905')
+                .attr('stroke', 'none')
+                .call(d3.drag()
+                    .on('start drag', dragged))
+        }
+
+        drawBg();
+
+        initDrawing();
+
+        animateDrawing();
+
+        function animateDrawing() {
+            setInterval(updateDrawing, 1000);
+        }
 
         function updateDrawing() {
+
+            // generateEndPoints(1);
+
             var cp = [];
             var ep = [];
             // var cp = [{ x: 10, y: 20 }, { x: 50, y: 70 }];
             // var ep = [{ x: 0, y: 0 }, { x: 100, y: 100 }];
+            // cpGroup.selectAll('.ctrlPt').each(d => cp.push(d));
+            // cpGroup.selectAll('.endPt').each(d => ep.push(d));
+            // console.log('ep:', ep);
             cpGroup.selectAll('.ctrlPt').each(d => cp.push(d));
-            cpGroup.selectAll('.endPt').each(d => ep.push(d));
+            ep = [...generateEndPoints(1)];
+            console.log('ep:', ep);
 
             var paths = [
                 `M ${ep[0].x} ${ep[0].y} Q ${cp[0].x} ${cp[0].y} ${ep[1].x} ${ep[1].y}`,
