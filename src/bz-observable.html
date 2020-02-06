@@ -275,6 +275,8 @@
         const radius = 6;
         const gridlines = 20;
 
+        let svg, pathClasses, pathGroup, cpGroup;
+
         let bzConfig = {
             width: 300,
             height: 200,
@@ -373,8 +375,6 @@
             }
         }
 
-        let svg, pathClasses, pathGroup, cpGroup;
-
         function initDrawing() {
             svg = d3.select('body')
                 .append('div')
@@ -445,8 +445,6 @@
 
             var cp = [];
             var ep = [];
-            // var cp = [{ x: 10, y: 20 }, { x: 50, y: 70 }];
-            // var ep = [{ x: 0, y: 0 }, { x: 100, y: 100 }];
             // cpGroup.selectAll('.ctrlPt').each(d => cp.push(d));
             // cpGroup.selectAll('.endPt').each(d => ep.push(d));
             // console.log('ep:', ep);
